@@ -22,4 +22,5 @@ public partial class Teacher
 	public virtual Subject? MinorSubject { get; set; }
 	public DateTime? CreatedDate { get; set; }
 	public DateTime? UpdatedDate { get; set; }
+	public virtual User? CreateBy { get; set; }
 }

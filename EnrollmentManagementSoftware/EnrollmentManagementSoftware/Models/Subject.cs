@@ -15,4 +15,5 @@ public partial class Subject
 	public virtual Course? Course { get; set; }
 	public DateTime? CreatedDate { get; set; }
 	public DateTime? UpdatedDate { get; set; }
+	public virtual User? CreateBy { get; set; }
 }

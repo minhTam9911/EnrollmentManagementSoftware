@@ -15,6 +15,7 @@ public partial class Grade
 	public virtual Student? Student { get; set; }
 	public DateTime? CreatedDate { get; set; }
 	public DateTime? UpdatedDate { get; set; }
+	public virtual User? CreateBy { get; set; }
 
 }
 

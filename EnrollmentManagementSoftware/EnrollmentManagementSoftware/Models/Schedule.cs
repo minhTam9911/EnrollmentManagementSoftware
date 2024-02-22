@@ -20,6 +20,7 @@ public partial class Schedule
 	public virtual Teacher? Teacher { get; set; }
 	public DateTime? CreatedDate { get; set; }
 	public DateTime? UpdatedDate { get; set; }
+	public virtual User? CreateBy { get; set; }
 }
 
 public partial class Day

@@ -33,6 +33,9 @@ namespace EnrollmentManagementSoftware.Migrations
                     b.Property<string>("Code")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<Guid?>("CreateById")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<DateTime?>("CreatedDate")
                         .HasColumnType("datetime2");
 
@@ -49,6 +52,8 @@ namespace EnrollmentManagementSoftware.Migrations
                         .HasColumnType("datetime2");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("CreateById");
 
                     b.ToTable("AcademicYears");
                 });
@@ -72,6 +77,9 @@ namespace EnrollmentManagementSoftware.Migrations
 
                     b.Property<int?>("CourseId")
                         .HasColumnType("int");
+
+                    b.Property<Guid?>("CreateById")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime?>("CreatedDate")
                         .HasColumnType("datetime2");
@@ -97,6 +105,8 @@ namespace EnrollmentManagementSoftware.Migrations
 
                     b.HasIndex("CourseId");
 
+                    b.HasIndex("CreateById");
+
                     b.ToTable("Classrooms");
                 });
 
@@ -108,6 +118,9 @@ namespace EnrollmentManagementSoftware.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
+                    b.Property<Guid?>("CreateById")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<DateTime?>("CreatedDate")
                         .HasColumnType("datetime2");
 
@@ -118,6 +131,8 @@ namespace EnrollmentManagementSoftware.Migrations
                         .HasColumnType("datetime2");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("CreateById");
 
                     b.ToTable("Courses");
                 });
@@ -151,6 +166,9 @@ namespace EnrollmentManagementSoftware.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
+                    b.Property<Guid?>("CreateById")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<DateTime?>("CreatedDate")
                         .HasColumnType("datetime2");
 
@@ -167,6 +185,8 @@ namespace EnrollmentManagementSoftware.Migrations
                         .HasColumnType("datetime2");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("CreateById");
 
                     b.HasIndex("GradeTypeId");
 
@@ -187,6 +207,9 @@ namespace EnrollmentManagementSoftware.Migrations
 
                     b.Property<int?>("AcademicYearId")
                         .HasColumnType("int");
+
+                    b.Property<Guid?>("CreateById")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime?>("CreatedDate")
                         .HasColumnType("datetime2");
@@ -210,6 +233,8 @@ namespace EnrollmentManagementSoftware.Migrations
 
                     b.HasIndex("AcademicYearId");
 
+                    b.HasIndex("CreateById");
+
                     b.HasIndex("GradingMethodId");
 
                     b.HasIndex("SubjectId");
@@ -225,6 +250,9 @@ namespace EnrollmentManagementSoftware.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
+                    b.Property<Guid?>("CreateById")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<DateTime?>("CreatedDate")
                         .HasColumnType("datetime2");
 
@@ -238,6 +266,8 @@ namespace EnrollmentManagementSoftware.Migrations
                         .HasColumnType("datetime2");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("CreateById");
 
                     b.ToTable("GradingMethods");
                 });
@@ -256,10 +286,15 @@ namespace EnrollmentManagementSoftware.Migrations
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int?>("RoleId")
+                        .HasColumnType("int");
+
                     b.Property<DateTime?>("UpdatedDate")
                         .HasColumnType("datetime2");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("RoleId");
 
                     b.ToTable("Permissions");
                 });
@@ -318,6 +353,9 @@ namespace EnrollmentManagementSoftware.Migrations
                     b.Property<int?>("Capacity")
                         .HasColumnType("int");
 
+                    b.Property<Guid?>("CreateById")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<DateTime?>("CreatedDate")
                         .HasColumnType("datetime2");
 
@@ -332,6 +370,8 @@ namespace EnrollmentManagementSoftware.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("CreateById");
+
                     b.ToTable("Rooms");
                 });
 
@@ -342,6 +382,9 @@ namespace EnrollmentManagementSoftware.Migrations
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<Guid?>("CreateById")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime?>("CreatedDate")
                         .HasColumnType("datetime2");
@@ -375,6 +418,8 @@ namespace EnrollmentManagementSoftware.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("CreateById");
+
                     b.HasIndex("TeacherId");
 
                     b.ToTable("Salaries");
@@ -390,6 +435,9 @@ namespace EnrollmentManagementSoftware.Migrations
 
                     b.Property<int?>("ClassroomId")
                         .HasColumnType("int");
+
+                    b.Property<Guid?>("CreateById")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime?>("CreatedDate")
                         .HasColumnType("datetime2");
@@ -422,6 +470,8 @@ namespace EnrollmentManagementSoftware.Migrations
 
                     b.HasIndex("ClassroomId");
 
+                    b.HasIndex("CreateById");
+
                     b.HasIndex("RoomId");
 
                     b.HasIndex("SubjectId");
@@ -445,6 +495,9 @@ namespace EnrollmentManagementSoftware.Migrations
 
                     b.Property<int?>("ClassroomId")
                         .HasColumnType("int");
+
+                    b.Property<Guid?>("CreateById")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime?>("CreatedDate")
                         .HasColumnType("datetime2");
@@ -480,6 +533,8 @@ namespace EnrollmentManagementSoftware.Migrations
 
                     b.HasIndex("ClassroomId");
 
+                    b.HasIndex("CreateById");
+
                     b.ToTable("Students");
                 });
 
@@ -497,6 +552,9 @@ namespace EnrollmentManagementSoftware.Migrations
                     b.Property<int?>("CourseId")
                         .HasColumnType("int");
 
+                    b.Property<Guid?>("CreateById")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<DateTime?>("CreatedDate")
                         .HasColumnType("datetime2");
 
@@ -513,6 +571,8 @@ namespace EnrollmentManagementSoftware.Migrations
 
                     b.HasIndex("CourseId");
 
+                    b.HasIndex("CreateById");
+
                     b.HasIndex("SubjectGroupId");
 
                     b.ToTable("Subjects");
@@ -526,6 +586,9 @@ namespace EnrollmentManagementSoftware.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
+                    b.Property<Guid?>("CreateById")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<DateTime?>("CreatedDate")
                         .HasColumnType("datetime2");
 
@@ -536,6 +599,8 @@ namespace EnrollmentManagementSoftware.Migrations
                         .HasColumnType("datetime2");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("CreateById");
 
                     b.ToTable("SubjectGroups");
                 });
@@ -548,6 +613,9 @@ namespace EnrollmentManagementSoftware.Migrations
 
                     b.Property<string>("Address")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid?>("CreateById")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime?>("CreatedDate")
                         .HasColumnType("datetime2");
@@ -593,6 +661,8 @@ namespace EnrollmentManagementSoftware.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("CreateById");
+
                     b.HasIndex("MajorSubjectId");
 
                     b.HasIndex("MinorSubjectId");
@@ -610,6 +680,9 @@ namespace EnrollmentManagementSoftware.Migrations
 
                     b.Property<int?>("ClassroomId")
                         .HasColumnType("int");
+
+                    b.Property<Guid?>("CreateById")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime?>("CreatedDate")
                         .HasColumnType("datetime2");
@@ -639,6 +712,8 @@ namespace EnrollmentManagementSoftware.Migrations
 
                     b.HasIndex("ClassroomId");
 
+                    b.HasIndex("CreateById");
+
                     b.HasIndex("StudentId");
 
                     b.HasIndex("TuititionTypeId");
@@ -654,6 +729,9 @@ namespace EnrollmentManagementSoftware.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
+                    b.Property<Guid?>("CreateById")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<DateTime?>("CreatedDate")
                         .HasColumnType("datetime2");
 
@@ -664,6 +742,8 @@ namespace EnrollmentManagementSoftware.Migrations
                         .HasColumnType("datetime2");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("CreateById");
 
                     b.ToTable("TuititionTypes");
                 });
@@ -710,6 +790,9 @@ namespace EnrollmentManagementSoftware.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
+                    b.Property<Guid?>("CreateById")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<DateTime?>("CreatedDate")
                         .HasColumnType("datetime2");
 
@@ -730,7 +813,18 @@ namespace EnrollmentManagementSoftware.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("CreateById");
+
                     b.ToTable("Vacations");
+                });
+
+            modelBuilder.Entity("EnrollmentManagementSoftware.Models.AcademicYear", b =>
+                {
+                    b.HasOne("EnrollmentManagementSoftware.Models.User", "CreateBy")
+                        .WithMany()
+                        .HasForeignKey("CreateById");
+
+                    b.Navigation("CreateBy");
                 });
 
             modelBuilder.Entity("EnrollmentManagementSoftware.Models.Classroom", b =>
@@ -743,9 +837,24 @@ namespace EnrollmentManagementSoftware.Migrations
                         .WithMany()
                         .HasForeignKey("CourseId");
 
+                    b.HasOne("EnrollmentManagementSoftware.Models.User", "CreateBy")
+                        .WithMany()
+                        .HasForeignKey("CreateById");
+
                     b.Navigation("AcademicYear");
 
                     b.Navigation("Course");
+
+                    b.Navigation("CreateBy");
+                });
+
+            modelBuilder.Entity("EnrollmentManagementSoftware.Models.Course", b =>
+                {
+                    b.HasOne("EnrollmentManagementSoftware.Models.User", "CreateBy")
+                        .WithMany()
+                        .HasForeignKey("CreateById");
+
+                    b.Navigation("CreateBy");
                 });
 
             modelBuilder.Entity("EnrollmentManagementSoftware.Models.Day", b =>
@@ -757,6 +866,10 @@ namespace EnrollmentManagementSoftware.Migrations
 
             modelBuilder.Entity("EnrollmentManagementSoftware.Models.Grade", b =>
                 {
+                    b.HasOne("EnrollmentManagementSoftware.Models.User", "CreateBy")
+                        .WithMany()
+                        .HasForeignKey("CreateById");
+
                     b.HasOne("EnrollmentManagementSoftware.Models.GradeType", "GradeType")
                         .WithMany()
                         .HasForeignKey("GradeTypeId");
@@ -768,6 +881,8 @@ namespace EnrollmentManagementSoftware.Migrations
                     b.HasOne("EnrollmentManagementSoftware.Models.Subject", "Subject")
                         .WithMany()
                         .HasForeignKey("SubjectId");
+
+                    b.Navigation("CreateBy");
 
                     b.Navigation("GradeType");
 
@@ -782,6 +897,10 @@ namespace EnrollmentManagementSoftware.Migrations
                         .WithMany()
                         .HasForeignKey("AcademicYearId");
 
+                    b.HasOne("EnrollmentManagementSoftware.Models.User", "CreateBy")
+                        .WithMany()
+                        .HasForeignKey("CreateById");
+
                     b.HasOne("EnrollmentManagementSoftware.Models.GradingMethod", "GradingMethod")
                         .WithMany()
                         .HasForeignKey("GradingMethodId");
@@ -792,9 +911,27 @@ namespace EnrollmentManagementSoftware.Migrations
 
                     b.Navigation("AcademicYear");
 
+                    b.Navigation("CreateBy");
+
                     b.Navigation("GradingMethod");
 
                     b.Navigation("Subject");
+                });
+
+            modelBuilder.Entity("EnrollmentManagementSoftware.Models.GradingMethod", b =>
+                {
+                    b.HasOne("EnrollmentManagementSoftware.Models.User", "CreateBy")
+                        .WithMany()
+                        .HasForeignKey("CreateById");
+
+                    b.Navigation("CreateBy");
+                });
+
+            modelBuilder.Entity("EnrollmentManagementSoftware.Models.Permission", b =>
+                {
+                    b.HasOne("EnrollmentManagementSoftware.Models.Role", null)
+                        .WithMany("Permissions")
+                        .HasForeignKey("RoleId");
                 });
 
             modelBuilder.Entity("EnrollmentManagementSoftware.Models.Point", b =>
@@ -804,11 +941,26 @@ namespace EnrollmentManagementSoftware.Migrations
                         .HasForeignKey("GradeId");
                 });
 
+            modelBuilder.Entity("EnrollmentManagementSoftware.Models.Room", b =>
+                {
+                    b.HasOne("EnrollmentManagementSoftware.Models.User", "CreateBy")
+                        .WithMany()
+                        .HasForeignKey("CreateById");
+
+                    b.Navigation("CreateBy");
+                });
+
             modelBuilder.Entity("EnrollmentManagementSoftware.Models.Salary", b =>
                 {
+                    b.HasOne("EnrollmentManagementSoftware.Models.User", "CreateBy")
+                        .WithMany()
+                        .HasForeignKey("CreateById");
+
                     b.HasOne("EnrollmentManagementSoftware.Models.Teacher", "Teacher")
                         .WithMany()
                         .HasForeignKey("TeacherId");
+
+                    b.Navigation("CreateBy");
 
                     b.Navigation("Teacher");
                 });
@@ -818,6 +970,10 @@ namespace EnrollmentManagementSoftware.Migrations
                     b.HasOne("EnrollmentManagementSoftware.Models.Classroom", "Classroom")
                         .WithMany()
                         .HasForeignKey("ClassroomId");
+
+                    b.HasOne("EnrollmentManagementSoftware.Models.User", "CreateBy")
+                        .WithMany()
+                        .HasForeignKey("CreateById");
 
                     b.HasOne("EnrollmentManagementSoftware.Models.Room", "Room")
                         .WithMany()
@@ -833,6 +989,8 @@ namespace EnrollmentManagementSoftware.Migrations
 
                     b.Navigation("Classroom");
 
+                    b.Navigation("CreateBy");
+
                     b.Navigation("Room");
 
                     b.Navigation("Subject");
@@ -846,7 +1004,13 @@ namespace EnrollmentManagementSoftware.Migrations
                         .WithMany()
                         .HasForeignKey("ClassroomId");
 
+                    b.HasOne("EnrollmentManagementSoftware.Models.User", "CreateBy")
+                        .WithMany()
+                        .HasForeignKey("CreateById");
+
                     b.Navigation("Classroom");
+
+                    b.Navigation("CreateBy");
                 });
 
             modelBuilder.Entity("EnrollmentManagementSoftware.Models.Subject", b =>
@@ -855,17 +1019,36 @@ namespace EnrollmentManagementSoftware.Migrations
                         .WithMany()
                         .HasForeignKey("CourseId");
 
+                    b.HasOne("EnrollmentManagementSoftware.Models.User", "CreateBy")
+                        .WithMany()
+                        .HasForeignKey("CreateById");
+
                     b.HasOne("EnrollmentManagementSoftware.Models.SubjectGroup", "SubjectGroup")
                         .WithMany()
                         .HasForeignKey("SubjectGroupId");
 
                     b.Navigation("Course");
 
+                    b.Navigation("CreateBy");
+
                     b.Navigation("SubjectGroup");
+                });
+
+            modelBuilder.Entity("EnrollmentManagementSoftware.Models.SubjectGroup", b =>
+                {
+                    b.HasOne("EnrollmentManagementSoftware.Models.User", "CreateBy")
+                        .WithMany()
+                        .HasForeignKey("CreateById");
+
+                    b.Navigation("CreateBy");
                 });
 
             modelBuilder.Entity("EnrollmentManagementSoftware.Models.Teacher", b =>
                 {
+                    b.HasOne("EnrollmentManagementSoftware.Models.User", "CreateBy")
+                        .WithMany()
+                        .HasForeignKey("CreateById");
+
                     b.HasOne("EnrollmentManagementSoftware.Models.Subject", "MajorSubject")
                         .WithMany()
                         .HasForeignKey("MajorSubjectId");
@@ -873,6 +1056,8 @@ namespace EnrollmentManagementSoftware.Migrations
                     b.HasOne("EnrollmentManagementSoftware.Models.Subject", "MinorSubject")
                         .WithMany()
                         .HasForeignKey("MinorSubjectId");
+
+                    b.Navigation("CreateBy");
 
                     b.Navigation("MajorSubject");
 
@@ -885,6 +1070,10 @@ namespace EnrollmentManagementSoftware.Migrations
                         .WithMany()
                         .HasForeignKey("ClassroomId");
 
+                    b.HasOne("EnrollmentManagementSoftware.Models.User", "CreateBy")
+                        .WithMany()
+                        .HasForeignKey("CreateById");
+
                     b.HasOne("EnrollmentManagementSoftware.Models.Student", "Student")
                         .WithMany()
                         .HasForeignKey("StudentId");
@@ -895,9 +1084,20 @@ namespace EnrollmentManagementSoftware.Migrations
 
                     b.Navigation("Classroom");
 
+                    b.Navigation("CreateBy");
+
                     b.Navigation("Student");
 
                     b.Navigation("TuititionType");
+                });
+
+            modelBuilder.Entity("EnrollmentManagementSoftware.Models.TuititionType", b =>
+                {
+                    b.HasOne("EnrollmentManagementSoftware.Models.User", "CreateBy")
+                        .WithMany()
+                        .HasForeignKey("CreateById");
+
+                    b.Navigation("CreateBy");
                 });
 
             modelBuilder.Entity("EnrollmentManagementSoftware.Models.User", b =>
@@ -909,9 +1109,23 @@ namespace EnrollmentManagementSoftware.Migrations
                     b.Navigation("Role");
                 });
 
+            modelBuilder.Entity("EnrollmentManagementSoftware.Models.Vacation", b =>
+                {
+                    b.HasOne("EnrollmentManagementSoftware.Models.User", "CreateBy")
+                        .WithMany()
+                        .HasForeignKey("CreateById");
+
+                    b.Navigation("CreateBy");
+                });
+
             modelBuilder.Entity("EnrollmentManagementSoftware.Models.Grade", b =>
                 {
                     b.Navigation("Point");
+                });
+
+            modelBuilder.Entity("EnrollmentManagementSoftware.Models.Role", b =>
+                {
+                    b.Navigation("Permissions");
                 });
 
             modelBuilder.Entity("EnrollmentManagementSoftware.Models.Schedule", b =>

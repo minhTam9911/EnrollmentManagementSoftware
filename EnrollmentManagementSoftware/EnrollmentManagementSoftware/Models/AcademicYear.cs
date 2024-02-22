@@ -14,4 +14,5 @@ public partial class AcademicYear
 	public DateTime? EndDate { get; set; }
 	public DateTime? CreatedDate { get; set;}
 	public DateTime? UpdateDate { get; set; }
+	public virtual User? CreateBy { get; set; }
 }

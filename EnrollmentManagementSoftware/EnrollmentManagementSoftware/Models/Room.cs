@@ -14,4 +14,5 @@ public partial class Room
 	public string? Facilities { get; set; }
 	public DateTime? CreatedDate { get; set; }
 	public DateTime? UpdatedDate { get; set; }
+	public virtual User? CreateBy { get; set; }
 }

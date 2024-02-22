@@ -14,4 +14,5 @@ public partial class Vacation
 	public DateTime? EndDate { get; set; }
 	public DateTime? CreatedDate { get; set; }
 	public DateTime? UpdatedDate { get; set; }
+	public virtual User? CreateBy { get; set; }
 }
