@@ -1,4 +1,11 @@
+using EnrollmentManagementSoftware.Models;
+using Microsoft.EntityFrameworkCore;
+
 var builder = WebApplication.CreateBuilder(args);
+
+var connectString = builder.Configuration["Connection:DefaultString"];
+builder.Services.AddDbContext<DatabaseContext>(option => option.UseLazyLoadingProxies().UseSqlServer(connectString), ServiceLifetime.Singleton);
+
 
 // Add services to the container.
 
