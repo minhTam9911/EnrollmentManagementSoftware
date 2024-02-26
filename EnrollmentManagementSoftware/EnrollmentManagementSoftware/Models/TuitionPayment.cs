@@ -14,7 +14,7 @@ public partial class TuitionPayment
 	public string? PaymentMethod { get; set; }	
 	public virtual Student? Student { get; set; }
 	public virtual Classroom? Classroom { get; set; }
-	public virtual TuititionType? TuititionType { get; set; }
+	public virtual TuitionType? TuititionType { get; set; }
 	public DateTime? CreatedDate { get; set; }
 	public DateTime? UpdatedDate { get; set; }
 	public virtual User? CreateBy { get; set; }

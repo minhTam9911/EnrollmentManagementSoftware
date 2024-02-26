@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace EnrollmentManagementSoftware.Models;
 
-public partial class TuititionType
+public partial class TuitionType
 {
 	[Key]
 	[DatabaseGenerated(DatabaseGeneratedOption.Identity)]	

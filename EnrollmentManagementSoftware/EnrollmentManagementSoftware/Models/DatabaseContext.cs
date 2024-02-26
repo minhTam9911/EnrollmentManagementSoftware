@@ -25,7 +25,7 @@ public class DatabaseContext : DbContext
 	public DbSet<SubjectGroup> SubjectGroups { set; get; }
 	public DbSet<Teacher> Teachers { set; get; }
 	public DbSet<TuitionPayment> TuitionPayment { set; get;}
-	public DbSet<TuititionType> TuititionTypes { set; get; }
+	public DbSet<TuitionType> TuitionTypes { set; get; }
 	public DbSet<User> Users { set; get; }
 	public DbSet<Vacation> Vacations { set; get; }
 }

@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace EnrollmentManagementSoftware.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    [Migration("20240222073306_DBInital")]
-    partial class DBInital
+    [Migration("20240226070414_DbInital")]
+    partial class DbInital
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -147,8 +147,8 @@ namespace EnrollmentManagementSoftware.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<int>("Name")
-                        .HasColumnType("int");
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int?>("ScheduleId")
                         .HasColumnType("int");
@@ -258,8 +258,8 @@ namespace EnrollmentManagementSoftware.Migrations
                     b.Property<DateTime?>("CreatedDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<int?>("MultiplierFactor")
-                        .HasColumnType("int");
+                    b.Property<decimal?>("MultiplierFactor")
+                        .HasColumnType("decimal(18,2)");
 
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
@@ -492,9 +492,6 @@ namespace EnrollmentManagementSoftware.Migrations
                     b.Property<string>("Address")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Avatar")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<int?>("ClassroomId")
                         .HasColumnType("int");
 
@@ -513,16 +510,13 @@ namespace EnrollmentManagementSoftware.Migrations
                     b.Property<string>("FirstName")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<bool?>("Gender")
-                        .HasColumnType("bit");
+                    b.Property<string>("Gender")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("LastName")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("ParentName")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Password")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("PhoneNumber")
@@ -634,9 +628,6 @@ namespace EnrollmentManagementSoftware.Migrations
                     b.Property<string>("Gender")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Image")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("LastName")
                         .HasColumnType("nvarchar(max)");
 
@@ -645,9 +636,6 @@ namespace EnrollmentManagementSoftware.Migrations
 
                     b.Property<int?>("MinorSubjectId")
                         .HasColumnType("int");
-
-                    b.Property<string>("Password")
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("PhoneNumber")
                         .HasColumnType("nvarchar(max)");
@@ -723,7 +711,7 @@ namespace EnrollmentManagementSoftware.Migrations
                     b.ToTable("TuitionPayment");
                 });
 
-            modelBuilder.Entity("EnrollmentManagementSoftware.Models.TuititionType", b =>
+            modelBuilder.Entity("EnrollmentManagementSoftware.Models.TuitionType", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -747,7 +735,7 @@ namespace EnrollmentManagementSoftware.Migrations
 
                     b.HasIndex("CreateById");
 
-                    b.ToTable("TuititionTypes");
+                    b.ToTable("TuitionTypes");
                 });
 
             modelBuilder.Entity("EnrollmentManagementSoftware.Models.User", b =>
@@ -768,11 +756,29 @@ namespace EnrollmentManagementSoftware.Migrations
                     b.Property<string>("Image")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<bool?>("IsStatus")
+                        .HasColumnType("bit");
+
                     b.Property<string>("Password")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("PasswordResetToken")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("RefreshToken")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("RefreshTokenExipres")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("ResetTokenExpires")
+                        .HasColumnType("datetime2");
+
                     b.Property<int?>("RoleId")
                         .HasColumnType("int");
+
+                    b.Property<string>("SecurityCode")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime?>("UpdatedDate")
                         .HasColumnType("datetime2");
@@ -1080,7 +1086,7 @@ namespace EnrollmentManagementSoftware.Migrations
                         .WithMany()
                         .HasForeignKey("StudentId");
 
-                    b.HasOne("EnrollmentManagementSoftware.Models.TuititionType", "TuititionType")
+                    b.HasOne("EnrollmentManagementSoftware.Models.TuitionType", "TuititionType")
                         .WithMany()
                         .HasForeignKey("TuititionTypeId");
 
@@ -1093,7 +1099,7 @@ namespace EnrollmentManagementSoftware.Migrations
                     b.Navigation("TuititionType");
                 });
 
-            modelBuilder.Entity("EnrollmentManagementSoftware.Models.TuititionType", b =>
+            modelBuilder.Entity("EnrollmentManagementSoftware.Models.TuitionType", b =>
                 {
                     b.HasOne("EnrollmentManagementSoftware.Models.User", "CreateBy")
                         .WithMany()

@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace EnrollmentManagementSoftware.Migrations
 {
-    public partial class DBInital : Migration
+    public partial class DbInital : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -55,8 +55,14 @@ namespace EnrollmentManagementSoftware.Migrations
                     Password = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Image = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     RoleId = table.Column<int>(type: "int", nullable: true),
+                    IsStatus = table.Column<bool>(type: "bit", nullable: true),
+                    SecurityCode = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    UpdatedDate = table.Column<DateTime>(type: "datetime2", nullable: true)
+                    UpdatedDate = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    RefreshToken = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    RefreshTokenExipres = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    PasswordResetToken = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ResetTokenExpires = table.Column<DateTime>(type: "datetime2", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -120,7 +126,7 @@ namespace EnrollmentManagementSoftware.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    MultiplierFactor = table.Column<int>(type: "int", nullable: true),
+                    MultiplierFactor = table.Column<decimal>(type: "decimal(18,2)", nullable: true),
                     CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: true),
                     UpdatedDate = table.Column<DateTime>(type: "datetime2", nullable: true),
                     CreateById = table.Column<Guid>(type: "uniqueidentifier", nullable: true)
@@ -180,7 +186,7 @@ namespace EnrollmentManagementSoftware.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "TuititionTypes",
+                name: "TuitionTypes",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
@@ -192,9 +198,9 @@ namespace EnrollmentManagementSoftware.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_TuititionTypes", x => x.Id);
+                    table.PrimaryKey("PK_TuitionTypes", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_TuititionTypes_Users_CreateById",
+                        name: "FK_TuitionTypes_Users_CreateById",
                         column: x => x.CreateById,
                         principalTable: "Users",
                         principalColumn: "Id");
@@ -306,10 +312,8 @@ namespace EnrollmentManagementSoftware.Migrations
                     Address = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     PhoneNumber = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Email = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Gender = table.Column<bool>(type: "bit", nullable: true),
-                    Password = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Gender = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     DayOfBirth = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    Avatar = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     ParentName = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     ClassroomId = table.Column<int>(type: "int", nullable: true),
                     CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: true),
@@ -383,9 +387,7 @@ namespace EnrollmentManagementSoftware.Migrations
                     PhoneNumber = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Email = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Gender = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Password = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     DayOfBirth = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    Image = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Wage = table.Column<decimal>(type: "decimal(18,2)", nullable: true),
                     MajorSubjectId = table.Column<int>(type: "int", nullable: true),
                     MinorSubjectId = table.Column<int>(type: "int", nullable: true),
@@ -444,9 +446,9 @@ namespace EnrollmentManagementSoftware.Migrations
                         principalTable: "Students",
                         principalColumn: "Id");
                     table.ForeignKey(
-                        name: "FK_TuitionPayment_TuititionTypes_TuititionTypeId",
+                        name: "FK_TuitionPayment_TuitionTypes_TuititionTypeId",
                         column: x => x.TuititionTypeId,
-                        principalTable: "TuititionTypes",
+                        principalTable: "TuitionTypes",
                         principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_TuitionPayment_Users_CreateById",
@@ -599,7 +601,7 @@ namespace EnrollmentManagementSoftware.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<int>(type: "int", nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     ScheduleId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
@@ -803,8 +805,8 @@ namespace EnrollmentManagementSoftware.Migrations
                 column: "TuititionTypeId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_TuititionTypes_CreateById",
-                table: "TuititionTypes",
+                name: "IX_TuitionTypes_CreateById",
+                table: "TuitionTypes",
                 column: "CreateById");
 
             migrationBuilder.CreateIndex(
@@ -845,7 +847,7 @@ namespace EnrollmentManagementSoftware.Migrations
                 name: "Grades");
 
             migrationBuilder.DropTable(
-                name: "TuititionTypes");
+                name: "TuitionTypes");
 
             migrationBuilder.DropTable(
                 name: "Rooms");

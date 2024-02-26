@@ -10,7 +10,7 @@ public partial class GradingMethod
 	[DatabaseGenerated(DatabaseGeneratedOption.Identity)]
 	public int Id { get; set; }
 	public string? Name { get; set; }
-	public int? MultiplierFactor {get;set;}
+	public decimal? MultiplierFactor {get;set;}
 	public DateTime? CreatedDate { get; set; }
 	public DateTime? UpdatedDate { get; set; }
 	public virtual User? CreateBy { get; set; }
