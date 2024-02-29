@@ -25,13 +25,15 @@ public class AutoMapperProfile : Profile
 		CreateMap<RoleDto, Role>();
 		CreateMap<RoomDto, Room>();
 		CreateMap<SalaryDto,Salary>();
-		CreateMap<ScheduleDto,Schedule>()
-			.ForMember(dest=>dest.StartTime,opt=>opt.MapFrom(src=>src.StartTime.ToTimeSpan()))
+		CreateMap<ScheduleDto, Schedule>()
+			.ForMember(dest => dest.StartTime, opt => opt.MapFrom(src => src.StartTime.ToTimeSpan()))
 			.ForMember(dest => dest.EndTime, opt => opt.MapFrom(src => src.EndTime.ToTimeSpan()))
 			.ForMember(dest => dest.StartDate, opt => opt.MapFrom(src => src.StartDate.ToDateTime(TimeOnly.MinValue)))
-			.ForMember(dest => dest.EndDate, opt => opt.MapFrom(src => src.EndDate.ToDateTime(TimeOnly.MinValue)));
-		CreateMap<StudentDto,Student>()
-			.ForMember(dest => dest.DayOfBirth, opt => opt.MapFrom(src => src.DayOfBirth.ToDateTime(TimeOnly.MinValue)));
+			.ForMember(dest => dest.EndDate, opt => opt.MapFrom(src => src.EndDate.ToDateTime(TimeOnly.MinValue)))
+			.ForMember(dest => dest.Days, opt => opt.MapFrom(src => src.Days.Select(x => new Day {Name =  x.DayOfWeek.ToString() })));
+		CreateMap<StudentDto, Student>()
+			//.ForMember(dest => dest.DayOfBirth, opt => opt.MapFrom(src => src.DayOfBirth.ToDateTime(TimeOnly.MinValue)))
+			.ForMember(dest => dest.Image, opt => opt.Ignore());
 		CreateMap<SubjectDto, Subject>();
 		CreateMap<SubjectGroupDto, Subject>();
 		CreateMap<TeacherDto, Teacher>()

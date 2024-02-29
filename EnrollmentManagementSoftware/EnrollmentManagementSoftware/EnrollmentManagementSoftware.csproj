@@ -29,8 +29,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="wwwroot\" />
-    <Folder Include="Services\Implements\" />
+    <Folder Include="wwwroot\classrooms\" />
   </ItemGroup>
 
 </Project>

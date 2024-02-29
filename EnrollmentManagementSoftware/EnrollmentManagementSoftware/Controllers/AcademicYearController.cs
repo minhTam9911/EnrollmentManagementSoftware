@@ -1,4 +1,6 @@
-﻿using EnrollmentManagementSoftware.DTOs;
+﻿using Castle.Core.Internal;
+using EnrollmentManagementSoftware.DTOs;
+using EnrollmentManagementSoftware.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -7,12 +9,11 @@ namespace EnrollmentManagementSoftware.Controllers;
 [ApiController]
 public class AcademicYearController : ControllerBase
 {
+	/*private DatabaseContext dbContext;
 	[HttpPost]
-	public IActionResult Insert([FromBody] AcademicYearDto academicYearDto)
+	public IActionResult Insert([FromQuery(Name = "page")]string? page)
 	{
-		DateOnly dateOnly = (DateOnly)academicYearDto.StartDate;
-		DateTime date =dateOnly.ToDateTime(TimeOnly.MinValue);
-		return Ok(academicYearDto.EndDate);
-	}
+		return Ok(new {x = DateTime.Now.DayOfWeek.ToString()});
+	}*/
 
 }

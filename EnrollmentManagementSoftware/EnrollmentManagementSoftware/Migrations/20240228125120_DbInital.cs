@@ -10,6 +10,21 @@ namespace EnrollmentManagementSoftware.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
+                name: "Permissions",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    UpdatedDate = table.Column<DateTime>(type: "datetime2", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Permissions", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Roles",
                 columns: table => new
                 {
@@ -25,24 +40,27 @@ namespace EnrollmentManagementSoftware.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Permissions",
+                name: "PermissionRole",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    UpdatedDate = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    RoleId = table.Column<int>(type: "int", nullable: true)
+                    PermissionsId = table.Column<int>(type: "int", nullable: false),
+                    RolesId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Permissions", x => x.Id);
+                    table.PrimaryKey("PK_PermissionRole", x => new { x.PermissionsId, x.RolesId });
                     table.ForeignKey(
-                        name: "FK_Permissions_Roles_RoleId",
-                        column: x => x.RoleId,
+                        name: "FK_PermissionRole_Permissions_PermissionsId",
+                        column: x => x.PermissionsId,
+                        principalTable: "Permissions",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_PermissionRole_Roles_RolesId",
+                        column: x => x.RolesId,
                         principalTable: "Roles",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -307,12 +325,14 @@ namespace EnrollmentManagementSoftware.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Code = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     FirstName = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     LastName = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Address = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     PhoneNumber = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Email = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Gender = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Image = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     DayOfBirth = table.Column<DateTime>(type: "datetime2", nullable: true),
                     ParentName = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     ClassroomId = table.Column<int>(type: "int", nullable: true),
@@ -380,6 +400,7 @@ namespace EnrollmentManagementSoftware.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Code = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     FirstName = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     LastName = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     TaxCode = table.Column<string>(type: "nvarchar(max)", nullable: true),
@@ -387,6 +408,7 @@ namespace EnrollmentManagementSoftware.Migrations
                     PhoneNumber = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Email = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Gender = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Image = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     DayOfBirth = table.Column<DateTime>(type: "datetime2", nullable: true),
                     Wage = table.Column<decimal>(type: "decimal(18,2)", nullable: true),
                     MajorSubjectId = table.Column<int>(type: "int", nullable: true),
@@ -416,7 +438,7 @@ namespace EnrollmentManagementSoftware.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "TuitionPayment",
+                name: "TuitionPayments",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
@@ -434,24 +456,24 @@ namespace EnrollmentManagementSoftware.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_TuitionPayment", x => x.Id);
+                    table.PrimaryKey("PK_TuitionPayments", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_TuitionPayment_Classrooms_ClassroomId",
+                        name: "FK_TuitionPayments_Classrooms_ClassroomId",
                         column: x => x.ClassroomId,
                         principalTable: "Classrooms",
                         principalColumn: "Id");
                     table.ForeignKey(
-                        name: "FK_TuitionPayment_Students_StudentId",
+                        name: "FK_TuitionPayments_Students_StudentId",
                         column: x => x.StudentId,
                         principalTable: "Students",
                         principalColumn: "Id");
                     table.ForeignKey(
-                        name: "FK_TuitionPayment_TuitionTypes_TuititionTypeId",
+                        name: "FK_TuitionPayments_TuitionTypes_TuititionTypeId",
                         column: x => x.TuititionTypeId,
                         principalTable: "TuitionTypes",
                         principalColumn: "Id");
                     table.ForeignKey(
-                        name: "FK_TuitionPayment_Users_CreateById",
+                        name: "FK_TuitionPayments_Users_CreateById",
                         column: x => x.CreateById,
                         principalTable: "Users",
                         principalColumn: "Id");
@@ -690,9 +712,9 @@ namespace EnrollmentManagementSoftware.Migrations
                 column: "CreateById");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Permissions_RoleId",
-                table: "Permissions",
-                column: "RoleId");
+                name: "IX_PermissionRole_RolesId",
+                table: "PermissionRole",
+                column: "RolesId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Point_GradeId",
@@ -785,23 +807,23 @@ namespace EnrollmentManagementSoftware.Migrations
                 column: "MinorSubjectId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_TuitionPayment_ClassroomId",
-                table: "TuitionPayment",
+                name: "IX_TuitionPayments_ClassroomId",
+                table: "TuitionPayments",
                 column: "ClassroomId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_TuitionPayment_CreateById",
-                table: "TuitionPayment",
+                name: "IX_TuitionPayments_CreateById",
+                table: "TuitionPayments",
                 column: "CreateById");
 
             migrationBuilder.CreateIndex(
-                name: "IX_TuitionPayment_StudentId",
-                table: "TuitionPayment",
+                name: "IX_TuitionPayments_StudentId",
+                table: "TuitionPayments",
                 column: "StudentId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_TuitionPayment_TuititionTypeId",
-                table: "TuitionPayment",
+                name: "IX_TuitionPayments_TuititionTypeId",
+                table: "TuitionPayments",
                 column: "TuititionTypeId");
 
             migrationBuilder.CreateIndex(
@@ -826,7 +848,7 @@ namespace EnrollmentManagementSoftware.Migrations
                 name: "Day");
 
             migrationBuilder.DropTable(
-                name: "Permissions");
+                name: "PermissionRole");
 
             migrationBuilder.DropTable(
                 name: "Point");
@@ -835,13 +857,16 @@ namespace EnrollmentManagementSoftware.Migrations
                 name: "Salaries");
 
             migrationBuilder.DropTable(
-                name: "TuitionPayment");
+                name: "TuitionPayments");
 
             migrationBuilder.DropTable(
                 name: "Vacations");
 
             migrationBuilder.DropTable(
                 name: "Schedules");
+
+            migrationBuilder.DropTable(
+                name: "Permissions");
 
             migrationBuilder.DropTable(
                 name: "Grades");

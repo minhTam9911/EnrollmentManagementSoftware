@@ -24,8 +24,44 @@ public class DatabaseContext : DbContext
 	public DbSet<Subject> Subjects { set; get; }
 	public DbSet<SubjectGroup> SubjectGroups { set; get; }
 	public DbSet<Teacher> Teachers { set; get; }
-	public DbSet<TuitionPayment> TuitionPayment { set; get;}
+	public DbSet<TuitionPayment> TuitionPayments { set; get;}
 	public DbSet<TuitionType> TuitionTypes { set; get; }
 	public DbSet<User> Users { set; get; }
 	public DbSet<Vacation> Vacations { set; get; }
+
+	/*protected override void OnModelCreating(ModelBuilder modelBuilder)
+	{
+		modelBuilder.Entity<Permission>().HasData(
+			new Permission { Id = 1, Name = "System", CreatedDate = DateTime.Now, UpdatedDate = DateTime.Now }
+		); // Seed Permission first
+
+		modelBuilder.Entity<Role>().HasData(
+			new Role
+			{
+				Id = 1,
+				Name = "SuperAdmin",
+				Permissions = new Permission[] {
+            // Refrerence existing Permission with RoleId
+            new Permission { Id = 1, Name = "System", RoleId = 1 }
+			}
+			});
+
+		modelBuilder.Entity<User>().HasData(
+			new User
+			{
+				Id = Guid.NewGuid(),
+				FullName = "SuperAdmin",
+				Email = "Minhtamceo1@gmail.com",
+				Password = BCrypt.Net.BCrypt.HashPassword("abc123"),
+				Image = "default-avatar.jpg",
+				IsStatus = true,
+				CreatedDate = DateTime.Now,
+				UpdatedDate = DateTime.Now,
+				Role = new Role { Id = 1, Name = "SuperAdmin" } // No need for Permissions here
+			}
+		);
+
+		base.OnModelCreating(modelBuilder);
+	}*/
+
 }

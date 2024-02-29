@@ -23,11 +23,9 @@ public partial class Schedule
 	public virtual User? CreateBy { get; set; }
 }
 
-public partial class Day
+public class Day
 {
-
 	[Key]
-	[DatabaseGenerated(DatabaseGeneratedOption.Identity)]
 	public int Id { get; set; }
 	public string? Name { get; set; }
 

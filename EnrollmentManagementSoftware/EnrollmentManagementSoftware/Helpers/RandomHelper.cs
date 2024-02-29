@@ -1,4 +1,4 @@
-﻿namespace Project_2_Web_Api.Helplers;
+﻿namespace EnrollmentManagementSoftware.Helplers;
 
 public class RandomHelper
 {
@@ -24,4 +24,5 @@ public class RandomHelper
 		  .Select(s => s[random.Next(s.Length)]).ToArray());
 		return password;
 	}
+
 }

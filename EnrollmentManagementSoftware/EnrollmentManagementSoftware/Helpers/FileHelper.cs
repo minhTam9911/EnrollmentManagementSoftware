@@ -1,8 +1,8 @@
-﻿namespace Project_2_Web_Api.Helpers;
+﻿namespace EnrollmentManagementSoftware.Helpers;
 
 public class FileHelper
 {
-	public static string generateFileName(string fileName)
+	public static string GenerateFileName(string fileName)
 	{
 		var name = Guid.NewGuid().ToString().Replace("-", "");
 		var lastIndex = fileName.LastIndexOf('.');
@@ -10,7 +10,7 @@ public class FileHelper
 		return name + extend;
 		//return name+ "." + extend;
 	}
-	public static bool checkFile(IFormFile file)
+	public static bool IsFileImage(IFormFile file)
 	{
 		string[] fileExtensions = new[] { ".jpg", ".jpeg", ".png", ".gif" };
 		var check = fileExtensions.Contains(Path.GetExtension(file.FileName).ToLowerInvariant());
@@ -25,7 +25,7 @@ public class FileHelper
 		}
 	}
 
-	public static bool checkFileMedia(IFormFile file)
+	public static bool IsFileMedia(IFormFile file)
 	{
 		string[] fileExtensions = new[] { ".jpg", ".jpeg", ".png", ".gif",".mp4", ".DivX", ".MPEG-4", ".AVI", ".WMV" };
 		var check = fileExtensions.Contains(Path.GetExtension(file.FileName.ToLowerInvariant()).ToLowerInvariant());

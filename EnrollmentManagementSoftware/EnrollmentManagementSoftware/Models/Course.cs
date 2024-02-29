@@ -12,5 +12,7 @@ public partial class Course
 	public string? Name { get; set; }
 	public DateTime? CreatedDate { get; set; }
 	public DateTime? UpdatedDate { get; set; }
+	public virtual ICollection<Classroom>? Classrooms { get; set; } = new List<Classroom>();
+	public virtual ICollection<Subject>? Subjects { get; set; } = new List<Subject>();
 	public virtual User? CreateBy { get; set; }
 }

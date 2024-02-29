@@ -7,6 +7,7 @@ public partial class Teacher
 {
 	[Key]
 	public Guid Id { get; set; }
+	public string? Code { get; set; }
 	public string? FirstName { get; set; }
 	public string? LastName { get; set; }
 	public string? TaxCode { get; set; }
@@ -14,7 +15,7 @@ public partial class Teacher
 	public string? PhoneNumber { get; set; }
 	public string? Email { get; set; }
 	public string? Gender { get; set; }
-	
+	public string? Image { get; set; }
 	public DateTime? DayOfBirth { get; set; }
 	public decimal? Wage { get; set; }
 	public virtual Subject? MajorSubject { get; set; }

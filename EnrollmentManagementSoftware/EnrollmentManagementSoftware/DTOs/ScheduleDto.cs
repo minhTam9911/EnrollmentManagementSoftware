@@ -18,7 +18,7 @@ public class ScheduleDto
 	[Required]
 	public DateOnly EndDate { get; set; }
 	[Required]
-	public List<int> DaysId { get; set; } = new List<int>();
+	public List<DateTime> Days { get; set; } = new List<DateTime>();
 	[Required]
 	public int? Room { get; set; }
 	[Required]

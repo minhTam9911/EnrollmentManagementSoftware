@@ -286,15 +286,10 @@ namespace EnrollmentManagementSoftware.Migrations
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("RoleId")
-                        .HasColumnType("int");
-
                     b.Property<DateTime?>("UpdatedDate")
                         .HasColumnType("datetime2");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("RoleId");
 
                     b.ToTable("Permissions");
                 });
@@ -493,6 +488,9 @@ namespace EnrollmentManagementSoftware.Migrations
                     b.Property<int?>("ClassroomId")
                         .HasColumnType("int");
 
+                    b.Property<string>("Code")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<Guid?>("CreateById")
                         .HasColumnType("uniqueidentifier");
 
@@ -509,6 +507,9 @@ namespace EnrollmentManagementSoftware.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Gender")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Image")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("LastName")
@@ -608,6 +609,9 @@ namespace EnrollmentManagementSoftware.Migrations
                     b.Property<string>("Address")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("Code")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<Guid?>("CreateById")
                         .HasColumnType("uniqueidentifier");
 
@@ -624,6 +628,9 @@ namespace EnrollmentManagementSoftware.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Gender")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Image")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("LastName")
@@ -706,7 +713,7 @@ namespace EnrollmentManagementSoftware.Migrations
 
                     b.HasIndex("TuititionTypeId");
 
-                    b.ToTable("TuitionPayment");
+                    b.ToTable("TuitionPayments");
                 });
 
             modelBuilder.Entity("EnrollmentManagementSoftware.Models.TuitionType", b =>
@@ -824,6 +831,21 @@ namespace EnrollmentManagementSoftware.Migrations
                     b.ToTable("Vacations");
                 });
 
+            modelBuilder.Entity("PermissionRole", b =>
+                {
+                    b.Property<int>("PermissionsId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("RolesId")
+                        .HasColumnType("int");
+
+                    b.HasKey("PermissionsId", "RolesId");
+
+                    b.HasIndex("RolesId");
+
+                    b.ToTable("PermissionRole");
+                });
+
             modelBuilder.Entity("EnrollmentManagementSoftware.Models.AcademicYear", b =>
                 {
                     b.HasOne("EnrollmentManagementSoftware.Models.User", "CreateBy")
@@ -836,11 +858,11 @@ namespace EnrollmentManagementSoftware.Migrations
             modelBuilder.Entity("EnrollmentManagementSoftware.Models.Classroom", b =>
                 {
                     b.HasOne("EnrollmentManagementSoftware.Models.AcademicYear", "AcademicYear")
-                        .WithMany()
+                        .WithMany("Classrooms")
                         .HasForeignKey("AcademicYearId");
 
                     b.HasOne("EnrollmentManagementSoftware.Models.Course", "Course")
-                        .WithMany()
+                        .WithMany("Classrooms")
                         .HasForeignKey("CourseId");
 
                     b.HasOne("EnrollmentManagementSoftware.Models.User", "CreateBy")
@@ -933,13 +955,6 @@ namespace EnrollmentManagementSoftware.Migrations
                     b.Navigation("CreateBy");
                 });
 
-            modelBuilder.Entity("EnrollmentManagementSoftware.Models.Permission", b =>
-                {
-                    b.HasOne("EnrollmentManagementSoftware.Models.Role", null)
-                        .WithMany("Permissions")
-                        .HasForeignKey("RoleId");
-                });
-
             modelBuilder.Entity("EnrollmentManagementSoftware.Models.Point", b =>
                 {
                     b.HasOne("EnrollmentManagementSoftware.Models.Grade", null)
@@ -1022,7 +1037,7 @@ namespace EnrollmentManagementSoftware.Migrations
             modelBuilder.Entity("EnrollmentManagementSoftware.Models.Subject", b =>
                 {
                     b.HasOne("EnrollmentManagementSoftware.Models.Course", "Course")
-                        .WithMany()
+                        .WithMany("Subjects")
                         .HasForeignKey("CourseId");
 
                     b.HasOne("EnrollmentManagementSoftware.Models.User", "CreateBy")
@@ -1030,7 +1045,7 @@ namespace EnrollmentManagementSoftware.Migrations
                         .HasForeignKey("CreateById");
 
                     b.HasOne("EnrollmentManagementSoftware.Models.SubjectGroup", "SubjectGroup")
-                        .WithMany()
+                        .WithMany("Subjects")
                         .HasForeignKey("SubjectGroupId");
 
                     b.Navigation("Course");
@@ -1124,19 +1139,46 @@ namespace EnrollmentManagementSoftware.Migrations
                     b.Navigation("CreateBy");
                 });
 
+            modelBuilder.Entity("PermissionRole", b =>
+                {
+                    b.HasOne("EnrollmentManagementSoftware.Models.Permission", null)
+                        .WithMany()
+                        .HasForeignKey("PermissionsId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("EnrollmentManagementSoftware.Models.Role", null)
+                        .WithMany()
+                        .HasForeignKey("RolesId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("EnrollmentManagementSoftware.Models.AcademicYear", b =>
+                {
+                    b.Navigation("Classrooms");
+                });
+
+            modelBuilder.Entity("EnrollmentManagementSoftware.Models.Course", b =>
+                {
+                    b.Navigation("Classrooms");
+
+                    b.Navigation("Subjects");
+                });
+
             modelBuilder.Entity("EnrollmentManagementSoftware.Models.Grade", b =>
                 {
                     b.Navigation("Point");
                 });
 
-            modelBuilder.Entity("EnrollmentManagementSoftware.Models.Role", b =>
-                {
-                    b.Navigation("Permissions");
-                });
-
             modelBuilder.Entity("EnrollmentManagementSoftware.Models.Schedule", b =>
                 {
                     b.Navigation("Days");
+                });
+
+            modelBuilder.Entity("EnrollmentManagementSoftware.Models.SubjectGroup", b =>
+                {
+                    b.Navigation("Subjects");
                 });
 #pragma warning restore 612, 618
         }

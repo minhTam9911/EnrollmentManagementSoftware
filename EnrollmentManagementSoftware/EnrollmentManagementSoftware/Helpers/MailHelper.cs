@@ -3,7 +3,7 @@ using System.Net;
 using System.Net.Mail;
 
 
-namespace Project_2_Web_Api.Helplers;
+namespace EnrollmentManagementSoftware.Helplers;
 public class MailHelper
 {
     private IConfiguration configuration;

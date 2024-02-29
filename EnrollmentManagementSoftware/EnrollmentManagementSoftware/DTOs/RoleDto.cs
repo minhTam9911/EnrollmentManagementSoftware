@@ -7,6 +7,6 @@ public class RoleDto
 {
 	[Required]
 	public string? Name { get; set; }
-	[Required]
-	public List<string>? PermissionsId { get; set; } = new List<string>();
+	
+	public List<int>? PermissionsId { get; set; } = new List<int>();
 }

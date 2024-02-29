@@ -14,5 +14,6 @@ public partial class AcademicYear
 	public DateTime? EndDate { get; set; }
 	public DateTime? CreatedDate { get; set;}
 	public DateTime? UpdateDate { get; set; }
+	public virtual ICollection<Classroom>? Classrooms { get; set; } = new List<Classroom>();
 	public virtual User? CreateBy { get; set; }
 }
