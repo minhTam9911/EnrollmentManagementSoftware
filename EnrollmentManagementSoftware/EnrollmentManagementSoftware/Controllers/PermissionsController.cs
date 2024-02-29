@@ -19,7 +19,7 @@ public class PermissionsController : ControllerBase
 	{
 		try
 		{
-			if ((await permissionService.GetListAsync()).status())
+			if ((await permissionService.GetListAsync()).status)
 			{
 				return Ok(await permissionService.GetListAsync());
 			}
@@ -40,7 +40,7 @@ public class PermissionsController : ControllerBase
 	{
 		try
 		{
-			if ((await permissionService.GetAsync(id)).status())
+			if ((await permissionService.GetAsync(id)).status)
 			{
 
 				return Ok(await permissionService.GetAsync(id));
@@ -61,7 +61,7 @@ public class PermissionsController : ControllerBase
 	{
 		try
 		{
-			if ((await permissionService.GetByNameAsync(name)).status())
+			if ((await permissionService.GetByNameAsync(name)).status)
 			{
 
 				return Ok(await permissionService.GetByNameAsync(name));
@@ -88,7 +88,7 @@ public class PermissionsController : ControllerBase
 				return BadRequest(new { status = false, message = "Failure", error = ModelState });
 			}
 			var result = await permissionService.InsertAsync(permissionDto);
-			if (result.status())
+			if (result.status)
 			{
 				return Ok(result);
 			}
@@ -115,7 +115,7 @@ public class PermissionsController : ControllerBase
 				return BadRequest(new { status = false, message = "Failure", error = ModelState });
 			}
 			var result = await permissionService.UpdateAsync(id,permissionDto);
-			if (result.status())
+			if (result.status)
 			{
 				return Ok(result);
 			}
@@ -138,7 +138,7 @@ public class PermissionsController : ControllerBase
 		{
 			
 			var result = await permissionService.DeleteAsync(id);
-			if (result.status())
+			if (result.status)
 			{
 				return Ok(result);
 			}

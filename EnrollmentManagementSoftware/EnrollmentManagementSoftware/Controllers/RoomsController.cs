@@ -20,7 +20,7 @@ public class RoomsController : ControllerBase
 	{
 		try
 		{
-			if ((await roomService.GetListAsync()).status())
+			if ((await roomService.GetListAsync()).status)
 			{
 				return Ok(await roomService.GetListAsync());
 			}
@@ -41,7 +41,7 @@ public class RoomsController : ControllerBase
 	{
 		try
 		{
-			if ((await roomService.GetAsync(id)).status())
+			if ((await roomService.GetAsync(id)).status)
 			{
 
 				return Ok(await roomService.GetAsync(id));
@@ -62,7 +62,7 @@ public class RoomsController : ControllerBase
 	{
 		try
 		{
-			if ((await roomService.GetByNameAsync(name)).status())
+			if ((await roomService.GetByNameAsync(name)).status)
 			{
 
 				return Ok(await roomService.GetByNameAsync(name));
@@ -89,7 +89,7 @@ public class RoomsController : ControllerBase
 				return BadRequest(new { status = false, message = "Failure", error = ModelState });
 			}
 			var result = await roomService.InsertAsync(roomDto);
-			if (result.status())
+			if (result.status)
 			{
 				return Ok(result);
 			}
@@ -116,7 +116,7 @@ public class RoomsController : ControllerBase
 				return BadRequest(new { status = false, message = "Failure", error = ModelState });
 			}
 			var result = await roomService.UpdateAsync(id, roomDto);
-			if (result.status())
+			if (result.status)
 			{
 				return Ok(result);
 			}
@@ -139,7 +139,7 @@ public class RoomsController : ControllerBase
 		{
 
 			var result = await roomService.DeleteAsync(id);
-			if (result.status())
+			if (result.status)
 			{
 				return Ok(result);
 			}

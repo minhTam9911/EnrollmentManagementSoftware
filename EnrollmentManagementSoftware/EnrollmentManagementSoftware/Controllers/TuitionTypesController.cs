@@ -19,7 +19,7 @@ public class TuitionTypesController : ControllerBase
 	{
 		try
 		{
-			if ((await tuitionTypeService.GetListAsync()).status())
+			if ((await tuitionTypeService.GetListAsync()).status)
 			{
 				return Ok(await tuitionTypeService.GetListAsync());
 			}
@@ -40,7 +40,7 @@ public class TuitionTypesController : ControllerBase
 	{
 		try
 		{
-			if ((await tuitionTypeService.GetAsync(id)).status())
+			if ((await tuitionTypeService.GetAsync(id)).status)
 			{
 
 				return Ok(await tuitionTypeService.GetAsync(id));
@@ -61,7 +61,7 @@ public class TuitionTypesController : ControllerBase
 	{
 		try
 		{
-			if ((await tuitionTypeService.GetByNameAsync(name)).status())
+			if ((await tuitionTypeService.GetByNameAsync(name)).status)
 			{
 
 				return Ok(await tuitionTypeService.GetByNameAsync(name));
@@ -88,7 +88,7 @@ public class TuitionTypesController : ControllerBase
 				return BadRequest(new { status = false, message = "Failure", error = ModelState });
 			}
 			var result = await tuitionTypeService.InsertAsync(tuitionTypeDto);
-			if (result.status())
+			if (result.status)
 			{
 				return Ok(result);
 			}
@@ -115,7 +115,7 @@ public class TuitionTypesController : ControllerBase
 				return BadRequest(new { status = false, message = "Failure", error = ModelState });
 			}
 			var result = await tuitionTypeService.UpdateAsync(id,tuitionTypeDto);
-			if (result.status())
+			if (result.status)
 			{
 				return Ok(result);
 			}
@@ -138,7 +138,7 @@ public class TuitionTypesController : ControllerBase
 		{
 
 			var result = await tuitionTypeService.DeleteAsync(id);
-			if (result.status())
+			if (result.status)
 			{
 				return Ok(result);
 			}

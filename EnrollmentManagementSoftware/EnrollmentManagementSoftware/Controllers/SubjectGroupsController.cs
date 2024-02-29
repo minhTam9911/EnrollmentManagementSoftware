@@ -20,7 +20,7 @@ public class SubjectGroupsController : ControllerBase
 	{
 		try
 		{
-			if ((await subjectGroupService.GetListAsync()).status())
+			if ((await subjectGroupService.GetListAsync()).status)
 			{
 				return Ok(await subjectGroupService.GetListAsync());
 			}
@@ -41,7 +41,7 @@ public class SubjectGroupsController : ControllerBase
 	{
 		try
 		{
-			if ((await subjectGroupService.GetAsync(id)).status())
+			if ((await subjectGroupService.GetAsync(id)).status)
 			{
 
 				return Ok(await subjectGroupService.GetAsync(id));
@@ -61,7 +61,7 @@ public class SubjectGroupsController : ControllerBase
 	{
 		try
 		{
-			if ((await subjectGroupService.GetDetailAsync(id)).status())
+			if ((await subjectGroupService.GetDetailAsync(id)).status)
 			{
 
 				return Ok(await subjectGroupService.GetDetailAsync(id));
@@ -82,7 +82,7 @@ public class SubjectGroupsController : ControllerBase
 	{
 		try
 		{
-			if ((await subjectGroupService.GetByNameAsync(name)).status())
+			if ((await subjectGroupService.GetByNameAsync(name)).status)
 			{
 
 				return Ok(await subjectGroupService.GetByNameAsync(name));
@@ -109,7 +109,7 @@ public class SubjectGroupsController : ControllerBase
 				return BadRequest(new { status = false, message = "Failure", error = ModelState });
 			}
 			var result = await subjectGroupService.InsertAsync(subjectGroupDto);
-			if (result.status())
+			if (result.status)
 			{
 				return Ok(result);
 			}
@@ -136,7 +136,7 @@ public class SubjectGroupsController : ControllerBase
 				return BadRequest(new { status = false, message = "Failure", error = ModelState });
 			}
 			var result = await subjectGroupService.UpdateAsync(id, subjectGroupDto);
-			if (result.status())
+			if (result.status)
 			{
 				return Ok(result);
 			}
@@ -159,7 +159,7 @@ public class SubjectGroupsController : ControllerBase
 		{
 
 			var result = await subjectGroupService.DeleteAsync(id);
-			if (result.status())
+			if (result.status)
 			{
 				return Ok(result);
 			}

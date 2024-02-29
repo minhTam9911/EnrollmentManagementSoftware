@@ -20,7 +20,7 @@ public class GradingMethodsController : ControllerBase
 	{
 		try
 		{
-			if ((await grandingMethodService.GetListAsync()).status())
+			if ((await grandingMethodService.GetListAsync()).status)
 			{
 				return Ok(await grandingMethodService.GetListAsync());
 			}
@@ -41,7 +41,7 @@ public class GradingMethodsController : ControllerBase
 	{
 		try
 		{
-			if ((await grandingMethodService.GetAsync(id)).status())
+			if ((await grandingMethodService.GetAsync(id)).status)
 			{
 
 				return Ok(await grandingMethodService.GetAsync(id));
@@ -62,7 +62,7 @@ public class GradingMethodsController : ControllerBase
 	{
 		try
 		{
-			if ((await grandingMethodService.GetByNameAsync(name)).status())
+			if ((await grandingMethodService.GetByNameAsync(name)).status)
 			{
 
 				return Ok(await grandingMethodService.GetByNameAsync(name));
@@ -89,7 +89,7 @@ public class GradingMethodsController : ControllerBase
 				return BadRequest(new { status = false, message = "Failure", error = ModelState });
 			}
 			var result = await grandingMethodService.InsertAsync(gradingMethodDto);
-			if (result.status())
+			if (result.status)
 			{
 				return Ok(result);
 			}
@@ -116,7 +116,7 @@ public class GradingMethodsController : ControllerBase
 				return BadRequest(new { status = false, message = "Failure", error = ModelState });
 			}
 			var result = await grandingMethodService.UpdateAsync(id, gradingMethodDto);
-			if (result.status())
+			if (result.status)
 			{
 				return Ok(result);
 			}
@@ -139,7 +139,7 @@ public class GradingMethodsController : ControllerBase
 		{
 			
 			var result = await grandingMethodService.DeleteAsync(id);
-			if (result.status())
+			if (result.status)
 			{
 				return Ok(result);
 			}

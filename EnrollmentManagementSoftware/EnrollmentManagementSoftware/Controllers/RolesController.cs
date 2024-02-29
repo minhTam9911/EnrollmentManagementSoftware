@@ -21,7 +21,7 @@ public class RolesController : ControllerBase
 	{
 		try
 		{
-			if ((await roleService.GetListAsync()).status())
+			if ((await roleService.GetListAsync()).status)
 			{
 				return Ok(await roleService.GetListAsync());
 			}
@@ -42,7 +42,7 @@ public class RolesController : ControllerBase
 	{
 		try
 		{
-			if ((await roleService.GetAsync(id)).status())
+			if ((await roleService.GetAsync(id)).status)
 			{
 
 				return Ok(await roleService.GetAsync(id));
@@ -63,7 +63,7 @@ public class RolesController : ControllerBase
 	{
 		try
 		{
-			if ((await roleService.GetByNameAsync(name)).status())
+			if ((await roleService.GetByNameAsync(name)).status)
 			{
 
 				return Ok(await roleService.GetByNameAsync(name));
@@ -90,7 +90,7 @@ public class RolesController : ControllerBase
 				return BadRequest(new { status = false, message = "Failure", error = ModelState });
 			}
 			var result = await roleService.InsertAsync(roleDto);
-			if (result.status())
+			if (result.status)
 			{
 				return Ok(result);
 			}
@@ -117,7 +117,7 @@ public class RolesController : ControllerBase
 				return BadRequest(new { status = false, message = "Failure", error = ModelState });
 			}
 			var result = await roleService.UpdateAsync(id, roleDto);
-			if (result.status())
+			if (result.status)
 			{
 				return Ok(result);
 			}
@@ -142,7 +142,7 @@ public class RolesController : ControllerBase
 				return BadRequest(new { status = false, message = "Failure", error = "Permission Not Null/ Not Empty" });
 			}
 			var result = await roleService.AddPermissionAsync(id, permissions);
-			if (result.status())
+			if (result.status)
 			{
 				return Ok(result);
 			}
@@ -167,7 +167,7 @@ public class RolesController : ControllerBase
 				return BadRequest(new { status = false, message = "Failure", error = "Permission Not Null/ Not Empty" });
 			}
 			var result = await roleService.DeletePermissionAsync(id, permissions);
-			if (result.status())
+			if (result.status)
 			{
 				return Ok(result);
 			}
@@ -190,7 +190,7 @@ public class RolesController : ControllerBase
 		try
 		{
 			var result = await roleService.DeleteAsync(id);
-			if (result.status())
+			if (result.status)
 			{
 				return Ok(result);
 			}

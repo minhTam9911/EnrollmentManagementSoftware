@@ -20,7 +20,7 @@ public class CoursesController : ControllerBase
 	{
 		try
 		{
-			if ((await courseService.GetListAsync()).status()) {
+			if ((await courseService.GetListAsync()).status) {
 				return Ok(await courseService.GetListAsync());
 			}
 			else
@@ -39,7 +39,7 @@ public class CoursesController : ControllerBase
 	{
 		try
 		{
-			if((await courseService.GetAsync(id)).status()) {
+			if((await courseService.GetAsync(id)).status) {
 
 				return Ok(await courseService.GetAsync(id));
 			}
@@ -57,7 +57,7 @@ public class CoursesController : ControllerBase
 	{
 		try
 		{
-			if ((await courseService.GetDetailAsync(id)).status())
+			if ((await courseService.GetDetailAsync(id)).status)
 			{
 
 				return Ok(await courseService.GetDetailAsync(id));
@@ -78,7 +78,7 @@ public class CoursesController : ControllerBase
 	{
 		try
 		{
-			if ((await courseService.GetByNameAsync(name)).status())
+			if ((await courseService.GetByNameAsync(name)).status)
 			{
 
 				return Ok(await courseService.GetByNameAsync(name));
@@ -105,7 +105,7 @@ public class CoursesController : ControllerBase
 				return BadRequest(new { status = false, message = "Failure", error = ModelState });
 			}
 			var result = await courseService.InsertAsync(courseDto);
-			if (result.status())
+			if (result.status)
 			{
 				return Ok(result);
 			}
@@ -132,7 +132,7 @@ public class CoursesController : ControllerBase
 				return BadRequest(new { status = false, message = "Failure", error = ModelState });
 			}
 			var result = await courseService.UpdateAsync(id,courseDto);
-			if (result.status())
+			if (result.status)
 			{
 				return Ok(result);
 			}
@@ -155,7 +155,7 @@ public class CoursesController : ControllerBase
 		{
 			
 			var result = await courseService.DeleteAsync(id);
-			if (result.status())
+			if (result.status)
 			{
 				return Ok(result);
 			}

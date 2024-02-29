@@ -19,7 +19,7 @@ public class VacationsController : ControllerBase
 	{
 		try
 		{
-			if ((await vacationService.GetListAsync()).status())
+			if ((await vacationService.GetListAsync()).status)
 			{
 				return Ok(await vacationService.GetListAsync());
 			}
@@ -40,7 +40,7 @@ public class VacationsController : ControllerBase
 	{
 		try
 		{
-			if ((await vacationService.GetAsync(id)).status())
+			if ((await vacationService.GetAsync(id)).status)
 			{
 
 				return Ok(await vacationService.GetAsync(id));
@@ -61,7 +61,7 @@ public class VacationsController : ControllerBase
 	{
 		try
 		{
-			if ((await vacationService.GetByNameAsync(name)).status())
+			if ((await vacationService.GetByNameAsync(name)).status)
 			{
 
 				return Ok(await vacationService.GetByNameAsync(name));
@@ -88,7 +88,7 @@ public class VacationsController : ControllerBase
 				return BadRequest(new { status = false, message = "Failure", error = ModelState });
 			}
 			var result = await vacationService.InsertAsync(vacationDto);
-			if (result.status())
+			if (result.status)
 			{
 				return Ok(result);
 			}
@@ -115,7 +115,7 @@ public class VacationsController : ControllerBase
 				return BadRequest(new { status = false, message = "Failure", error = ModelState });
 			}
 			var result = await vacationService.UpdateAsync(id,vacationDto);
-			if (result.status())
+			if (result.status)
 			{
 				return Ok(result);
 			}
@@ -138,7 +138,7 @@ public class VacationsController : ControllerBase
 		{
 
 			var result = await vacationService.DeleteAsync(id);
-			if (result.status())
+			if (result.status)
 			{
 				return Ok(result);
 			}
