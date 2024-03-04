@@ -13,7 +13,7 @@ public partial class AcademicYear
 	public DateTime? StartDate { get; set; }
 	public DateTime? EndDate { get; set; }
 	public DateTime? CreatedDate { get; set;}
-	public DateTime? UpdateDate { get; set; }
+	public DateTime? UpdatedDate { get; set; }
 	public virtual ICollection<Classroom>? Classrooms { get; set; } = new List<Classroom>();
 	public virtual User? CreateBy { get; set; }
 }

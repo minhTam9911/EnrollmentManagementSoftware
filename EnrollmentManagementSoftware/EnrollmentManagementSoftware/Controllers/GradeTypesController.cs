@@ -1,32 +1,31 @@
 ﻿using EnrollmentManagementSoftware.DTOs;
 using EnrollmentManagementSoftware.Services;
-using EnrollmentManagementSoftware.Services.Implements;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace EnrollmentManagementSoftware.Controllers;
 [Route("api/[controller]")]
 [ApiController]
-public class SubjectGroupsController : ControllerBase
+public class GradeTypesController : ControllerBase
 {
-	private readonly ISubjectGroupService subjectGroupService;
-	public SubjectGroupsController(ISubjectGroupService subjectGroupService)
+	private readonly IGrandeTypeService grandeTypeService;
+	public GradeTypesController(IGrandeTypeService  grandeTypeService)
 	{
-		this.subjectGroupService = subjectGroupService;
+		this.grandeTypeService = grandeTypeService;
 	}
 
 	[HttpGet]
-	public async Task<IActionResult> GetList(int pagesize, int page )
+	public async Task<IActionResult> GetList()
 	{
 		try
 		{
-			if ((await subjectGroupService.GetListAsync()).status)
+			if ((await grandeTypeService.GetListAsync()).status)
 			{
-				return Ok(await subjectGroupService.GetListAsync());
+				return Ok(await grandeTypeService.GetListAsync());
 			}
 			else
 			{
-				return NotFound(await subjectGroupService.GetListAsync());
+				return NotFound(await grandeTypeService.GetListAsync());
 			}
 		}
 		catch (Exception ex)
@@ -41,14 +40,14 @@ public class SubjectGroupsController : ControllerBase
 	{
 		try
 		{
-			if ((await subjectGroupService.GetAsync(id)).status)
+			if ((await grandeTypeService.GetAsync(id)).status)
 			{
 
-				return Ok(await subjectGroupService.GetAsync(id));
+				return Ok(await grandeTypeService.GetAsync(id));
 			}
 			else
 			{
-				return NotFound(await subjectGroupService.GetAsync(id));
+				return NotFound(await grandeTypeService.GetAsync(id));
 			}
 		}
 		catch (Exception ex)
@@ -56,40 +55,20 @@ public class SubjectGroupsController : ControllerBase
 			return BadRequest(new { status = false, message = ex.Message });
 		}
 	}
-	[HttpGet("Detail/{id}")]
-	public async Task<IActionResult> GetDetail(int id)
-	{
-		try
-		{
-			if ((await subjectGroupService.GetDetailAsync(id)).status)
-			{
-
-				return Ok(await subjectGroupService.GetDetailAsync(id));
-			}
-			else
-			{
-				return NotFound(await subjectGroupService.GetDetailAsync(id));
-			}
-		}
-		catch (Exception ex)
-		{
-			return BadRequest(new { status = false, message = ex.Message });
-		}
-	}
-
+	
 	[HttpGet("ByName/{name}")]
 	public async Task<IActionResult> GetByName(string name)
 	{
 		try
 		{
-			if ((await subjectGroupService.GetByNameAsync(name)).status)
+			if ((await grandeTypeService.GetByNameAsync(name)).status)
 			{
 
-				return Ok(await subjectGroupService.GetByNameAsync(name));
+				return Ok(await grandeTypeService.GetByNameAsync(name));
 			}
 			else
 			{
-				return NotFound(await subjectGroupService.GetByNameAsync(name));
+				return NotFound(await grandeTypeService.GetByNameAsync(name));
 			}
 		}
 		catch (Exception ex)
@@ -100,7 +79,7 @@ public class SubjectGroupsController : ControllerBase
 
 
 	[HttpPost]
-	public async Task<IActionResult> Insert([FromBody] SubjectGroupDto subjectGroupDto)
+	public async Task<IActionResult> Insert([FromBody] GradeTypeDto gradeTypeDto)
 	{
 		try
 		{
@@ -108,7 +87,7 @@ public class SubjectGroupsController : ControllerBase
 			{
 				return BadRequest(new { status = false, message = "Failure", error = ModelState });
 			}
-			var result = await subjectGroupService.InsertAsync(subjectGroupDto);
+			var result = await grandeTypeService.InsertAsync(gradeTypeDto);
 			if (result.status)
 			{
 				return Ok(result);
@@ -127,7 +106,7 @@ public class SubjectGroupsController : ControllerBase
 
 
 	[HttpPut("{id}")]
-	public async Task<IActionResult> Update(int id, [FromBody] SubjectGroupDto subjectGroupDto)
+	public async Task<IActionResult> Update(int id, [FromBody] GradeTypeDto gradeTypeDto)
 	{
 		try
 		{
@@ -135,7 +114,7 @@ public class SubjectGroupsController : ControllerBase
 			{
 				return BadRequest(new { status = false, message = "Failure", error = ModelState });
 			}
-			var result = await subjectGroupService.UpdateAsync(id, subjectGroupDto);
+			var result = await grandeTypeService.UpdateAsync(id,gradeTypeDto);
 			if (result.status)
 			{
 				return Ok(result);
@@ -158,7 +137,7 @@ public class SubjectGroupsController : ControllerBase
 		try
 		{
 
-			var result = await subjectGroupService.DeleteAsync(id);
+			var result = await grandeTypeService.DeleteAsync(id);
 			if (result.status)
 			{
 				return Ok(result);

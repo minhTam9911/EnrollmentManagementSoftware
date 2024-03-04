@@ -175,7 +175,7 @@ public class StudentService : IStudentService
 			}
 			else
 			{
-				if(FileHelper.IsFileImage(studentDto.Image))
+				if(FileHelper.IsImage(studentDto.Image))
 				{
 					var fileName = FileHelper.GenerateFileName(studentDto.Image.FileName);
 					var path = Path.Combine(webHostEnvironment.WebRootPath, "avatars", fileName);

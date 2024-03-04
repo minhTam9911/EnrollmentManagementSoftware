@@ -11,7 +11,7 @@ public partial class Grade
 	public int Id { get; set; }
 	public virtual Subject? Subject { get; set; }
 	public virtual GradeType? GradeType { get; set; }	
-	public virtual ICollection<Point>? Point { get; set; } = new List<Point>();
+	public virtual ICollection<Point>? Points { get; set; } = new List<Point>();
 	public virtual Student? Student { get; set; }
 	public DateTime? CreatedDate { get; set; }
 	public DateTime? UpdatedDate { get; set; }

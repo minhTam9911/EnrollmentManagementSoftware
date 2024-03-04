@@ -19,6 +19,7 @@ public class AutoMapperProfile : Profile
 		CreateMap<Classroom, ClassroomDto>();
 		CreateMap<CourseDto, Course>();
 		CreateMap<Course, CourseDto>();
+		CreateMap<Grade, GradeDto>();
 		CreateMap<GradeTypeDto, GradeType>();
 		CreateMap<GradingMethodDto, GradingMethod>();
 		CreateMap<PermissionDto, Permission>();

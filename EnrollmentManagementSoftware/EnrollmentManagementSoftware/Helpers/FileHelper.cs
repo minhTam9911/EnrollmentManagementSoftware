@@ -10,27 +10,12 @@ public class FileHelper
 		return name + extend;
 		//return name+ "." + extend;
 	}
-	public static bool IsFileImage(IFormFile file)
+	public static bool IsImage(IFormFile file)
 	{
 		string[] fileExtensions = new[] { ".jpg", ".jpeg", ".png", ".gif" };
 		var check = fileExtensions.Contains(Path.GetExtension(file.FileName).ToLowerInvariant());
 		var checkSize = file.Length;
 		if (check && checkSize <= 50 * 1024 * 1024)
-		{
-			return true;
-		}
-		else
-		{
-			return false;
-		}
-	}
-
-	public static bool IsFileMedia(IFormFile file)
-	{
-		string[] fileExtensions = new[] { ".jpg", ".jpeg", ".png", ".gif",".mp4", ".DivX", ".MPEG-4", ".AVI", ".WMV" };
-		var check = fileExtensions.Contains(Path.GetExtension(file.FileName.ToLowerInvariant()).ToLowerInvariant());
-		var checkSize = file.Length;
-		if (check && checkSize <= 200 * 1024 * 1024)
 		{
 			return true;
 		}

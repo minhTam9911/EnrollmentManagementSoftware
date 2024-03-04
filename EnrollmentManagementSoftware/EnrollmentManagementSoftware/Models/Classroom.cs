@@ -17,6 +17,7 @@ public partial class Classroom
 	public decimal? TuitionFee { get; set; }	
 	public string? Description { get; set; }
 	public string? Image { get; set; }
+	public bool Status {  get; set; }
 	public DateTime? CreatedDate { get; set; }
 	public DateTime? UpdatedDate { get; set; }
 	public virtual User? CreateBy { get; set; }

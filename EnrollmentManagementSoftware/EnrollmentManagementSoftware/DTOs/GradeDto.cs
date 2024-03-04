@@ -1,4 +1,5 @@
-﻿using EnrollmentManagementSoftware.Models;
+﻿using AutoMapper.Configuration.Annotations;
+using EnrollmentManagementSoftware.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace EnrollmentManagementSoftware.DTOs;
@@ -10,7 +11,8 @@ public class GradeDto
 	[Required]
 	public int? GradeTypeId { get; set; }
 	[Required]
-	public List<Point>? Point { get; set; } = new List<Point>();
+	[Ignore]
+	public List<int>? Points { get; set; } = new List<int>();
 	[Required]
 	public Guid StudentId { get; set; }
 }

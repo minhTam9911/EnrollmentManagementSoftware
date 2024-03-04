@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace EnrollmentManagementSoftware.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    [Migration("20240228125120_DbInital")]
+    [Migration("20240304074620_DbInital")]
     partial class DbInital
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -50,7 +50,7 @@ namespace EnrollmentManagementSoftware.Migrations
                     b.Property<DateTime?>("StartDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<DateTime?>("UpdateDate")
+                    b.Property<DateTime?>("UpdatedDate")
                         .HasColumnType("datetime2");
 
                     b.HasKey("Id");
@@ -94,6 +94,9 @@ namespace EnrollmentManagementSoftware.Migrations
 
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("Status")
+                        .HasColumnType("bit");
 
                     b.Property<decimal?>("TuitionFee")
                         .HasColumnType("decimal(18,2)");
@@ -960,7 +963,7 @@ namespace EnrollmentManagementSoftware.Migrations
             modelBuilder.Entity("EnrollmentManagementSoftware.Models.Point", b =>
                 {
                     b.HasOne("EnrollmentManagementSoftware.Models.Grade", null)
-                        .WithMany("Point")
+                        .WithMany("Points")
                         .HasForeignKey("GradeId");
                 });
 
@@ -1170,7 +1173,7 @@ namespace EnrollmentManagementSoftware.Migrations
 
             modelBuilder.Entity("EnrollmentManagementSoftware.Models.Grade", b =>
                 {
-                    b.Navigation("Point");
+                    b.Navigation("Points");
                 });
 
             modelBuilder.Entity("EnrollmentManagementSoftware.Models.Schedule", b =>

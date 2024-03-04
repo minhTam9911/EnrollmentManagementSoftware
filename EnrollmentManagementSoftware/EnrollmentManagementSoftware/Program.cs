@@ -31,7 +31,10 @@ builder.Services.AddScoped<IRoomService, RoomService>();
 builder.Services.AddScoped<ISubjectGroupService, SubjectGroupService>();
 builder.Services.AddScoped<ITuitionTypeService, TuitionTypeService>();
 builder.Services.AddScoped<IVacationService, VacationService>();
-
+builder.Services.AddScoped<IAcademicYearService, AcademicYearService>();
+builder.Services.AddScoped<IClassroomService, ClassroomService>();
+builder.Services.AddScoped<IGrandeTypeService, GradeTypeService>();
+builder.Services.AddScoped<IGradeService, GradeService>();
 
 var app = builder.Build();
 
