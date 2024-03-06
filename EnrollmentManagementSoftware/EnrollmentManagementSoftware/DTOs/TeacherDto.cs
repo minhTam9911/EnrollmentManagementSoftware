@@ -1,4 +1,5 @@
-﻿using EnrollmentManagementSoftware.Models;
+﻿using AutoMapper.Configuration.Annotations;
+using EnrollmentManagementSoftware.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace EnrollmentManagementSoftware.DTOs;
@@ -13,6 +14,8 @@ public class TeacherDto
 	public string? TaxCode { get; set; }
 	[Required]
 	public string? Address { get; set; }
+	[Required]
+	public string? Password { get; set; }
 	[Required]
 	[Phone]
 	public string? PhoneNumber { get; set; }
@@ -29,4 +32,6 @@ public class TeacherDto
 	public int? MajorSubjectId { get; set; }
 	[Required]
 	public int? MinorSubjectId { get; set; }
+	[Ignore]
+	public IFormFile? Image { get; set; }
 }

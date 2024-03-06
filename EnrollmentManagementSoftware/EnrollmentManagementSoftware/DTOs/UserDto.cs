@@ -1,4 +1,5 @@
-﻿using EnrollmentManagementSoftware.Models;
+﻿using AutoMapper.Configuration.Annotations;
+using EnrollmentManagementSoftware.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace EnrollmentManagementSoftware.DTOs;
@@ -16,4 +17,6 @@ public class UserDto
 	public int? RoleId { get; set; }
 	[Required]
 	public bool? IsStatus { get; set; }
+	[Ignore]
+	public IFormFile? Image { get; set; }
 }

@@ -83,6 +83,7 @@ public class StudentService : IStudentService
 							phoneNumber = x.PhoneNumber,
 							email = x.Email,
 							parentName = x.ParentName,
+							gender= x.Gender,
 							image = x.Image,
 							dateOfBirth = DateOnly.FromDateTime((DateTime)x.DayOfBirth!)
 					})
@@ -175,6 +176,7 @@ public class StudentService : IStudentService
 			}
 			else
 			{
+				
 				if(FileHelper.IsImage(studentDto.Image))
 				{
 					var fileName = FileHelper.GenerateFileName(studentDto.Image.FileName);
@@ -191,28 +193,33 @@ public class StudentService : IStudentService
 				}
 			}
 			var hashPassword = BCrypt.Net.BCrypt.HashPassword(studentDto.Password);
+
+			if(await dbContext.Classrooms.FindAsync(studentDto.ClassroomId) == null)
+			{
+				return new { status = false, message = "Classroom Does Not Exist" };
+			}
+
 			student.Classroom = await dbContext.Classrooms.FindAsync(studentDto.ClassroomId);
 			//student.CreateBy = await dbContext.Users.
 			//					FindAsync(Guid.Parse(httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.Name).ToString()));
 			student.CreatedDate = DateTime.Now;
 			student.UpdatedDate = DateTime.Now;
-			student.Id = Guid.NewGuid();
-			user.Id = student.Id;
-			user.FullName = student.FirstName + student.LastName;
-			user.Email = student.Email;
-			user.Password = hashPassword;
-			user.Image = student.Image;
-			user.Role = await dbContext.Roles.FindAsync(2);
-			user.IsStatus = false;
-			user.CreatedDate = DateTime.Now;
-			user.UpdatedDate = DateTime.Now;
-
 			dbContext.Students.Add(student);
-			dbContext.Users.Add(user);
 			var mailHelper = new MailHelper(configuration);
-			if (mailHelper.Send(configuration["Gmail:Username"], user.Email!, "Welcome "+user.FullName+ " courses at the Children's House", MailHelper.HtmlNewAccount(user.FullName, user.Email!, studentDto.Password!))){
+			if (mailHelper.Send(configuration["Gmail:Username"], student.Email!, "Welcome "+student.FirstName+" "+student.LastName+ " courses at the Children's House", MailHelper.HtmlNewAccount(student.FirstName + " " + student.LastName, student.Email!, studentDto.Password!))){
 				if(await dbContext.SaveChangesAsync() > 0)
 				{
+					user.Id = student.Id;
+					user.FullName = student.FirstName + student.LastName;
+					user.Email = student.Email;
+					user.Password = hashPassword;
+					user.Image = student.Image;
+					user.Role = await dbContext.Roles.FindAsync(3);
+					user.IsStatus = false;
+					user.CreatedDate = DateTime.Now;
+					user.UpdatedDate = DateTime.Now;
+					dbContext.Users.Add(user);
+					await dbContext.SaveChangesAsync();
 					return new { status = true, message = "Ok" };
 				}
 				else
@@ -234,8 +241,83 @@ public class StudentService : IStudentService
 		throw new NotImplementedException();
 	}
 
-	public Task<dynamic> UpdateAsync(Guid id, StudentDto studentDto)
+	public async Task<dynamic> UpdateAsync(Guid id, StudentDto studentDto)
 	{
-		throw new NotImplementedException();
+		var student = mapper.Map<Student>(studentDto);
+		try
+		{
+			var studentModel = await dbContext.Students.FindAsync(id);
+
+
+			if (studentModel == null)
+			{
+				return new { status = false, message = "Student Does Not Exist" };
+			}
+			else
+			{
+				if(studentDto.Image != null)
+				{
+					if (studentModel.Image != studentDto.Image.FileName)
+					{
+						if (FileHelper.IsImage(studentDto.Image))
+						{
+							var pathDelete = Path.Combine(webHostEnvironment.WebRootPath, "avatars", studentModel.Image);
+							File.Delete(pathDelete);
+							var fileName = FileHelper.GenerateFileName(studentDto.Image.FileName);
+							var path = Path.Combine(webHostEnvironment.WebRootPath, "avatars", fileName);
+							using (var fileStream = new FileStream(path, FileMode.Create))
+							{
+								studentDto.Image.CopyTo(fileStream);
+							}
+							student.Image = fileName;
+						}
+						else
+						{
+							return new { status = false, message = "File Invalid" };
+						}
+					}
+				}
+				
+			}
+			if(await dbContext.Classrooms.FindAsync(studentDto.ClassroomId) == null)
+			{
+				return new { status = false, message = "Classroom Does Not Exist" };
+
+			}
+			student.Classroom = await dbContext.Classrooms.FindAsync(studentDto.ClassroomId);
+			//student.CreateBy = await dbContext.Users.
+			//					FindAsync(Guid.Parse(httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.Name).ToString()));
+			student.UpdatedDate = DateTime.Now;
+			studentModel.FirstName = student.FirstName;
+			studentModel.LastName = student.LastName;
+			studentModel.PhoneNumber = student.PhoneNumber;
+			studentModel.Address = student.Address;
+			studentModel.Email = student.Email;
+			studentModel.Gender = student.Gender;
+			studentModel.DayOfBirth = student.DayOfBirth;
+			studentModel.ParentName = student.ParentName;
+			studentModel.Image = student.Image;
+			studentModel.Classroom = student.Classroom;
+			dbContext.Entry(studentModel).State = EntityState.Modified;
+				if (await dbContext.SaveChangesAsync() > 0)
+				{
+				var user = await dbContext.Users.FindAsync(studentModel.Id);
+				user.Email = studentModel.Email;
+				user.FullName = studentModel.FirstName + " " + studentModel.LastName;
+				user.Image = studentModel.Image;
+				dbContext.Entry(user).State = EntityState.Modified;
+				await dbContext.SaveChangesAsync();
+					return new { status = true, message = "Ok" };
+				}
+				else
+				{
+					return new { status = false, message = "Failure" };
+				}
+
+		}
+		catch (Exception ex)
+		{
+			return new { status = false, message = ex.Message };
+		}
 	}
 }
