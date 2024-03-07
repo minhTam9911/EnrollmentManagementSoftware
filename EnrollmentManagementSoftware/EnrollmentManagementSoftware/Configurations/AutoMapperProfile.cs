@@ -36,9 +36,11 @@ public class AutoMapperProfile : Profile
 			//.ForMember(dest => dest.DayOfBirth, opt => opt.MapFrom(src => src.DayOfBirth.ToDateTime(TimeOnly.MinValue)))
 			.ForMember(dest => dest.Image, opt => opt.Ignore());
 		CreateMap<SubjectDto, Subject>();
-		CreateMap<SubjectGroupDto, Subject>();
-		CreateMap<TeacherDto, Teacher>()
-			.ForMember(dest => dest.DayOfBirth, opt => opt.MapFrom(src => src.DayOfBirth.ToDateTime(TimeOnly.MinValue)));
+		
+		CreateMap<SubjectGroupDto, SubjectGroup>();
+
+		CreateMap<TeacherDto, Teacher>();
+			//.ForMember(dest => dest.DayOfBirth, opt => opt.MapFrom(src => src.DayOfBirth.ToDateTime(TimeOnly.MinValue)));
 		CreateMap<TuitionPaymentDto, TuitionPayment>();
 		CreateMap<TuitionTypeDto, TuitionType>();
 		CreateMap<UserDto, User>();

@@ -1,5 +1,6 @@
 ﻿using EnrollmentManagementSoftware.DTOs;
 using EnrollmentManagementSoftware.Services;
+using EnrollmentManagementSoftware.Services.Implements;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -13,27 +14,7 @@ public class StudentController : ControllerBase
 	{
 		this.studentService = studentService;
 	}
-	[HttpPost]
-	public async Task<IActionResult> Insert([FromForm] StudentDto studentDto)
-	{
-		/*if (!ModelState.IsValid)
-		{
-			return BadRequest(ModelState);
-		}
-		else
-		{
-			if (await studentService.Insert(studentDto))
-			{
-				return Ok();
-			}
-			else
-			{
-				return BadRequest();
-			}
-		}*/
-		return Ok(studentDto);
-		
-	}
+	
 	[HttpGet]
 	[Consumes("application/json")]
 	[Produces("application/json")]
@@ -68,4 +49,80 @@ public class StudentController : ControllerBase
 		}
 
 	}
+
+	[HttpPost]
+	public async Task<IActionResult> Insert([FromBody] StudentDto studentDto)
+	{
+		try
+		{
+			if (!ModelState.IsValid)
+			{
+				return BadRequest(new { status = false, message = "Failure", error = ModelState });
+			}
+			var result = await studentService.InsertAsync(studentDto);
+			if (result.status)
+			{
+				return Ok(result);
+			}
+			else
+			{
+				return BadRequest(result);
+			}
+		}
+		catch (Exception ex)
+		{
+			return BadRequest(new { status = false, message = ex.Message });
+		}
+
+	}
+
+
+	[HttpPut("{id}")]
+	public async Task<IActionResult> Update(Guid id, [FromBody] StudentDto studentDto)
+	{
+		try
+		{
+			if (!ModelState.IsValid)
+			{
+				return BadRequest(new { status = false, message = "Failure", error = ModelState });
+			}
+			var result = await studentService.UpdateAsync(id, studentDto);
+			if (result.status)
+			{
+				return Ok(result);
+			}
+			else
+			{
+				return BadRequest(result);
+			}
+		}
+		catch (Exception ex)
+		{
+			return BadRequest(new { status = false, message = ex.Message });
+		}
+	}
+
+
+	[HttpDelete("{id}")]
+	public async Task<IActionResult> Delete(Guid id)
+	{
+		try
+		{
+
+			var result = await studentService.DeleteAsync(id);
+			if (result.status)
+			{
+				return Ok(result);
+			}
+			else
+			{
+				return BadRequest(result);
+			}
+		}
+		catch (Exception ex)
+		{
+			return BadRequest(new { status = false, message = ex.Message });
+		}
+	}
+
 }

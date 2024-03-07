@@ -166,7 +166,7 @@ public class TeacherService : ITeacherService
 		}
 	}
 
-	public async Task<dynamic> GetListAsync(int page, string? keyword)
+	public async Task<dynamic> GetListAsync()
 	{
 		try
 		{
@@ -176,18 +176,18 @@ public class TeacherService : ITeacherService
 			}
 			else
 			{
-				_ = keyword.IsNullOrEmpty() ? keyword = null : keyword!.ToLower();
-				var pageResults = 10f;
-				var pageCount = Math.Ceiling(await dbContext.Teachers.CountAsync() / pageResults);
+//				_ = keyword.IsNullOrEmpty() ? keyword = null : keyword!.ToLower();
+//				var pageResults = 10f;
+//				var pageCount = Math.Ceiling(await dbContext.Teachers.CountAsync() / pageResults);
 				var teachers = await dbContext.Teachers
-					.Where(x =>
-							x.Code!.ToLower().Contains(keyword) ||
-							x.LastName!.ToLower().Contains(keyword) ||
-							x.Email!.ToLower().Contains(keyword) ||
-							x.PhoneNumber!.Contains(keyword)
-							)
-					.Skip((page - 1) * (int)pageResults)
-					.Take((int)pageResults)
+//					.Where(x =>
+//							x.Code!.ToLower().Contains(keyword) ||
+//							x.LastName!.ToLower().Contains(keyword) ||
+//							x.Email!.ToLower().Contains(keyword) ||
+//							x.PhoneNumber!.Contains(keyword)
+//							)
+//					.Skip((page - 1) * (int)pageResults)
+//					.Take((int)pageResults)
 					.Select(x => new {
 						id = x.Id,
 						code = x.Code,
@@ -218,8 +218,8 @@ public class TeacherService : ITeacherService
 				return new
 				{
 
-					pages = (int)pageCount,
-					currentPage = page,
+//					pages = (int)pageCount,
+//					currentPage = page,
 					status = true,
 					message = "Ok",
 					data = teachers

@@ -25,7 +25,7 @@ public class TeacherDto
 	[Required]
 	public string? Gender { get; set; }
 	[Required]
-	public DateOnly DayOfBirth { get; set; }
+	public DateTime DayOfBirth { get; set; }
 	[Required]
 	public decimal? Wage { get; set; }
 	[Required]

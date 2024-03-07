@@ -35,6 +35,9 @@ builder.Services.AddScoped<IAcademicYearService, AcademicYearService>();
 builder.Services.AddScoped<IClassroomService, ClassroomService>();
 builder.Services.AddScoped<IGrandeTypeService, GradeTypeService>();
 builder.Services.AddScoped<IGradeService, GradeService>();
+builder.Services.AddScoped<ITeacherService, TeacherService>();
+builder.Services.AddScoped<ISubjectService, SubjectService>();
+builder.Services.AddScoped<IUserService, UserService>();
 
 var app = builder.Build();
 
