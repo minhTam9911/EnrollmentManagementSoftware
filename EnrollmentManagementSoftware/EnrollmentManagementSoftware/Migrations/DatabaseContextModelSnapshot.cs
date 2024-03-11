@@ -992,7 +992,7 @@ namespace EnrollmentManagementSoftware.Migrations
             modelBuilder.Entity("EnrollmentManagementSoftware.Models.Schedule", b =>
                 {
                     b.HasOne("EnrollmentManagementSoftware.Models.Classroom", "Classroom")
-                        .WithMany()
+                        .WithMany("Schedules")
                         .HasForeignKey("ClassroomId");
 
                     b.HasOne("EnrollmentManagementSoftware.Models.User", "CreateBy")
@@ -1160,6 +1160,11 @@ namespace EnrollmentManagementSoftware.Migrations
             modelBuilder.Entity("EnrollmentManagementSoftware.Models.AcademicYear", b =>
                 {
                     b.Navigation("Classrooms");
+                });
+
+            modelBuilder.Entity("EnrollmentManagementSoftware.Models.Classroom", b =>
+                {
+                    b.Navigation("Schedules");
                 });
 
             modelBuilder.Entity("EnrollmentManagementSoftware.Models.Course", b =>

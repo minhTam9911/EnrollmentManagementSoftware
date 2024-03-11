@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace EnrollmentManagementSoftware.Migrations
 {
-    public partial class DbInital : Migration
+    public partial class DBInital : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {

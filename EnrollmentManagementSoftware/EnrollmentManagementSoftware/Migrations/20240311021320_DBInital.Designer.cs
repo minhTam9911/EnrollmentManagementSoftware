@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace EnrollmentManagementSoftware.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    [Migration("20240304074620_DbInital")]
-    partial class DbInital
+    [Migration("20240311021320_DBInital")]
+    partial class DBInital
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -994,7 +994,7 @@ namespace EnrollmentManagementSoftware.Migrations
             modelBuilder.Entity("EnrollmentManagementSoftware.Models.Schedule", b =>
                 {
                     b.HasOne("EnrollmentManagementSoftware.Models.Classroom", "Classroom")
-                        .WithMany()
+                        .WithMany("Schedules")
                         .HasForeignKey("ClassroomId");
 
                     b.HasOne("EnrollmentManagementSoftware.Models.User", "CreateBy")
@@ -1162,6 +1162,11 @@ namespace EnrollmentManagementSoftware.Migrations
             modelBuilder.Entity("EnrollmentManagementSoftware.Models.AcademicYear", b =>
                 {
                     b.Navigation("Classrooms");
+                });
+
+            modelBuilder.Entity("EnrollmentManagementSoftware.Models.Classroom", b =>
+                {
+                    b.Navigation("Schedules");
                 });
 
             modelBuilder.Entity("EnrollmentManagementSoftware.Models.Course", b =>

@@ -18,6 +18,7 @@ public partial class Classroom
 	public string? Description { get; set; }
 	public string? Image { get; set; }
 	public bool Status {  get; set; }
+	public virtual ICollection<Schedule>? Schedules { get; set; } = new List<Schedule>();
 	public DateTime? CreatedDate { get; set; }
 	public DateTime? UpdatedDate { get; set; }
 	public virtual User? CreateBy { get; set; }
