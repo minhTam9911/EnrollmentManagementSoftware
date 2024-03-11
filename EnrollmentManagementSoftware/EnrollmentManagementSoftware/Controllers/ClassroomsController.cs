@@ -79,7 +79,7 @@ public class ClassroomsController : ControllerBase
 
 
 	[HttpPost]
-	public async Task<IActionResult> Insert([FromBody] ClassroomDto classroomDto)
+	public async Task<IActionResult> Insert([FromForm] ClassroomDto classroomDto)
 	{
 		try
 		{

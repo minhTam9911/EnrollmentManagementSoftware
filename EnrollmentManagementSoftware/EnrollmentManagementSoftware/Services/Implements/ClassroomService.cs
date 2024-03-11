@@ -94,15 +94,30 @@ public class ClassroomService : IClassroomService
 	{
 		try
 		{
-			if (await dbContext.Permissions.Where(x => x.Name!.ToLower().Contains(name.ToLower())).AnyAsync() == false)
+			if (await dbContext.Classrooms.Where(x => x.Name!.ToLower().Contains(name.ToLower())).AnyAsync() == false)
 			{
 				return new { status = false, message = "Data Is Null" };
 			}
 
-			var permissions = await dbContext.Permissions.Where(x => x.Name!.ToLower().Contains(name.ToLower())).Select(x => new
+			var classrooms = await dbContext.Classrooms.Where(x => x.Name!.ToLower().Contains(name.ToLower())).Select(x => new
 			{
 				id = x.Id,
 				name = x.Name,
+				course = new
+				{
+					id = x.Course.Id,
+					name = x.Course.Name
+				},
+				academicYear = new
+				{
+					id = x.AcademicYear.Id,
+					code = x.AcademicYear.Code,
+					name = x.AcademicYear.Name
+				},
+				capacity = x.Capacity,
+				tuitionFee = x.TuitionFee,
+				description = x.Description,
+				image = x.Image,
 				createdDate = x.CreatedDate,
 				updatedDate = x.UpdatedDate
 			}).ToListAsync();
@@ -110,7 +125,7 @@ public class ClassroomService : IClassroomService
 			{
 				status = true,
 				message = "Ok",
-				data = permissions
+				data = classrooms
 			};
 		}
 		catch (Exception ex)
@@ -123,15 +138,30 @@ public class ClassroomService : IClassroomService
 	{
 		try
 		{
-			if (await dbContext.Permissions.AnyAsync() == false)
+			if (await dbContext.Classrooms.AnyAsync() == false)
 			{
 				return new { status = false, message = "Data Is Null" };
 			}
 
-			var permissions = await dbContext.Permissions.Select(x => new
+			var classrooms = await dbContext.Classrooms.Select(x => new
 			{
 				id = x.Id,
 				name = x.Name,
+				course = new
+				{
+					id = x.Course.Id,
+					name = x.Course.Name
+				},
+				academicYear = new
+				{
+					id = x.AcademicYear.Id,
+					code = x.AcademicYear.Code,
+					name = x.AcademicYear.Name
+				},
+				capacity = x.Capacity,
+				tuitionFee = x.TuitionFee,
+				description = x.Description,
+				image = x.Image,
 				createdDate = x.CreatedDate,
 				updatedDate = x.UpdatedDate
 			}).ToListAsync();
@@ -139,7 +169,7 @@ public class ClassroomService : IClassroomService
 			{
 				status = true,
 				message = "Ok",
-				data = permissions
+				data = classrooms
 			};
 		}
 		catch (Exception ex)
@@ -173,7 +203,7 @@ public class ClassroomService : IClassroomService
 				return new { status = false, message = "The attached file is not an image file" };
 			}
 			var fileName = FileHelper.GenerateFileName(classroomDto.Image.FileName);
-			var path = Path.Combine(webHostEnvironment.WebRootPath, "classroom", fileName);
+			var path = Path.Combine(webHostEnvironment.WebRootPath, "classrooms", fileName);
 			using (var fileStream = new FileStream(path, FileMode.Create))
 			{
 				classroomDto.Image.CopyTo(fileStream);
@@ -229,11 +259,11 @@ public class ClassroomService : IClassroomService
 			}
 			if (classroomModel.Image != classroomDto.Image.FileName)
 			{
-				var pathDelete = Path.Combine(webHostEnvironment.WebRootPath, "classroom", classroomModel.Image);
+				var pathDelete = Path.Combine(webHostEnvironment.WebRootPath, "classrooms", classroomModel.Image);
 				File.Delete(pathDelete);
 				
 				var fileName = FileHelper.GenerateFileName(classroomDto.Image.FileName);
-				var path = Path.Combine(webHostEnvironment.WebRootPath, "classroom", fileName);
+				var path = Path.Combine(webHostEnvironment.WebRootPath, "classrooms", fileName);
 				using (var fileStream = new FileStream(path, FileMode.Create))
 				{
 					classroomDto.Image.CopyTo(fileStream);
