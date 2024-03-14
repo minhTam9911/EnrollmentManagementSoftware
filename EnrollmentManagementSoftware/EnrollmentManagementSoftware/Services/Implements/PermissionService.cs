@@ -132,6 +132,10 @@ public class PermissionService : IPermissionService
 		var permission = mapper.Map<Permission>(permissionDto);
 		try
 		{
+			if (await dbContext.Permissions.FirstOrDefaultAsync(x => x.Name.ToLower() == permission.Name.ToLower()) != null)
+			{
+				return new { status = true, message = "Name Already" };
+			}
 			permission.CreatedDate = DateTime.Now;
 			permission.UpdatedDate = DateTime.Now;
 			await dbContext.Permissions.AddAsync(permission);
@@ -154,6 +158,10 @@ public class PermissionService : IPermissionService
 		var permission = mapper.Map<Permission>(permissionDto);
 		try
 		{
+			if (await dbContext.Permissions.AsNoTracking().FirstOrDefaultAsync(x => x.Name.ToLower() == permission.Name.ToLower()&& x.Id!=id) != null)
+			{
+				return new { status = true, message = "Name Already" };
+			}
 			var permissionModel = await dbContext.Permissions.FindAsync(id);
 			if (permissionModel == null)
 			{

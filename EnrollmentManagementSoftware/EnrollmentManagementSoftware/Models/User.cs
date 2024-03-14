@@ -12,6 +12,8 @@ public partial class User
 	public string? Image { get; set;}
 	public virtual Role? Role { get; set; }
 	public bool? IsStatus { get; set; }
+	public decimal? Wage { get; set; }
+	public bool? IsPaid { get; set; }
 	public string? SecurityCode {  get; set; }
 	public DateTime? CreatedDate { get; set; }
 	public DateTime? UpdatedDate { get; set; }

@@ -261,6 +261,10 @@ public class TeacherService : ITeacherService
 					}
 				
 			}
+			if (await dbContext.Teachers.AsNoTracking().FirstOrDefaultAsync(x => x.Email == teacher.Email) != null)
+			{
+				return new { status = false, message = "Email Already" };
+			}
 			var hashPassword = BCrypt.Net.BCrypt.HashPassword(teacherDto.Password);
 			if(await dbContext.Subjects.FindAsync(teacherDto.MajorSubjectId) == null)
 			{
@@ -289,6 +293,7 @@ public class TeacherService : ITeacherService
 					user.Image = teacher.Image;
 					user.Role = await dbContext.Roles.FindAsync(2);
 					user.IsStatus = false;
+					user.Wage = teacher.Wage;
 					user.CreatedDate = DateTime.Now;
 					user.UpdatedDate = DateTime.Now;
 					dbContext.Users.Add(user);
@@ -354,7 +359,10 @@ public class TeacherService : ITeacherService
 			{
 				return new { status = false, message = "Minor Subject Does Not Exist" };
 			}
-
+			if (await dbContext.Teachers.AsNoTracking().FirstOrDefaultAsync(x => x.Email == teacher.Email && x.Id != id) != null)
+			{
+				return new { status = false, message = "Email Already" };
+			}
 			teacherModel.FirstName = teacher.FirstName;
 			teacherModel.LastName = teacher.LastName;
 			teacherModel.PhoneNumber = teacher.PhoneNumber;
@@ -373,6 +381,7 @@ public class TeacherService : ITeacherService
 				user.Email = teacherModel.Email;
 				user.FullName = teacherModel.FirstName + " " + teacherModel.LastName;
 				user.Image = teacherModel.Image;
+				user.Wage = teacherModel.Wage;
 				dbContext.Entry(user).State = EntityState.Modified;
 				await dbContext.SaveChangesAsync();
 				return new { status = true, message = "Ok" };

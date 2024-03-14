@@ -43,7 +43,8 @@ public class AutoMapperProfile : Profile
 			//.ForMember(dest => dest.DayOfBirth, opt => opt.MapFrom(src => src.DayOfBirth.ToDateTime(TimeOnly.MinValue)));
 		CreateMap<TuitionPaymentDto, TuitionPayment>();
 		CreateMap<TuitionTypeDto, TuitionType>();
-		CreateMap<UserDto, User>();
+		CreateMap<UserDto, User>()
+			.ForMember(dest => dest.Email, opt => opt.MapFrom(src => src.Email.ToLower()));
 		CreateMap<VacationDto, Vacation>()
 			.ForMember(dest => dest.StartDate, opt => opt.MapFrom(src => src.StartDate.ToDateTime(TimeOnly.MinValue)))
 			.ForMember(dest => dest.EndDate, opt => opt.MapFrom(src => src.EndDate.ToDateTime(TimeOnly.MinValue)));

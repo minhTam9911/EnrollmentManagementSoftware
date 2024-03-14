@@ -78,7 +78,7 @@ public class UsersController : ControllerBase
 
 
 	[HttpPost]
-	public async Task<IActionResult> Insert([FromBody] UserDto userDto)
+	public async Task<IActionResult> Insert([FromForm] UserDto userDto)
 	{
 		try
 		{
@@ -105,7 +105,7 @@ public class UsersController : ControllerBase
 
 
 	[HttpPut("{id}")]
-	public async Task<IActionResult> Update(Guid id, [FromBody] UserDto userDto)
+	public async Task<IActionResult> Update(Guid id, [FromForm] UserDto userDto)
 	{
 		try
 		{

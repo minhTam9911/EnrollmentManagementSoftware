@@ -215,17 +215,20 @@ public class UserService : IUserService
 					return new { status = false, message = "File Invalid" };
 				}
 			}
+			if(await dbContext.Users.AsNoTracking().FirstOrDefaultAsync(x=>x.Email == user.Email)!=null){
+				return new { status = false, message = "Email Already" };
+			}
 			var hashPassword = BCrypt.Net.BCrypt.HashPassword(userDto.Password);
 			var roleHandle = await dbContext.Roles.FirstOrDefaultAsync(x=>x.Id == userDto.RoleId);
 			if(roleHandle == null)
 			{
 				return new { status = false, message = "Role Does Not Exist" };
 			}
-			if(roleHandle.Name.ToLower().Equals("student") || roleHandle.Name.ToLower().Equals("teacher") || roleHandle.Name.ToLower().Equals("admin"))
+			/*if(roleHandle.Name.ToLower().Equals("student") || roleHandle.Name.ToLower().Equals("teacher") || roleHandle.Name.ToLower().Equals("admin"))
 			{
 				return new { status = false, message = "Not Enough Authority" };
-			}
-
+			}*/
+			user.Password = hashPassword;
 			user.Role = roleHandle;
 			user.CreatedDate = DateTime.Now;
 			user.UpdatedDate = DateTime.Now;
@@ -287,15 +290,19 @@ public class UserService : IUserService
 				}
 
 			}
+			if (await dbContext.Users.AsNoTracking().FirstOrDefaultAsync(x => x.Email == user.Email&&x.Id !=id) != null)
+			{
+				return new { status = false, message = "Email Already" };
+			}
 			var roleHandle = await dbContext.Roles.FirstOrDefaultAsync(x => x.Id == userDto.RoleId);
 			if (roleHandle == null)
 			{
 				return new { status = false, message = "Role Does Not Exist" };
 			}
-			if (roleHandle.Name.ToLower().Equals("student") || roleHandle.Name.ToLower().Equals("teacher") || roleHandle.Name.ToLower().Equals("admin"))
+		/*	if (roleHandle.Name.ToLower().Equals("student") || roleHandle.Name.ToLower().Equals("teacher") || roleHandle.Name.ToLower().Equals("admin"))
 			{
 				return new { status = false, message = "Not Enough Authority" };
-			}
+			}*/
 			user.Role = roleHandle;
 			userModel.UpdatedDate = DateTime.Now;
 			userModel.Email = user.Email;

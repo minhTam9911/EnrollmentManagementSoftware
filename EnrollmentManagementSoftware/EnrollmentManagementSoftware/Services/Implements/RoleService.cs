@@ -3,6 +3,7 @@ using Castle.Core.Internal;
 using EnrollmentManagementSoftware.DTOs;
 using EnrollmentManagementSoftware.Models;
 using Microsoft.EntityFrameworkCore;
+using System.Security;
 
 namespace EnrollmentManagementSoftware.Services.Implements;
 
@@ -216,6 +217,10 @@ public class RoleService : IRoleService
 		var role = mapper.Map<Role>(roleDto);
 		try
 		{
+			if(await dbContext.Roles.FirstOrDefaultAsync(x=>x.Name.ToLower() == roleDto.Name.ToLower()) != null)
+			{
+				return new { status = true, message = "Name Already" };
+			}
 			role.CreatedDate = DateTime.Now;
 			role.UpdatedDate = DateTime.Now;
 			if (roleDto.PermissionsId.IsNullOrEmpty())
@@ -254,6 +259,10 @@ public class RoleService : IRoleService
 		var role = mapper.Map<Role>(roleDto);
 		try
 		{
+			if (await dbContext.Roles.AsNoTracking().FirstOrDefaultAsync(x => x.Name.ToLower() == role.Name.ToLower() && x.Id != id) != null)
+			{
+				return new { status = true, message = "Name Already" };
+			}
 			var roleModel = await dbContext.Roles.FindAsync(id);
 			if(roleModel == null) return new { status = false, message = "Id Does Not Exist" };
 			

@@ -198,7 +198,10 @@ public class StudentService : IStudentService
 			{
 				return new { status = false, message = "Classroom Does Not Exist" };
 			}
-
+			if (await dbContext.Students.AsNoTracking().FirstOrDefaultAsync(x => x.Email == student.Email) != null)
+			{
+				return new { status = false, message = "Email Already" };
+			}
 			student.Classroom = await dbContext.Classrooms.FindAsync(studentDto.ClassroomId);
 			//student.CreateBy = await dbContext.Users.
 			//					FindAsync(Guid.Parse(httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.Name).ToString()));
@@ -255,6 +258,7 @@ public class StudentService : IStudentService
 			}
 			else
 			{
+
 				if(studentDto.Image != null)
 				{
 					if (studentModel.Image != studentDto.Image.FileName)
@@ -283,6 +287,10 @@ public class StudentService : IStudentService
 			{
 				return new { status = false, message = "Classroom Does Not Exist" };
 
+			}
+			if (await dbContext.Students.AsNoTracking().FirstOrDefaultAsync(x => x.Email == student.Email && x.Id!=id) != null)
+			{
+				return new { status = false, message = "Email Already" };
 			}
 			student.Classroom = await dbContext.Classrooms.FindAsync(studentDto.ClassroomId);
 			//student.CreateBy = await dbContext.Users.
