@@ -2,6 +2,7 @@
 using EnrollmentManagementSoftware.DTOs;
 using EnrollmentManagementSoftware.Models;
 using Microsoft.EntityFrameworkCore;
+using System.Security.Claims;
 
 namespace EnrollmentManagementSoftware.Services.Implements;
 
@@ -144,8 +145,8 @@ public class RoomService : IRoomService
 		{
 			room.CreatedDate = DateTime.Now;
 			room.UpdatedDate = DateTime.Now;
-			//tuitionType.CreateBy = await dbContext.Users.
-			//					FindAsync(Guid.Parse(httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.Name).ToString()));
+			room.CreateBy = await dbContext.Users.
+							FindAsync(Guid.Parse(httpContextAccessor.HttpContext.User.FindFirstValue(ClaimTypes.Name).ToString()));
 			await dbContext.Rooms.AddAsync(room);
 			if (await dbContext.SaveChangesAsync() > 0)
 			{

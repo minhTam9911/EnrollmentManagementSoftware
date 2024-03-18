@@ -2,6 +2,7 @@
 using EnrollmentManagementSoftware.DTOs;
 using EnrollmentManagementSoftware.Models;
 using Microsoft.EntityFrameworkCore;
+using System.Security.Claims;
 
 namespace EnrollmentManagementSoftware.Services.Implements;
 
@@ -201,8 +202,8 @@ public class GradeTypeService : IGrandeTypeService
 				return new { status = false, message = "Grading Method Does Not Exist" };
 			}
 			gradeType.GradingMethod = await dbContext.GradingMethods.FindAsync(gradeTypeDto.GradingMethodId);
-			//tuitionType.CreateBy = await dbContext.Users.
-			//					FindAsync(Guid.Parse(httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.Name).ToString()));
+			gradeType.CreateBy = await dbContext.Users.
+							FindAsync(Guid.Parse(httpContextAccessor.HttpContext.User.FindFirstValue(ClaimTypes.Name).ToString()));
 			await dbContext.GradeTypes.AddAsync(gradeType);
 			if (await dbContext.SaveChangesAsync() > 0)
 			{

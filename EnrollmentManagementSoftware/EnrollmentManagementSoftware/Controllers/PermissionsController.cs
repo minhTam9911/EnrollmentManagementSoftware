@@ -1,5 +1,6 @@
 ﻿using EnrollmentManagementSoftware.DTOs;
 using EnrollmentManagementSoftware.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -15,6 +16,7 @@ public class PermissionsController : ControllerBase
 	}
 
 	[HttpGet]
+	[Authorize(Policy = "CRUDPermissionPolicy")]
 	public async Task<IActionResult> GetList()
 	{
 		try
@@ -36,6 +38,7 @@ public class PermissionsController : ControllerBase
 	}
 
 	[HttpGet("{id}")]
+	[Authorize(Policy = "CRUDPermissionPolicy")]
 	public async Task<IActionResult> Get(int id)
 	{
 		try
@@ -57,6 +60,7 @@ public class PermissionsController : ControllerBase
 	}
 	
 	[HttpGet("ByName/{name}")]
+	[Authorize(Policy = "CRUDPermissionPolicy")]
 	public async Task<IActionResult> GetByName(string name)
 	{
 		try
@@ -79,6 +83,7 @@ public class PermissionsController : ControllerBase
 
 
 	[HttpPost]
+	[Authorize(Policy = "CRUDPermissionPolicy")]
 	public async Task<IActionResult> Insert([FromBody] PermissionDto permissionDto)
 	{
 		try
@@ -106,6 +111,7 @@ public class PermissionsController : ControllerBase
 
 
 	[HttpPut("{id}")]
+	[Authorize(Policy = "CRUDPermissionPolicy")]
 	public async Task<IActionResult> Update(int id, [FromBody] PermissionDto permissionDto)
 	{
 		try
@@ -132,6 +138,7 @@ public class PermissionsController : ControllerBase
 
 
 	[HttpDelete("{id}")]
+	[Authorize(Policy = "CRUDPermissionPolicy")]
 	public async Task<IActionResult> Delete(int id)
 	{
 		try

@@ -275,60 +275,6 @@ namespace EnrollmentManagementSoftware.Migrations
                     b.ToTable("GradingMethods");
                 });
 
-            modelBuilder.Entity("EnrollmentManagementSoftware.Models.Invoice", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<decimal?>("Amount")
-                        .HasColumnType("decimal(18,2)");
-
-                    b.Property<int?>("ClassroomId")
-                        .HasColumnType("int");
-
-                    b.Property<Guid?>("CreateById")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<DateTime?>("CreatedDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("Description")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<decimal?>("Discount")
-                        .HasColumnType("decimal(18,2)");
-
-                    b.Property<string>("PaymentMethod")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<Guid?>("StudentId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<decimal?>("Surcharge")
-                        .HasColumnType("decimal(18,2)");
-
-                    b.Property<int?>("TuititionTypeId")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime?>("UpdatedDate")
-                        .HasColumnType("datetime2");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ClassroomId");
-
-                    b.HasIndex("CreateById");
-
-                    b.HasIndex("StudentId");
-
-                    b.HasIndex("TuititionTypeId");
-
-                    b.ToTable("Invoices");
-                });
-
             modelBuilder.Entity("EnrollmentManagementSoftware.Models.Permission", b =>
                 {
                     b.Property<int>("Id")
@@ -435,6 +381,9 @@ namespace EnrollmentManagementSoftware.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
+                    b.Property<int?>("CourseId")
+                        .HasColumnType("int");
+
                     b.Property<Guid?>("CreateById")
                         .HasColumnType("uniqueidentifier");
 
@@ -444,35 +393,34 @@ namespace EnrollmentManagementSoftware.Migrations
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<Guid?>("EmployeeId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<bool>("IsStatus")
                         .HasColumnType("bit");
-
-                    b.Property<decimal?>("RevenueAcademicYear")
-                        .HasColumnType("decimal(18,2)");
 
                     b.Property<decimal?>("Subsidize")
                         .HasColumnType("decimal(18,2)");
 
-                    b.Property<Guid?>("TeacherId")
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<string>("SubsidizeName")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<decimal?>("TotalAmount")
                         .HasColumnType("decimal(18,2)");
 
-                    b.Property<int?>("TotalStudent")
-                        .HasColumnType("int");
-
                     b.Property<DateTime?>("UpdatedDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<decimal?>("Wage")
+                    b.Property<decimal?>("WagePercent")
                         .HasColumnType("decimal(18,2)");
 
                     b.HasKey("Id");
 
+                    b.HasIndex("CourseId");
+
                     b.HasIndex("CreateById");
 
-                    b.HasIndex("TeacherId");
+                    b.HasIndex("EmployeeId");
 
                     b.ToTable("Salaries");
                 });
@@ -724,21 +672,55 @@ namespace EnrollmentManagementSoftware.Migrations
 
             modelBuilder.Entity("EnrollmentManagementSoftware.Models.TuitionPayment", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<decimal?>("Amount")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<int?>("ClassroomId")
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+                    b.Property<Guid?>("CreateById")
+                        .HasColumnType("uniqueidentifier");
 
-                    b.Property<int?>("InvoiceId")
-                        .HasColumnType("int");
+                    b.Property<DateTime?>("CreatedDate")
+                        .HasColumnType("datetime2");
 
-                    b.Property<bool>("Status")
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<decimal?>("Discount")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<bool?>("IsStatus")
                         .HasColumnType("bit");
+
+                    b.Property<string>("PaymentMethod")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid?>("StudentId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<decimal?>("Surcharge")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<int?>("TuititionTypeId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime?>("UpdatedDate")
+                        .HasColumnType("datetime2");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("InvoiceId");
+                    b.HasIndex("ClassroomId");
+
+                    b.HasIndex("CreateById");
+
+                    b.HasIndex("StudentId");
+
+                    b.HasIndex("TuititionTypeId");
 
                     b.ToTable("TuitionPayments");
                 });
@@ -759,6 +741,9 @@ namespace EnrollmentManagementSoftware.Migrations
 
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<decimal?>("Percent")
+                        .HasColumnType("decimal(18,2)");
 
                     b.Property<DateTime?>("UpdatedDate")
                         .HasColumnType("datetime2");
@@ -988,33 +973,6 @@ namespace EnrollmentManagementSoftware.Migrations
                     b.Navigation("CreateBy");
                 });
 
-            modelBuilder.Entity("EnrollmentManagementSoftware.Models.Invoice", b =>
-                {
-                    b.HasOne("EnrollmentManagementSoftware.Models.Classroom", "Classroom")
-                        .WithMany()
-                        .HasForeignKey("ClassroomId");
-
-                    b.HasOne("EnrollmentManagementSoftware.Models.User", "CreateBy")
-                        .WithMany()
-                        .HasForeignKey("CreateById");
-
-                    b.HasOne("EnrollmentManagementSoftware.Models.Student", "Student")
-                        .WithMany()
-                        .HasForeignKey("StudentId");
-
-                    b.HasOne("EnrollmentManagementSoftware.Models.TuitionType", "TuititionType")
-                        .WithMany()
-                        .HasForeignKey("TuititionTypeId");
-
-                    b.Navigation("Classroom");
-
-                    b.Navigation("CreateBy");
-
-                    b.Navigation("Student");
-
-                    b.Navigation("TuititionType");
-                });
-
             modelBuilder.Entity("EnrollmentManagementSoftware.Models.Point", b =>
                 {
                     b.HasOne("EnrollmentManagementSoftware.Models.Grade", null)
@@ -1033,17 +991,23 @@ namespace EnrollmentManagementSoftware.Migrations
 
             modelBuilder.Entity("EnrollmentManagementSoftware.Models.Salary", b =>
                 {
+                    b.HasOne("EnrollmentManagementSoftware.Models.Course", "Course")
+                        .WithMany()
+                        .HasForeignKey("CourseId");
+
                     b.HasOne("EnrollmentManagementSoftware.Models.User", "CreateBy")
                         .WithMany()
                         .HasForeignKey("CreateById");
 
-                    b.HasOne("EnrollmentManagementSoftware.Models.Teacher", "Teacher")
+                    b.HasOne("EnrollmentManagementSoftware.Models.User", "Employee")
                         .WithMany()
-                        .HasForeignKey("TeacherId");
+                        .HasForeignKey("EmployeeId");
+
+                    b.Navigation("Course");
 
                     b.Navigation("CreateBy");
 
-                    b.Navigation("Teacher");
+                    b.Navigation("Employee");
                 });
 
             modelBuilder.Entity("EnrollmentManagementSoftware.Models.Schedule", b =>
@@ -1147,11 +1111,29 @@ namespace EnrollmentManagementSoftware.Migrations
 
             modelBuilder.Entity("EnrollmentManagementSoftware.Models.TuitionPayment", b =>
                 {
-                    b.HasOne("EnrollmentManagementSoftware.Models.Invoice", "Invoice")
+                    b.HasOne("EnrollmentManagementSoftware.Models.Classroom", "Classroom")
                         .WithMany()
-                        .HasForeignKey("InvoiceId");
+                        .HasForeignKey("ClassroomId");
 
-                    b.Navigation("Invoice");
+                    b.HasOne("EnrollmentManagementSoftware.Models.User", "CreateBy")
+                        .WithMany()
+                        .HasForeignKey("CreateById");
+
+                    b.HasOne("EnrollmentManagementSoftware.Models.Student", "Student")
+                        .WithMany()
+                        .HasForeignKey("StudentId");
+
+                    b.HasOne("EnrollmentManagementSoftware.Models.TuitionType", "TuititionType")
+                        .WithMany()
+                        .HasForeignKey("TuititionTypeId");
+
+                    b.Navigation("Classroom");
+
+                    b.Navigation("CreateBy");
+
+                    b.Navigation("Student");
+
+                    b.Navigation("TuititionType");
                 });
 
             modelBuilder.Entity("EnrollmentManagementSoftware.Models.TuitionType", b =>

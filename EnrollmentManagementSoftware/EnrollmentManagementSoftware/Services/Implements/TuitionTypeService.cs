@@ -138,8 +138,8 @@ public class TuitionTypeService : ITuitionTypeService
 		{
 			tuitionType.CreatedDate = DateTime.Now;
 			tuitionType.UpdatedDate = DateTime.Now;
-			//tuitionType.CreateBy = await dbContext.Users.
-			//					FindAsync(Guid.Parse(httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.Name).ToString()));
+			tuitionType.CreateBy = await dbContext.Users.
+							FindAsync(Guid.Parse(httpContextAccessor.HttpContext.User.FindFirstValue(ClaimTypes.Name).ToString()));
 			await dbContext.TuitionTypes.AddAsync(tuitionType);
 			if (await dbContext.SaveChangesAsync() > 0)
 			{

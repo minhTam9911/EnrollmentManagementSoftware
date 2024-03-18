@@ -17,21 +17,29 @@ public class IsPermissionWithRoleHandle : AuthorizationHandler<IsPermissionWithR
 	protected override Task HandleRequirementAsync(AuthorizationHandlerContext context, IsPermissionWithRoleRequirement requirement)
 	{
 		var role = context.User.FindFirstValue(ClaimTypes.Role);
-		if (role == "Admin")
+		if (role == "Admin" || role == "Manager")
 		{
 			context.Succeed(requirement);
 		}
 		else
 		{
 			var permissionRole = dbContext.Roles.FirstOrDefault(x => x.Name == role);
-			foreach (var i in permissionRole.Permissions)
+			if (permissionRole == null)
 			{
-				if (requirement.Permission == i.Name )
+				context.Fail();
+			}
+			else
+			{
+				foreach (var i in permissionRole.Permissions)
 				{
-					context.Succeed(requirement);
+					if (i.Name.ToLowerInvariant() == requirement.Permission.ToLowerInvariant())
+					{
+						context.Succeed(requirement);
+					}
 				}
 			}
-			context.Fail();
+			
+			
 		}
 		return Task.CompletedTask;
 	}

@@ -2,12 +2,14 @@
 using EnrollmentManagementSoftware.DTOs;
 using EnrollmentManagementSoftware.Models;
 using EnrollmentManagementSoftware.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace EnrollmentManagementSoftware.Controllers;
 [Route("api/[controller]")]
 [ApiController]
+[Authorize]
 public class AcademicYearsController : ControllerBase
 {
 	private readonly IAcademicYearService academicYearService;
@@ -17,6 +19,7 @@ public class AcademicYearsController : ControllerBase
 	}
 
 	[HttpGet]
+	[Authorize(Policy ="AdminPolicy")]
 	public async Task<IActionResult> GetList()
 	{
 		try
@@ -27,7 +30,7 @@ public class AcademicYearsController : ControllerBase
 			}
 			else
 			{
-				return NotFound(await academicYearService.GetListAsync());
+				return BadRequest(await academicYearService.GetListAsync());
 			}
 		}
 		catch (Exception ex)
@@ -38,6 +41,7 @@ public class AcademicYearsController : ControllerBase
 	}
 
 	[HttpGet("{id}")]
+	[Authorize(Policy = "AdminPolicy")]
 	public async Task<IActionResult> Get(int id)
 	{
 		try
@@ -49,7 +53,7 @@ public class AcademicYearsController : ControllerBase
 			}
 			else
 			{
-				return NotFound(await academicYearService.GetAsync(id));
+				return BadRequest(await academicYearService.GetAsync(id));
 			}
 		}
 		catch (Exception ex)
@@ -60,6 +64,7 @@ public class AcademicYearsController : ControllerBase
 	
 
 	[HttpGet("ByName/{name}")]
+	[Authorize(Policy = "AdminPolicy")]
 	public async Task<IActionResult> GetByName(string name)
 	{
 		try
@@ -71,7 +76,7 @@ public class AcademicYearsController : ControllerBase
 			}
 			else
 			{
-				return NotFound(await academicYearService.GetByNameAsync(name));
+				return BadRequest(await academicYearService.GetByNameAsync(name));
 			}
 		}
 		catch (Exception ex)
@@ -82,6 +87,7 @@ public class AcademicYearsController : ControllerBase
 
 
 	[HttpPost]
+	[Authorize(Policy = "AdminPolicy")]
 	public async Task<IActionResult> Insert([FromBody] AcademicYearDto academicYearDto)
 	{
 		try
@@ -109,6 +115,7 @@ public class AcademicYearsController : ControllerBase
 
 
 	[HttpPut("{id}")]
+	[Authorize(Policy = "AdminPolicy")]
 	public async Task<IActionResult> Update(int id, [FromBody] AcademicYearDto academicYearDto)
 	{
 		try
@@ -135,6 +142,7 @@ public class AcademicYearsController : ControllerBase
 
 
 	[HttpDelete("{id}")]
+	[Authorize(Policy = "AdminPolicy")]
 	public async Task<IActionResult> Delete(int id)
 	{
 		try

@@ -3,6 +3,7 @@ using EnrollmentManagementSoftware.DTOs;
 using EnrollmentManagementSoftware.Models;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
+using System.Security.Claims;
 using static Microsoft.Extensions.Logging.EventSource.LoggingEventSource;
 
 namespace EnrollmentManagementSoftware.Services.Implements;
@@ -359,6 +360,8 @@ public class ScheduleService : IScheduleService
 			{
 				return new { status = false, message = "Teacher does not exist" };
 			}
+			schedule.CreateBy = await dbContext.Users.
+							FindAsync(Guid.Parse(httpContextAccessor.HttpContext.User.FindFirstValue(ClaimTypes.Name).ToString()));
 			schedule.Teacher = await dbContext.Teachers.FindAsync(scheduleDto.TeacherId);
 			var checkSchedule = await dbContext.Schedules.Where(x => x.Teacher.Id == scheduleDto.TeacherId).ToListAsync();
 			foreach (var i in checkSchedule)
@@ -386,8 +389,8 @@ public class ScheduleService : IScheduleService
 			}
 			schedule.CreatedDate = DateTime.Now;
 			schedule.UpdatedDate = DateTime.Now;
-			//schedule.CreateBy = await dbContext.Users.
-			//					FindAsync(Guid.Parse(httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.Name).ToString()));
+			schedule.CreateBy = await dbContext.Users.
+							FindAsync(Guid.Parse(httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.Name).ToString()));
 			await dbContext.Schedules.AddAsync(schedule);
 			if (await dbContext.SaveChangesAsync() > 0)
 			{

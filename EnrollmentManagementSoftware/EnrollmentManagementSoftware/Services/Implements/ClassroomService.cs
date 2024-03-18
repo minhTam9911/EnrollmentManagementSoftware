@@ -4,6 +4,7 @@ using EnrollmentManagementSoftware.Helpers;
 using EnrollmentManagementSoftware.Models;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
+using System.Security.Claims;
 using static System.Net.Mime.MediaTypeNames;
 
 namespace EnrollmentManagementSoftware.Services.Implements;
@@ -59,6 +60,7 @@ public class ClassroomService : IClassroomService
 			{
 				id = x.Id,
 				name = x.Name,
+				status = x.Status,
 				course = new
 				{
 					id = x.Course.Id,
@@ -75,7 +77,8 @@ public class ClassroomService : IClassroomService
 				description = x.Description,
 				image = x.Image,
 				createdDate = x.CreatedDate,
-				updatedDate = x.UpdatedDate
+				updatedDate = x.UpdatedDate,
+				createBy = x.CreateBy.FullName
 			}).FirstOrDefaultAsync();
 			return new
 			{
@@ -103,6 +106,7 @@ public class ClassroomService : IClassroomService
 			{
 				id = x.Id,
 				name = x.Name,
+				status = x.Status,
 				course = new
 				{
 					id = x.Course.Id,
@@ -119,7 +123,8 @@ public class ClassroomService : IClassroomService
 				description = x.Description,
 				image = x.Image,
 				createdDate = x.CreatedDate,
-				updatedDate = x.UpdatedDate
+				updatedDate = x.UpdatedDate,
+				createBy = x.CreateBy.FullName
 			}).ToListAsync();
 			return new
 			{
@@ -147,6 +152,7 @@ public class ClassroomService : IClassroomService
 			{
 				id = x.Id,
 				name = x.Name,
+				status = x.Status,
 				course = new
 				{
 					id = x.Course.Id,
@@ -163,7 +169,8 @@ public class ClassroomService : IClassroomService
 				description = x.Description,
 				image = x.Image,
 				createdDate = x.CreatedDate,
-				updatedDate = x.UpdatedDate
+				updatedDate = x.UpdatedDate,
+				createBy = x.CreateBy.FullName
 			}).ToListAsync();
 			return new
 			{
@@ -193,9 +200,8 @@ public class ClassroomService : IClassroomService
 				return new { status = false, message = "Course Does Not Exist" };
 			}
 			classroom.Course = await dbContext.Courses.FindAsync(classroomDto.CourseId);
-			//tuitionType.CreateBy = await dbContext.Users.
-			//					FindAsync(Guid.Parse(httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.Name).ToString()));
-
+			classroom.CreateBy = await dbContext.Users.
+							FindAsync(Guid.Parse(httpContextAccessor.HttpContext.User.FindFirstValue(ClaimTypes.Name).ToString()));
 
 
 			if (!FileHelper.IsImage(classroomDto.Image))
@@ -210,6 +216,8 @@ public class ClassroomService : IClassroomService
 			}
 			classroom.Image = fileName;
 			classroom.Status = false;
+			classroom.CreatedDate= DateTime.Now;
+			classroom.UpdatedDate = DateTime.Now;
 			await dbContext.Classrooms.AddAsync(classroom);
 			if (await dbContext.SaveChangesAsync() > 0)
 			{

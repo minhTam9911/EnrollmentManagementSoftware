@@ -1,12 +1,14 @@
 ﻿using EnrollmentManagementSoftware.DTOs;
 using EnrollmentManagementSoftware.Services;
 using EnrollmentManagementSoftware.Services.Implements;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace EnrollmentManagementSoftware.Controllers;
 [Route("api/[controller]")]
 [ApiController]
+[Authorize]
 public class SubjectGroupsController : ControllerBase
 {
 	private readonly ISubjectGroupService subjectGroupService;
@@ -16,6 +18,7 @@ public class SubjectGroupsController : ControllerBase
 	}
 
 	[HttpGet]
+	[Authorize(Policy = "AdminPolicy")]
 	public async Task<IActionResult> GetList(int pagesize, int page )
 	{
 		try
@@ -37,6 +40,7 @@ public class SubjectGroupsController : ControllerBase
 	}
 
 	[HttpGet("{id}")]
+	[Authorize(Policy = "AdminPolicy")]
 	public async Task<IActionResult> Get(int id)
 	{
 		try
@@ -57,6 +61,7 @@ public class SubjectGroupsController : ControllerBase
 		}
 	}
 	[HttpGet("Detail/{id}")]
+	[Authorize(Policy = "AdminPolicy")]
 	public async Task<IActionResult> GetDetail(int id)
 	{
 		try
@@ -78,6 +83,7 @@ public class SubjectGroupsController : ControllerBase
 	}
 
 	[HttpGet("ByName/{name}")]
+	[Authorize(Policy = "AdminPolicy")]
 	public async Task<IActionResult> GetByName(string name)
 	{
 		try
@@ -100,6 +106,7 @@ public class SubjectGroupsController : ControllerBase
 
 
 	[HttpPost]
+	[Authorize(Policy = "AdminPolicy")]
 	public async Task<IActionResult> Insert([FromBody] SubjectGroupDto subjectGroupDto)
 	{
 		try
@@ -127,6 +134,7 @@ public class SubjectGroupsController : ControllerBase
 
 
 	[HttpPut("{id}")]
+	[Authorize(Policy = "AdminPolicy")]
 	public async Task<IActionResult> Update(int id, [FromBody] SubjectGroupDto subjectGroupDto)
 	{
 		try
@@ -153,6 +161,7 @@ public class SubjectGroupsController : ControllerBase
 
 
 	[HttpDelete("{id}")]
+	[Authorize(Policy = "AdminPolicy")]
 	public async Task<IActionResult> Delete(int id)
 	{
 		try

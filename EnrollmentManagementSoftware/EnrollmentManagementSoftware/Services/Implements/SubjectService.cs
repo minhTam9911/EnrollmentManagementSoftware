@@ -2,6 +2,7 @@
 using EnrollmentManagementSoftware.DTOs;
 using EnrollmentManagementSoftware.Models;
 using Microsoft.EntityFrameworkCore;
+using System.Security.Claims;
 
 namespace EnrollmentManagementSoftware.Services.Implements;
 
@@ -132,9 +133,9 @@ public class SubjectService : ISubjectService
 		{
 			subject.CreatedDate = DateTime.Now;
 			subject.UpdatedDate = DateTime.Now;
-			//tuitionType.CreateBy = await dbContext.Users.
-			//					FindAsync(Guid.Parse(httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.Name).ToString()));
-			if(await dbContext.Courses.FindAsync(subjectDto.CourseId) == null)
+			subject.CreateBy = await dbContext.Users.
+							FindAsync(Guid.Parse(httpContextAccessor.HttpContext.User.FindFirstValue(ClaimTypes.Name).ToString()));
+			if (await dbContext.Courses.FindAsync(subjectDto.CourseId) == null)
 			{
 				return new { status = false, message = "Course Does Not Exist" };
 			}

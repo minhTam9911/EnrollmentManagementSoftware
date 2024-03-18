@@ -2,6 +2,7 @@
 using EnrollmentManagementSoftware.DTOs;
 using EnrollmentManagementSoftware.Models;
 using Microsoft.EntityFrameworkCore;
+using System.Security.Claims;
 
 namespace EnrollmentManagementSoftware.Services.Implements;
 
@@ -158,8 +159,8 @@ public class CourseService : ICourseService
 		{
 			course.CreatedDate = DateTime.Now;
 			course.UpdatedDate = DateTime.Now;
-			//tuitionType.CreateBy = await dbContext.Users.
-			//					FindAsync(Guid.Parse(httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.Name).ToString()));
+			course.CreateBy = await dbContext.Users.
+							FindAsync(Guid.Parse(httpContextAccessor.HttpContext.User.FindFirstValue(ClaimTypes.Name).ToString()));
 			await dbContext.Courses.AddAsync(course);
 			if (await dbContext.SaveChangesAsync() > 0)
 			{

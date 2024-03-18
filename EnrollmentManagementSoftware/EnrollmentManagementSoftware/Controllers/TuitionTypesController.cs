@@ -1,11 +1,13 @@
 ﻿using EnrollmentManagementSoftware.DTOs;
 using EnrollmentManagementSoftware.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace EnrollmentManagementSoftware.Controllers;
 [Route("api/[controller]")]
 [ApiController]
+[Authorize]
 public class TuitionTypesController : ControllerBase
 {
 	private readonly ITuitionTypeService tuitionTypeService;
@@ -15,6 +17,7 @@ public class TuitionTypesController : ControllerBase
 	}
 
 	[HttpGet]
+	[Authorize(Policy = "AdminPolicy")]
 	public async Task<IActionResult> GetList()
 	{
 		try
@@ -25,7 +28,7 @@ public class TuitionTypesController : ControllerBase
 			}
 			else
 			{
-				return NotFound(await tuitionTypeService.GetListAsync());
+				return BadRequest(await tuitionTypeService.GetListAsync());
 			}
 		}
 		catch (Exception ex)
@@ -36,6 +39,7 @@ public class TuitionTypesController : ControllerBase
 	}
 
 	[HttpGet("{id}")]
+	[Authorize(Policy = "AdminPolicy")]
 	public async Task<IActionResult> Get(int id)
 	{
 		try
@@ -47,7 +51,7 @@ public class TuitionTypesController : ControllerBase
 			}
 			else
 			{
-				return NotFound(await tuitionTypeService.GetAsync(id));
+				return BadRequest(await tuitionTypeService.GetAsync(id));
 			}
 		}
 		catch (Exception ex)
@@ -57,6 +61,7 @@ public class TuitionTypesController : ControllerBase
 	}
 
 	[HttpGet("ByName/{name}")]
+	[Authorize(Policy = "AdminPolicy")]
 	public async Task<IActionResult> GetByName(string name)
 	{
 		try
@@ -68,7 +73,7 @@ public class TuitionTypesController : ControllerBase
 			}
 			else
 			{
-				return NotFound(await tuitionTypeService.GetByNameAsync(name));
+				return BadRequest(await tuitionTypeService.GetByNameAsync(name));
 			}
 		}
 		catch (Exception ex)
@@ -79,6 +84,7 @@ public class TuitionTypesController : ControllerBase
 
 
 	[HttpPost]
+	[Authorize(Policy = "AdminPolicy")]
 	public async Task<IActionResult> Insert([FromBody] TuitionTypeDto tuitionTypeDto)
 	{
 		try
@@ -106,6 +112,7 @@ public class TuitionTypesController : ControllerBase
 
 
 	[HttpPut("{id}")]
+	[Authorize(Policy = "AdminPolicy")]
 	public async Task<IActionResult> Update(int id, [FromBody] TuitionTypeDto tuitionTypeDto)
 	{
 		try
@@ -132,6 +139,7 @@ public class TuitionTypesController : ControllerBase
 
 
 	[HttpDelete("{id}")]
+	[Authorize(Policy = "AdminPolicy")]
 	public async Task<IActionResult> Delete(int id)
 	{
 		try

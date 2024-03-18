@@ -203,8 +203,8 @@ public class StudentService : IStudentService
 				return new { status = false, message = "Email Already" };
 			}
 			student.Classroom = await dbContext.Classrooms.FindAsync(studentDto.ClassroomId);
-			//student.CreateBy = await dbContext.Users.
-			//					FindAsync(Guid.Parse(httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.Name).ToString()));
+			student.CreateBy = await dbContext.Users.
+							FindAsync(Guid.Parse(httpContextAccessor.HttpContext.User.FindFirstValue(ClaimTypes.Name).ToString()));
 			student.CreatedDate = DateTime.Now;
 			student.UpdatedDate = DateTime.Now;
 			dbContext.Students.Add(student);

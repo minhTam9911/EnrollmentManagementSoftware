@@ -1,12 +1,14 @@
 ﻿using EnrollmentManagementSoftware.DTOs;
 using EnrollmentManagementSoftware.Services;
 using EnrollmentManagementSoftware.Services.Implements;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace EnrollmentManagementSoftware.Controllers;
 [Route("api/[controller]")]
 [ApiController]
+[Authorize]
 public class SubjectsController : ControllerBase
 {
 	private readonly ISubjectService subjectService;
@@ -16,6 +18,7 @@ public class SubjectsController : ControllerBase
 	}
 
 	[HttpGet]
+	[Authorize(Policy = "AdminPolicy")]
 	public async Task<IActionResult> GetList()
 	{
 		try
@@ -26,7 +29,7 @@ public class SubjectsController : ControllerBase
 			}
 			else
 			{
-				return NotFound(await subjectService.GetListAsync());
+				return BadRequest(await subjectService.GetListAsync());
 			}
 		}
 		catch (Exception ex)
@@ -36,6 +39,7 @@ public class SubjectsController : ControllerBase
 	}
 
 	[HttpGet("{id}")]
+	[Authorize(Policy = "AdminPolicy")]
 	public async Task<IActionResult> Get(int id)
 	{
 		try
@@ -47,7 +51,7 @@ public class SubjectsController : ControllerBase
 			}
 			else
 			{
-				return NotFound(await subjectService.GetAsync(id));
+				return BadRequest(await subjectService.GetAsync(id));
 			}
 		}
 		catch (Exception ex)
@@ -57,6 +61,7 @@ public class SubjectsController : ControllerBase
 	}
 
 	[HttpGet("ByName/{name}")]
+	[Authorize(Policy = "AdminPolicy")]
 	public async Task<IActionResult> GetByName(string name)
 	{
 		try
@@ -68,7 +73,7 @@ public class SubjectsController : ControllerBase
 			}
 			else
 			{
-				return NotFound(await subjectService.GetByNameAsync(name));
+				return BadRequest(await subjectService.GetByNameAsync(name));
 			}
 		}
 		catch (Exception ex)
@@ -79,6 +84,7 @@ public class SubjectsController : ControllerBase
 
 
 	[HttpPost]
+	[Authorize(Policy = "AdminPolicy")]
 	public async Task<IActionResult> Insert([FromBody] SubjectDto subjectDto)
 	{
 		try
@@ -106,6 +112,7 @@ public class SubjectsController : ControllerBase
 
 
 	[HttpPut("{id}")]
+	[Authorize(Policy = "AdminPolicy")]
 	public async Task<IActionResult> Update(int id, [FromBody] SubjectDto subjectDto)
 	{
 		try
@@ -132,6 +139,7 @@ public class SubjectsController : ControllerBase
 
 
 	[HttpDelete("{id}")]
+	[Authorize(Policy = "AdminPolicy")]
 	public async Task<IActionResult> Delete(int id)
 	{
 		try

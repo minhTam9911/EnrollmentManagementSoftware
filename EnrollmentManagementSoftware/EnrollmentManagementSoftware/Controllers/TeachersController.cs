@@ -1,12 +1,14 @@
 ﻿using EnrollmentManagementSoftware.DTOs;
 using EnrollmentManagementSoftware.Services;
 using EnrollmentManagementSoftware.Services.Implements;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace EnrollmentManagementSoftware.Controllers;
 [Route("api/[controller]")]
 [ApiController]
+[Authorize]
 public class TeachersController : ControllerBase
 {
 
@@ -18,6 +20,7 @@ public class TeachersController : ControllerBase
 
 
 	[HttpGet]
+	[Authorize(Policy = "ReadTeacherPolicy")]
 	public async Task<IActionResult> GetList()
 	{
 		try
@@ -38,6 +41,7 @@ public class TeachersController : ControllerBase
 	}
 
 	[HttpGet("{id}")]
+	[Authorize(Policy = "ReadTeacherPolicy")]
 	public async Task<IActionResult> Get(Guid id)
 	{
 		try
@@ -59,6 +63,7 @@ public class TeachersController : ControllerBase
 	}
 
 	[HttpGet("ByName/{name}")]
+	[Authorize(Policy = "ReadTeacherPolicy")]
 	public async Task<IActionResult> GetByName(string name)
 	{
 		try
@@ -81,6 +86,7 @@ public class TeachersController : ControllerBase
 
 
 	[HttpPost]
+	[Authorize(Policy = "CRUDTeacherPolicy")]
 	public async Task<IActionResult> Insert([FromForm] TeacherDto teacherDto)
 	{
 		try
@@ -108,6 +114,7 @@ public class TeachersController : ControllerBase
 
 
 	[HttpPut("{id}")]
+	[Authorize(Policy = "CRUDTeacherPolicy")]
 	public async Task<IActionResult> Update(Guid id, [FromBody] TeacherDto teacherDto)
 	{
 		try
@@ -134,6 +141,7 @@ public class TeachersController : ControllerBase
 
 
 	[HttpDelete("{id}")]
+	[Authorize(Policy = "CRUDTeacherPolicy")]
 	public async Task<IActionResult> Delete(Guid id)
 	{
 		try

@@ -1,12 +1,14 @@
 ﻿using EnrollmentManagementSoftware.DTOs;
 using EnrollmentManagementSoftware.Services;
 using EnrollmentManagementSoftware.Services.Implements;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace EnrollmentManagementSoftware.Controllers;
 [Route("api/[controller]")]
 [ApiController]
+[Authorize]
 public class StudentController : ControllerBase
 {
 	private readonly IStudentService studentService;
@@ -16,8 +18,7 @@ public class StudentController : ControllerBase
 	}
 	
 	[HttpGet]
-	[Consumes("application/json")]
-	[Produces("application/json")]
+	[Authorize(Policy = "ReadStudentPolicy")]
 	public async Task<IActionResult> GetList([FromQuery(Name = "page")] int page,[FromQuery(Name = "keyword")] string? keyword)
 	{
 		if (page <= 0) 	page = 1;
@@ -32,25 +33,24 @@ public class StudentController : ControllerBase
 		}
 		
 	}
-	[HttpGet("ByNewStudents")]
-	[Consumes("application/json")]
-	[Produces("application/json")]
-	public async Task<IActionResult> GetNewStudent([FromQuery(Name = "page")] int page, [FromQuery(Name = "keyword")] string? keyword)
+	[HttpGet("{id}")]
+	[Authorize(Policy = "ReadStudentPolicy")]
+	public async Task<IActionResult> GetNewStudent(Guid id)
 	{
-		if (page <= 0) page = 1;
 
-		if ((await studentService.GetListAsync(page, keyword)).status)
+		if ((await studentService.GetStudentDetailsAsync(id)).status)
 		{
-			return Ok(await studentService.GetNewStudentsAsync(page, keyword));
+			return Ok(await studentService.GetStudentDetailsAsync(id));
 		}
 		else
 		{
-			return BadRequest((await studentService.GetListAsync(page, keyword)));
+			return BadRequest(await studentService.GetStudentDetailsAsync(id));
 		}
 
 	}
 
 	[HttpPost]
+	[Authorize(Policy = "CRUDStudentPolicy")]
 	public async Task<IActionResult> Insert([FromBody] StudentDto studentDto)
 	{
 		try
@@ -78,6 +78,7 @@ public class StudentController : ControllerBase
 
 
 	[HttpPut("{id}")]
+	[Authorize(Policy = "CRUDStudentPolicy")]
 	public async Task<IActionResult> Update(Guid id, [FromBody] StudentDto studentDto)
 	{
 		try
@@ -104,6 +105,7 @@ public class StudentController : ControllerBase
 
 
 	[HttpDelete("{id}")]
+	[Authorize(Policy = "CRUDStudentPolicy")]
 	public async Task<IActionResult> Delete(Guid id)
 	{
 		try

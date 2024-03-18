@@ -2,6 +2,7 @@
 using EnrollmentManagementSoftware.DTOs;
 using EnrollmentManagementSoftware.Models;
 using EnrollmentManagementSoftware.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
@@ -9,6 +10,7 @@ using System.Diagnostics;
 namespace EnrollmentManagementSoftware.Controllers;
 [Route("api/[controller]")]
 [ApiController]
+[Authorize]
 public class SchedulesController : ControllerBase
 {
 	private readonly IScheduleService scheduleService;
@@ -18,6 +20,7 @@ public class SchedulesController : ControllerBase
 	}
 
 	[HttpGet]
+	[Authorize(Policy = "ReadSchedulePolicy")]
 	public async Task<IActionResult> GetList()
 	{
 		try
@@ -38,6 +41,7 @@ public class SchedulesController : ControllerBase
 	}
 
 	[HttpGet("{id}")]
+	[Authorize(Policy = "ReadSchedulePolicy")]
 	public async Task<IActionResult> Get(int id)
 	{
 		try
@@ -59,6 +63,7 @@ public class SchedulesController : ControllerBase
 	}
 
 	[HttpGet("ByTeacher/{teacherId}")]
+	[Authorize(Policy = "ReadSchedulePolicy")]
 	public async Task<IActionResult> GetByTeacher(Guid teacherId)
 	{
 		try
@@ -80,6 +85,7 @@ public class SchedulesController : ControllerBase
 	}
 
 	[HttpGet("ByStudent/{studentId}")]
+	[Authorize(Policy = "ReadSchedulePolicy")]
 	public async Task<IActionResult> GetByStudent(Guid studentId)
 	{
 		try
@@ -103,6 +109,7 @@ public class SchedulesController : ControllerBase
 
 
 	[HttpPost]
+	[Authorize(Policy = "CRUDSchedulePolicy")]
 	public async Task<IActionResult> Insert([FromBody] ScheduleDto scheduleDto)
 	{
 		try
@@ -130,6 +137,7 @@ public class SchedulesController : ControllerBase
 
 
 	[HttpPut("{id}")]
+	[Authorize(Policy = "CRUDSchedulePolicy")]
 	public async Task<IActionResult> Update(int id, [FromBody] ScheduleDto scheduleDto)
 	{
 		try
@@ -156,6 +164,7 @@ public class SchedulesController : ControllerBase
 
 
 	[HttpDelete("{id}")]
+	[Authorize(Policy = "CRUDSchedulePolicy")]
 	public async Task<IActionResult> Delete(int id)
 	{
 		try

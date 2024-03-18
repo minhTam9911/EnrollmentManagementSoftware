@@ -1,11 +1,13 @@
 ﻿using EnrollmentManagementSoftware.DTOs;
 using EnrollmentManagementSoftware.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace EnrollmentManagementSoftware.Controllers;
 [Route("api/[controller]")]
 [ApiController]
+[Authorize]
 public class ClassroomsController : ControllerBase
 {
 	private readonly IClassroomService classroomService;
@@ -15,6 +17,7 @@ public class ClassroomsController : ControllerBase
 	}
 
 	[HttpGet]
+	[Authorize(Policy = "ReadClassPolicy")]
 	public async Task<IActionResult> GetList()
 	{
 		try
@@ -25,7 +28,7 @@ public class ClassroomsController : ControllerBase
 			}
 			else
 			{
-				return NotFound(await classroomService.GetListAsync());
+				return BadRequest(await classroomService.GetListAsync());
 			}
 		}
 		catch (Exception ex)
@@ -36,6 +39,7 @@ public class ClassroomsController : ControllerBase
 	}
 
 	[HttpGet("{id}")]
+	[Authorize(Policy = "ReadClassPolicy")]
 	public async Task<IActionResult> Get(int id)
 	{
 		try
@@ -47,7 +51,7 @@ public class ClassroomsController : ControllerBase
 			}
 			else
 			{
-				return NotFound(await classroomService.GetAsync(id));
+				return BadRequest(await classroomService.GetAsync(id));
 			}
 		}
 		catch (Exception ex)
@@ -57,6 +61,7 @@ public class ClassroomsController : ControllerBase
 	}
 	
 	[HttpGet("ByName/{name}")]
+	[Authorize(Policy = "ReadClassPolicy")]
 	public async Task<IActionResult> GetByName(string name)
 	{
 		try
@@ -79,6 +84,7 @@ public class ClassroomsController : ControllerBase
 
 
 	[HttpPost]
+	[Authorize(Policy = "CRUDClassPolicy")]
 	public async Task<IActionResult> Insert([FromForm] ClassroomDto classroomDto)
 	{
 		try
@@ -106,7 +112,8 @@ public class ClassroomsController : ControllerBase
 
 
 	[HttpPut("{id}")]
-	public async Task<IActionResult> Update(int id, [FromBody] ClassroomDto classroomDto)
+	[Authorize(Policy = "CRUDClassPolicy")]
+	public async Task<IActionResult> Update(int id, [FromForm] ClassroomDto classroomDto)
 	{
 		try
 		{
@@ -132,6 +139,7 @@ public class ClassroomsController : ControllerBase
 
 
 	[HttpDelete("{id}")]
+	[Authorize(Policy = "CRUDClassPolicy")]
 	public async Task<IActionResult> Delete(int id)
 	{
 		try

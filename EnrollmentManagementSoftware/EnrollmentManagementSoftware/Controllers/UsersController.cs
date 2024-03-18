@@ -1,12 +1,14 @@
 ﻿using EnrollmentManagementSoftware.DTOs;
 using EnrollmentManagementSoftware.Services;
 using EnrollmentManagementSoftware.Services.Implements;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace EnrollmentManagementSoftware.Controllers;
 [Route("api/[controller]")]
 [ApiController]
+[Authorize]
 public class UsersController : ControllerBase
 {
 	private readonly IUserService userService;
@@ -15,6 +17,7 @@ public class UsersController : ControllerBase
 		this.userService = userService;
 	}
 	[HttpGet]
+	[Authorize(Policy = "ReadUserPolicy")]
 	public async Task<IActionResult> GetList()
 	{
 		try
@@ -25,7 +28,7 @@ public class UsersController : ControllerBase
 			}
 			else
 			{
-				return NotFound(await userService.GetListAsync());
+				return BadRequest(await userService.GetListAsync());
 			}
 		}
 		catch (Exception ex)
@@ -35,6 +38,7 @@ public class UsersController : ControllerBase
 	}
 
 	[HttpGet("{id}")]
+	[Authorize(Policy = "ReadUserPolicy")]
 	public async Task<IActionResult> Get(Guid id)
 	{
 		try
@@ -46,7 +50,7 @@ public class UsersController : ControllerBase
 			}
 			else
 			{
-				return NotFound(await userService.GetAsync(id));
+				return BadRequest(await userService.GetAsync(id));
 			}
 		}
 		catch (Exception ex)
@@ -56,6 +60,7 @@ public class UsersController : ControllerBase
 	}
 
 	[HttpGet("ByName/{name}")]
+	[Authorize(Policy = "ReadUserPolicy")]
 	public async Task<IActionResult> GetByName(string name)
 	{
 		try
@@ -67,7 +72,7 @@ public class UsersController : ControllerBase
 			}
 			else
 			{
-				return NotFound(await userService.GetByNameAsync(name));
+				return BadRequest(await userService.GetByNameAsync(name));
 			}
 		}
 		catch (Exception ex)
@@ -78,6 +83,7 @@ public class UsersController : ControllerBase
 
 
 	[HttpPost]
+	[Authorize(Policy = "AdminPolicy")]
 	public async Task<IActionResult> Insert([FromForm] UserDto userDto)
 	{
 		try
@@ -105,6 +111,7 @@ public class UsersController : ControllerBase
 
 
 	[HttpPut("{id}")]
+	[Authorize(Policy = "AdminPolicy")]
 	public async Task<IActionResult> Update(Guid id, [FromForm] UserDto userDto)
 	{
 		try
@@ -131,6 +138,7 @@ public class UsersController : ControllerBase
 
 
 	[HttpDelete("{id}")]
+	[Authorize(Policy = "AdminPolicy")]
 	public async Task<IActionResult> Delete(Guid id)
 	{
 		try

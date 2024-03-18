@@ -81,7 +81,7 @@ public class AuthService : IAuthService
 			{
 				return new { status = false, message = "The New Password Does Not Match The Confirm Password" };
 			}
-			var account = await dbContext.Users.FindAsync(httpContextAccessor.HttpContext!.User.FindFirstValue(ClaimTypes.Name));
+			var account = await dbContext.Users.FindAsync(Guid.Parse(httpContextAccessor.HttpContext!.User.FindFirstValue(ClaimTypes.Name).ToString()));
 			if (account != null)
 			{
 				if (!BCrypt.Net.BCrypt.Verify(changePasswordDto.CurrentPassword, account.Password))

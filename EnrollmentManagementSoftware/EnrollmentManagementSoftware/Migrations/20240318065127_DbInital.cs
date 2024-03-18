@@ -212,6 +212,7 @@ namespace EnrollmentManagementSoftware.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Percent = table.Column<decimal>(type: "decimal(18,2)", nullable: true),
                     CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: true),
                     UpdatedDate = table.Column<DateTime>(type: "datetime2", nullable: true),
                     CreateById = table.Column<Guid>(type: "uniqueidentifier", nullable: true)
@@ -285,6 +286,44 @@ namespace EnrollmentManagementSoftware.Migrations
                     table.ForeignKey(
                         name: "FK_Classrooms_Users_CreateById",
                         column: x => x.CreateById,
+                        principalTable: "Users",
+                        principalColumn: "Id");
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Salaries",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    EmployeeId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    CourseId = table.Column<int>(type: "int", nullable: true),
+                    WagePercent = table.Column<decimal>(type: "decimal(18,2)", nullable: true),
+                    Subsidize = table.Column<decimal>(type: "decimal(18,2)", nullable: true),
+                    SubsidizeName = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    TotalAmount = table.Column<decimal>(type: "decimal(18,2)", nullable: true),
+                    IsStatus = table.Column<bool>(type: "bit", nullable: false),
+                    CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    UpdatedDate = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    CreateById = table.Column<Guid>(type: "uniqueidentifier", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Salaries", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Salaries_Courses_CourseId",
+                        column: x => x.CourseId,
+                        principalTable: "Courses",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_Salaries_Users_CreateById",
+                        column: x => x.CreateById,
+                        principalTable: "Users",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_Salaries_Users_EmployeeId",
+                        column: x => x.EmployeeId,
                         principalTable: "Users",
                         principalColumn: "Id");
                 });
@@ -441,16 +480,16 @@ namespace EnrollmentManagementSoftware.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Invoices",
+                name: "TuitionPayments",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     Discount = table.Column<decimal>(type: "decimal(18,2)", nullable: true),
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     PaymentMethod = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Surcharge = table.Column<decimal>(type: "decimal(18,2)", nullable: true),
                     Amount = table.Column<decimal>(type: "decimal(18,2)", nullable: true),
+                    IsStatus = table.Column<bool>(type: "bit", nullable: true),
                     StudentId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
                     ClassroomId = table.Column<int>(type: "int", nullable: true),
                     TuititionTypeId = table.Column<int>(type: "int", nullable: true),
@@ -460,24 +499,24 @@ namespace EnrollmentManagementSoftware.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Invoices", x => x.Id);
+                    table.PrimaryKey("PK_TuitionPayments", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Invoices_Classrooms_ClassroomId",
+                        name: "FK_TuitionPayments_Classrooms_ClassroomId",
                         column: x => x.ClassroomId,
                         principalTable: "Classrooms",
                         principalColumn: "Id");
                     table.ForeignKey(
-                        name: "FK_Invoices_Students_StudentId",
+                        name: "FK_TuitionPayments_Students_StudentId",
                         column: x => x.StudentId,
                         principalTable: "Students",
                         principalColumn: "Id");
                     table.ForeignKey(
-                        name: "FK_Invoices_TuitionTypes_TuititionTypeId",
+                        name: "FK_TuitionPayments_TuitionTypes_TuititionTypeId",
                         column: x => x.TuititionTypeId,
                         principalTable: "TuitionTypes",
                         principalColumn: "Id");
                     table.ForeignKey(
-                        name: "FK_Invoices_Users_CreateById",
+                        name: "FK_TuitionPayments_Users_CreateById",
                         column: x => x.CreateById,
                         principalTable: "Users",
                         principalColumn: "Id");
@@ -516,39 +555,6 @@ namespace EnrollmentManagementSoftware.Migrations
                         principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_Grades_Users_CreateById",
-                        column: x => x.CreateById,
-                        principalTable: "Users",
-                        principalColumn: "Id");
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Salaries",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    TeacherId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
-                    RevenueAcademicYear = table.Column<decimal>(type: "decimal(18,2)", nullable: true),
-                    TotalStudent = table.Column<int>(type: "int", nullable: true),
-                    Subsidize = table.Column<decimal>(type: "decimal(18,2)", nullable: true),
-                    Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Wage = table.Column<decimal>(type: "decimal(18,2)", nullable: true),
-                    TotalAmount = table.Column<decimal>(type: "decimal(18,2)", nullable: true),
-                    IsStatus = table.Column<bool>(type: "bit", nullable: false),
-                    CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    UpdatedDate = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    CreateById = table.Column<Guid>(type: "uniqueidentifier", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Salaries", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Salaries_Teachers_TeacherId",
-                        column: x => x.TeacherId,
-                        principalTable: "Teachers",
-                        principalColumn: "Id");
-                    table.ForeignKey(
-                        name: "FK_Salaries_Users_CreateById",
                         column: x => x.CreateById,
                         principalTable: "Users",
                         principalColumn: "Id");
@@ -599,25 +605,6 @@ namespace EnrollmentManagementSoftware.Migrations
                         name: "FK_Schedules_Users_CreateById",
                         column: x => x.CreateById,
                         principalTable: "Users",
-                        principalColumn: "Id");
-                });
-
-            migrationBuilder.CreateTable(
-                name: "TuitionPayments",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Status = table.Column<bool>(type: "bit", nullable: false),
-                    InvoiceId = table.Column<int>(type: "int", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_TuitionPayments", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_TuitionPayments_Invoices_InvoiceId",
-                        column: x => x.InvoiceId,
-                        principalTable: "Invoices",
                         principalColumn: "Id");
                 });
 
@@ -735,26 +722,6 @@ namespace EnrollmentManagementSoftware.Migrations
                 column: "CreateById");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Invoices_ClassroomId",
-                table: "Invoices",
-                column: "ClassroomId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Invoices_CreateById",
-                table: "Invoices",
-                column: "CreateById");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Invoices_StudentId",
-                table: "Invoices",
-                column: "StudentId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Invoices_TuititionTypeId",
-                table: "Invoices",
-                column: "TuititionTypeId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_PermissionRole_RolesId",
                 table: "PermissionRole",
                 column: "RolesId");
@@ -770,14 +737,19 @@ namespace EnrollmentManagementSoftware.Migrations
                 column: "CreateById");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Salaries_CourseId",
+                table: "Salaries",
+                column: "CourseId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Salaries_CreateById",
                 table: "Salaries",
                 column: "CreateById");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Salaries_TeacherId",
+                name: "IX_Salaries_EmployeeId",
                 table: "Salaries",
-                column: "TeacherId");
+                column: "EmployeeId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Schedules_ClassroomId",
@@ -850,9 +822,24 @@ namespace EnrollmentManagementSoftware.Migrations
                 column: "MinorSubjectId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_TuitionPayments_InvoiceId",
+                name: "IX_TuitionPayments_ClassroomId",
                 table: "TuitionPayments",
-                column: "InvoiceId");
+                column: "ClassroomId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_TuitionPayments_CreateById",
+                table: "TuitionPayments",
+                column: "CreateById");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_TuitionPayments_StudentId",
+                table: "TuitionPayments",
+                column: "StudentId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_TuitionPayments_TuititionTypeId",
+                table: "TuitionPayments",
+                column: "TuititionTypeId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_TuitionTypes_CreateById",
@@ -900,7 +887,7 @@ namespace EnrollmentManagementSoftware.Migrations
                 name: "Grades");
 
             migrationBuilder.DropTable(
-                name: "Invoices");
+                name: "TuitionTypes");
 
             migrationBuilder.DropTable(
                 name: "Rooms");
@@ -913,9 +900,6 @@ namespace EnrollmentManagementSoftware.Migrations
 
             migrationBuilder.DropTable(
                 name: "Students");
-
-            migrationBuilder.DropTable(
-                name: "TuitionTypes");
 
             migrationBuilder.DropTable(
                 name: "GradingMethods");

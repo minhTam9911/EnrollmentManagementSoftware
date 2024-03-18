@@ -1,5 +1,6 @@
 ﻿using EnrollmentManagementSoftware.DTOs;
 using EnrollmentManagementSoftware.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
@@ -7,6 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace EnrollmentManagementSoftware.Controllers;
 [Route("api/[controller]")]
 [ApiController]
+[Authorize]
 public class CoursesController : ControllerBase
 {
 	private readonly ICourseService courseService;
@@ -16,6 +18,7 @@ public class CoursesController : ControllerBase
 	}
 
 	[HttpGet]
+	[Authorize(Policy = "AdminPolicy")]
 	public async Task<IActionResult> GetList()
 	{
 		try
@@ -25,7 +28,7 @@ public class CoursesController : ControllerBase
 			}
 			else
 			{
-				return NotFound(await courseService.GetListAsync());
+				return BadRequest(await courseService.GetListAsync());
 			}
 		} catch (Exception ex)
 		{
@@ -35,6 +38,7 @@ public class CoursesController : ControllerBase
 	}
 
 	[HttpGet("{id}")]
+	[Authorize(Policy = "AdminPolicy")]
 	public async Task<IActionResult> Get(int id)
 	{
 		try
@@ -45,7 +49,7 @@ public class CoursesController : ControllerBase
 			}
 			else
 			{
-				return NotFound(await courseService.GetAsync(id));
+				return BadRequest(await courseService.GetAsync(id));
 			}
 		}catch(Exception ex)
 		{
@@ -53,6 +57,7 @@ public class CoursesController : ControllerBase
 		}
 	}
 	[HttpGet("Detail/{id}")]
+	[Authorize(Policy = "AdminPolicy")]
 	public async Task<IActionResult> GetDetail(int id)
 	{
 		try
@@ -64,7 +69,7 @@ public class CoursesController : ControllerBase
 			}
 			else
 			{
-				return NotFound(await courseService.GetDetailAsync(id));
+				return BadRequest(await courseService.GetDetailAsync(id));
 			}
 		}
 		catch (Exception ex)
@@ -74,6 +79,7 @@ public class CoursesController : ControllerBase
 	}
 
 	[HttpGet("ByName/{name}")]
+	[Authorize(Policy = "AdminPolicy")]
 	public async Task<IActionResult> GetByName(string name)
 	{
 		try
@@ -85,7 +91,7 @@ public class CoursesController : ControllerBase
 			}
 			else
 			{
-				return NotFound(await courseService.GetByNameAsync(name));
+				return BadRequest(await courseService.GetByNameAsync(name));
 			}
 		}
 		catch (Exception ex)
@@ -96,6 +102,7 @@ public class CoursesController : ControllerBase
 
 	
 	[HttpPost]
+	[Authorize(Policy = "AdminPolicy")]
 	public async Task<IActionResult> Insert([FromBody] CourseDto courseDto)
 	{
 		try
@@ -123,6 +130,7 @@ public class CoursesController : ControllerBase
 
 	
 	[HttpPut("{id}")]
+	[Authorize(Policy = "AdminPolicy")]
 	public async Task<IActionResult> Update(int id, [FromBody] CourseDto courseDto)
 	{
 		try
@@ -149,6 +157,7 @@ public class CoursesController : ControllerBase
 
 	
 	[HttpDelete("{id}")]
+	[Authorize(Policy = "AdminPolicy")]
 	public async Task<IActionResult> Delete(int id)
 	{
 		try

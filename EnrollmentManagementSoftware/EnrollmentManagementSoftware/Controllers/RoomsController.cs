@@ -1,11 +1,13 @@
 ﻿using EnrollmentManagementSoftware.DTOs;
 using EnrollmentManagementSoftware.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace EnrollmentManagementSoftware.Controllers;
 [Route("api/[controller]")]
 [ApiController]
+[Authorize]
 public class RoomsController : ControllerBase
 {
 
@@ -16,6 +18,7 @@ public class RoomsController : ControllerBase
 	}
 
 	[HttpGet]
+	[Authorize(Policy = "AdminPolicy")]
 	public async Task<IActionResult> GetList()
 	{
 		try
@@ -37,6 +40,7 @@ public class RoomsController : ControllerBase
 	}
 
 	[HttpGet("{id}")]
+	[Authorize(Policy = "AdminPolicy")]
 	public async Task<IActionResult> Get(int id)
 	{
 		try
@@ -58,6 +62,7 @@ public class RoomsController : ControllerBase
 	}
 
 	[HttpGet("ByName/{name}")]
+	[Authorize(Policy = "AdminPolicy")]
 	public async Task<IActionResult> GetByName(string name)
 	{
 		try
@@ -80,6 +85,7 @@ public class RoomsController : ControllerBase
 
 
 	[HttpPost]
+	[Authorize(Policy = "AdminPolicy")]
 	public async Task<IActionResult> Insert([FromBody] RoomDto roomDto)
 	{
 		try
@@ -107,6 +113,7 @@ public class RoomsController : ControllerBase
 
 
 	[HttpPut("{id}")]
+	[Authorize(Policy = "AdminPolicy")]
 	public async Task<IActionResult> Update(int id, [FromBody] RoomDto roomDto)
 	{
 		try
@@ -133,6 +140,7 @@ public class RoomsController : ControllerBase
 
 
 	[HttpDelete("{id}")]
+	[Authorize(Policy = "AdminPolicy")]
 	public async Task<IActionResult> Delete(int id)
 	{
 		try

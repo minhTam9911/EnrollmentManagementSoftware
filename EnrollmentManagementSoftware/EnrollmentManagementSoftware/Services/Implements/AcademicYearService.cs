@@ -2,6 +2,7 @@
 using EnrollmentManagementSoftware.DTOs;
 using EnrollmentManagementSoftware.Models;
 using Microsoft.EntityFrameworkCore;
+using System.Security.Claims;
 
 namespace EnrollmentManagementSoftware.Services.Implements;
 
@@ -147,6 +148,8 @@ public class AcademicYearService : IAcademicYearService
 		{
 			academicYear.CreatedDate = DateTime.Now;
 			academicYear.UpdatedDate = DateTime.Now;
+			academicYear.CreateBy = await dbContext.Users.
+							FindAsync(Guid.Parse(httpContextAccessor.HttpContext.User.FindFirstValue(ClaimTypes.Name).ToString()));
 			await dbContext.AcademicYears.AddAsync(academicYear);
 			if (await dbContext.SaveChangesAsync() > 0)
 			{

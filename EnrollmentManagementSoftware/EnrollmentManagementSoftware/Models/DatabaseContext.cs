@@ -28,7 +28,7 @@ public class DatabaseContext : DbContext
 	public DbSet<TuitionType> TuitionTypes { set; get; }
 	public DbSet<User> Users { set; get; }
 	public DbSet<Vacation> Vacations { set; get; }
-	public DbSet<Invoice> Invoices { set; get; }
+	
 
 	/*protected override void OnModelCreating(ModelBuilder modelBuilder)
 	{

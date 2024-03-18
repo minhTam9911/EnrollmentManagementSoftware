@@ -1,12 +1,14 @@
 ﻿using EnrollmentManagementSoftware.DTOs;
 using EnrollmentManagementSoftware.Services;
 using EnrollmentManagementSoftware.Services.Implements;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace EnrollmentManagementSoftware.Controllers;
 [Route("api/[controller]")]
 [ApiController]
+[Authorize]
 public class GradingMethodsController : ControllerBase
 {
 	private readonly IGrandingMethodService grandingMethodService;
@@ -16,6 +18,7 @@ public class GradingMethodsController : ControllerBase
 	}
 
 	[HttpGet]
+	[Authorize(Policy = "AdminOnly")]
 	public async Task<IActionResult> GetList()
 	{
 		try
@@ -37,6 +40,7 @@ public class GradingMethodsController : ControllerBase
 	}
 
 	[HttpGet("{id}")]
+	[Authorize(Policy = "AdminOnly")]
 	public async Task<IActionResult> Get(int id)
 	{
 		try
@@ -58,6 +62,7 @@ public class GradingMethodsController : ControllerBase
 	}
 
 	[HttpGet("ByName/{name}")]
+	[Authorize(Policy = "AdminOnly")]
 	public async Task<IActionResult> GetByName(string name)
 	{
 		try
@@ -80,6 +85,7 @@ public class GradingMethodsController : ControllerBase
 
 
 	[HttpPost]
+	[Authorize(Policy = "AdminOnly")]
 	public async Task<IActionResult> Insert([FromBody] GradingMethodDto gradingMethodDto)
 	{
 		try
@@ -107,6 +113,7 @@ public class GradingMethodsController : ControllerBase
 
 
 	[HttpPut("{id}")]
+	[Authorize(Policy = "AdminOnly")]
 	public async Task<IActionResult> Update(int id, [FromBody] GradingMethodDto gradingMethodDto)
 	{
 		try
@@ -133,6 +140,7 @@ public class GradingMethodsController : ControllerBase
 
 
 	[HttpDelete("{id}")]
+	[Authorize(Policy = "AdminOnly")]
 	public async Task<IActionResult> Delete(int id)
 	{
 		try

@@ -4,6 +4,7 @@ using EnrollmentManagementSoftware.Helpers;
 using EnrollmentManagementSoftware.Helplers;
 using EnrollmentManagementSoftware.Models;
 using Microsoft.EntityFrameworkCore;
+using System.Security.Claims;
 using System.Xml.Linq;
 
 namespace EnrollmentManagementSoftware.Services.Implements;
@@ -34,7 +35,12 @@ public class UserService : IUserService
 			}
 			else
 			{
-				dbContext.Users.Remove(await dbContext.Users!.FindAsync(id));
+				var user = await dbContext.Users!.FindAsync(id);
+				if(user.Id == Guid.Parse(httpContextAccessor.HttpContext.User.FindFirstValue(ClaimTypes.Name)))
+				{
+					return new { status = false, message = "You cannot delete yourself" };
+				}
+				dbContext.Users.Remove(user) ;
 				if (await dbContext.SaveChangesAsync() > 0)
 				{
 					return new { status = true, message = "Ok" };

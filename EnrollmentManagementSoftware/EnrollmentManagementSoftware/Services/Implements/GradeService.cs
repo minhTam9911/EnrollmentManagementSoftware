@@ -2,6 +2,7 @@
 using EnrollmentManagementSoftware.DTOs;
 using EnrollmentManagementSoftware.Models;
 using Microsoft.EntityFrameworkCore;
+using System.Security.Claims;
 
 namespace EnrollmentManagementSoftware.Services.Implements;
 
@@ -213,8 +214,8 @@ public class GradeService : IGradeService
 				return new { status = false, message = "Grading Type Does Not Exist" };
 			}
 			grade.GradeType = await dbContext.GradeTypes.FindAsync(grade.GradeType);
-			//tuitionType.CreateBy = await dbContext.Users.
-			//					FindAsync(Guid.Parse(httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.Name).ToString()));
+			grade.CreateBy = await dbContext.Users.
+							FindAsync(Guid.Parse(httpContextAccessor.HttpContext.User.FindFirstValue(ClaimTypes.Name).ToString()));
 			if ((await dbContext.Grades.Where(x => x.Student.Id == gradeDto.StudentId && x.Subject.Id == gradeDto.SubjectId).AnyAsync()))
 			{
 				return new { status = false, message = "This Student Has This Subject Already Exists" };

@@ -1,11 +1,13 @@
 ﻿using EnrollmentManagementSoftware.DTOs;
 using EnrollmentManagementSoftware.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace EnrollmentManagementSoftware.Controllers;
 [Route("api/[controller]")]
 [ApiController]
+[Authorize]
 public class GradeTypesController : ControllerBase
 {
 	private readonly IGrandeTypeService grandeTypeService;
@@ -15,6 +17,7 @@ public class GradeTypesController : ControllerBase
 	}
 
 	[HttpGet]
+	[Authorize(Policy = "ReadGradeTypePolicy")]
 	public async Task<IActionResult> GetList()
 	{
 		try
@@ -36,6 +39,7 @@ public class GradeTypesController : ControllerBase
 	}
 
 	[HttpGet("{id}")]
+	[Authorize(Policy = "ReadGradeTypePolicy")]
 	public async Task<IActionResult> Get(int id)
 	{
 		try
@@ -57,6 +61,7 @@ public class GradeTypesController : ControllerBase
 	}
 	
 	[HttpGet("ByName/{name}")]
+	[Authorize(Policy = "ReadGradeTypePolicy")]
 	public async Task<IActionResult> GetByName(string name)
 	{
 		try
@@ -79,6 +84,7 @@ public class GradeTypesController : ControllerBase
 
 
 	[HttpPost]
+	[Authorize(Policy = "CRUDGradeTypePolicy")]
 	public async Task<IActionResult> Insert([FromBody] GradeTypeDto gradeTypeDto)
 	{
 		try
@@ -106,6 +112,7 @@ public class GradeTypesController : ControllerBase
 
 
 	[HttpPut("{id}")]
+	[Authorize(Policy = "CRUDGradeTypePolicy")]
 	public async Task<IActionResult> Update(int id, [FromBody] GradeTypeDto gradeTypeDto)
 	{
 		try
@@ -132,6 +139,7 @@ public class GradeTypesController : ControllerBase
 
 
 	[HttpDelete("{id}")]
+	[Authorize(Policy = "CRUDGradeTypePolicy")]
 	public async Task<IActionResult> Delete(int id)
 	{
 		try

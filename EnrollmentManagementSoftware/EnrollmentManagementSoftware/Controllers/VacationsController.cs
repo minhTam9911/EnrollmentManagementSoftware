@@ -1,11 +1,13 @@
 ﻿using EnrollmentManagementSoftware.DTOs;
 using EnrollmentManagementSoftware.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace EnrollmentManagementSoftware.Controllers;
 [Route("api/[controller]")]
 [ApiController]
+[Authorize]
 public class VacationsController : ControllerBase
 {
 	private readonly IVacationService vacationService;
@@ -15,6 +17,7 @@ public class VacationsController : ControllerBase
 	}
 
 	[HttpGet]
+	[Authorize(Policy = "ReadVacationPolicy")]
 	public async Task<IActionResult> GetList()
 	{
 		try
@@ -36,6 +39,7 @@ public class VacationsController : ControllerBase
 	}
 
 	[HttpGet("{id}")]
+	[Authorize(Policy = "ReadVacationPolicy")]
 	public async Task<IActionResult> Get(int id)
 	{
 		try
@@ -57,6 +61,7 @@ public class VacationsController : ControllerBase
 	}
 
 	[HttpGet("ByName/{name}")]
+	[Authorize(Policy = "ReadVacationPolicy")]
 	public async Task<IActionResult> GetByName(string name)
 	{
 		try
@@ -79,6 +84,7 @@ public class VacationsController : ControllerBase
 
 
 	[HttpPost]
+	[Authorize(Policy = "CRUDVacationPolicy")]
 	public async Task<IActionResult> Insert([FromBody] VacationDto vacationDto)
 	{
 		try
@@ -106,6 +112,7 @@ public class VacationsController : ControllerBase
 
 
 	[HttpPut("{id}")]
+	[Authorize(Policy = "CRUDVacationPolicy")]
 	public async Task<IActionResult> Update(int id, [FromBody] VacationDto vacationDto)
 	{
 		try
@@ -132,6 +139,7 @@ public class VacationsController : ControllerBase
 
 
 	[HttpDelete("{id}")]
+	[Authorize(Policy = "CRUDVacationPolicy")]
 	public async Task<IActionResult> Delete(int id)
 	{
 		try

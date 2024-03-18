@@ -2,12 +2,12 @@
 
 namespace EnrollmentManagementSoftware.Services;
 
-public interface IUserService
+public interface ITuititionPaymentService
 {
 	Task<dynamic> GetListAsync();
 	Task<dynamic> GetAsync(Guid id);
-	Task<dynamic> GetByNameAsync(string name);
-	Task<dynamic> InsertAsync(UserDto userDto);
+	Task<dynamic> InsertAsync(TuitionPaymentDto tuitionPaymentDto);
 	Task<dynamic> DeleteAsync(Guid id);
-	Task<dynamic?> UpdateAsync(Guid id, UserDto userDto);
+	Task<dynamic> UpdateAsync(Guid id, bool status);
+
 }

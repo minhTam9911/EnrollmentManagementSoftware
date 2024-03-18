@@ -1,6 +1,7 @@
 ﻿using Castle.Core.Internal;
 using EnrollmentManagementSoftware.DTOs;
 using EnrollmentManagementSoftware.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -17,6 +18,7 @@ public class RolesController : ControllerBase
 	}
 
 	[HttpGet]
+	[Authorize(Policy = "AdminPolicy")]
 	public async Task<IActionResult> GetList()
 	{
 		try
@@ -38,6 +40,7 @@ public class RolesController : ControllerBase
 	}
 
 	[HttpGet("{id}")]
+	[Authorize(Policy = "AdminPolicy")]
 	public async Task<IActionResult> Get(int id)
 	{
 		try
@@ -59,6 +62,7 @@ public class RolesController : ControllerBase
 	}
 	
 	[HttpGet("ByName/{name}")]
+	[Authorize(Policy = "AdminPolicy")]
 	public async Task<IActionResult> GetByName(string name)
 	{
 		try
@@ -81,6 +85,7 @@ public class RolesController : ControllerBase
 
 
 	[HttpPost]
+	[Authorize(Policy = "AdminPolicy")]
 	public async Task<IActionResult> Insert([FromBody] RoleDto roleDto)
 	{
 		try
@@ -108,6 +113,7 @@ public class RolesController : ControllerBase
 
 
 	[HttpPut("{id}")]
+	[Authorize(Policy = "AdminPolicy")]
 	public async Task<IActionResult> Update(int id, [FromBody] RoleDto roleDto)
 	{
 		try
@@ -133,6 +139,7 @@ public class RolesController : ControllerBase
 	}
 
 	[HttpPut("{id}/AddPermissions")]
+	[Authorize(Policy = "AdminPolicy")]
 	public async Task<IActionResult> AddPermission(int id, [FromBody] List<int> permissions)
 	{
 		try
@@ -158,6 +165,7 @@ public class RolesController : ControllerBase
 	}
 
 	[HttpDelete("{id}/DeletePermissions")]
+	[Authorize(Policy = "AdminPolicy")]
 	public async Task<IActionResult> DeletePermission(int id, [FromBody] List<int> permissions)
 	{
 		try
@@ -185,6 +193,7 @@ public class RolesController : ControllerBase
 
 
 	[HttpDelete("{id}")]
+	[Authorize(Policy = "AdminPolicy")]
 	public async Task<IActionResult> Delete(int id)
 	{
 		try

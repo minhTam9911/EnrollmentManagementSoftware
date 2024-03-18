@@ -6,6 +6,7 @@ using EnrollmentManagementSoftware.Helplers;
 using EnrollmentManagementSoftware.Models;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
+using System.Security.Claims;
 using static Microsoft.Extensions.Logging.EventSource.LoggingEventSource;
 
 namespace EnrollmentManagementSoftware.Services.Implements;
@@ -276,8 +277,8 @@ public class TeacherService : ITeacherService
 				return new { status = false, message = "Minor Subject Does Not Exist" };
 			}
 			teacher.MinorSubject = await dbContext.Subjects.FindAsync(teacherDto.MinorSubjectId);
-			//student.CreateBy = await dbContext.Users.
-			//					FindAsync(Guid.Parse(httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.Name).ToString()));
+			teacher.CreateBy = await dbContext.Users.
+							FindAsync(Guid.Parse(httpContextAccessor.HttpContext.User.FindFirstValue(ClaimTypes.Name).ToString()));
 			teacher.CreatedDate = DateTime.Now;
 			teacher.UpdatedDate = DateTime.Now;
 			dbContext.Teachers.Add(teacher);
