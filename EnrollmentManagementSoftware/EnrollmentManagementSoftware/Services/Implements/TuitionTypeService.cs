@@ -54,6 +54,7 @@ public class TuitionTypeService : ITuitionTypeService
 			{
 				id = x.Id,
 				name = x.Name,
+				percent = x.Percent,
 				createdDate = x.CreatedDate,
 				updatedDate = x.UpdatedDate,
 				createBy = x.CreateBy.FullName,
@@ -84,6 +85,7 @@ public class TuitionTypeService : ITuitionTypeService
 			{
 				id = x.Id,
 				name = x.Name,
+				percent = x.Percent,
 				createdDate = x.CreatedDate,
 				updatedDate = x.UpdatedDate,
 				createBy = x.CreateBy.FullName
@@ -114,6 +116,7 @@ public class TuitionTypeService : ITuitionTypeService
 			{
 				id = x.Id,
 				name = x.Name,
+				percent = x.Percent,
 				createdDate = x.CreatedDate,
 				updatedDate = x.UpdatedDate,
 				createBy = x.CreateBy.FullName

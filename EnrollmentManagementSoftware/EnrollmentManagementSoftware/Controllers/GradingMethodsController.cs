@@ -18,7 +18,7 @@ public class GradingMethodsController : ControllerBase
 	}
 
 	[HttpGet]
-	[Authorize(Policy = "AdminOnly")]
+	[Authorize(Policy = "AdminPolicy")]
 	public async Task<IActionResult> GetList()
 	{
 		try
@@ -40,7 +40,7 @@ public class GradingMethodsController : ControllerBase
 	}
 
 	[HttpGet("{id}")]
-	[Authorize(Policy = "AdminOnly")]
+	[Authorize(Policy = "AdminPolicy")]
 	public async Task<IActionResult> Get(int id)
 	{
 		try
@@ -62,7 +62,7 @@ public class GradingMethodsController : ControllerBase
 	}
 
 	[HttpGet("ByName/{name}")]
-	[Authorize(Policy = "AdminOnly")]
+	[Authorize(Policy = "AdminPolicy")]
 	public async Task<IActionResult> GetByName(string name)
 	{
 		try
@@ -85,7 +85,7 @@ public class GradingMethodsController : ControllerBase
 
 
 	[HttpPost]
-	[Authorize(Policy = "AdminOnly")]
+	[Authorize(Policy = "AdminPolicy")]
 	public async Task<IActionResult> Insert([FromBody] GradingMethodDto gradingMethodDto)
 	{
 		try
@@ -113,7 +113,7 @@ public class GradingMethodsController : ControllerBase
 
 
 	[HttpPut("{id}")]
-	[Authorize(Policy = "AdminOnly")]
+	[Authorize(Policy = "AdminPolicy")]
 	public async Task<IActionResult> Update(int id, [FromBody] GradingMethodDto gradingMethodDto)
 	{
 		try
@@ -140,7 +140,7 @@ public class GradingMethodsController : ControllerBase
 
 
 	[HttpDelete("{id}")]
-	[Authorize(Policy = "AdminOnly")]
+	[Authorize(Policy = "AdminPolicy")]
 	public async Task<IActionResult> Delete(int id)
 	{
 		try

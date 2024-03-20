@@ -81,28 +81,25 @@ public class RoleService : IRoleService
 			if (role == null) return new { status = false, message = "Id Does Not Exist" };
 			foreach (var i in permissionsId)
 			{
-				if (await dbContext.Permissions.FindAsync(i) != null)
+			if (await dbContext.Permissions.FindAsync(i) != null)
 				{
                     foreach (var j in role.Permissions)
                     {
-                        if(i == j.Id)
+						if (i == j.Id)
 						{
 							role.Permissions.Remove(await dbContext.Permissions.FindAsync(i));
+							dbContext.Entry(role).State = EntityState.Modified;
+							dbContext.SaveChangesAsync();
+							role = await dbContext.Roles.FindAsync(roleId);
 						}
                     }
                     
 				}
 
 			}
-			dbContext.Entry(role).State = EntityState.Modified;
-			if (await dbContext.SaveChangesAsync() > 0)
-			{
+			
+			
 				return new { status = true, message = "Ok" };
-			}
-			else
-			{
-				return new { status = false, message = "Failure" };
-			}
 		}
 		catch (Exception ex)
 		{

@@ -51,7 +51,7 @@ public class StudentController : ControllerBase
 
 	[HttpPost]
 	[Authorize(Policy = "CRUDStudentPolicy")]
-	public async Task<IActionResult> Insert([FromBody] StudentDto studentDto)
+	public async Task<IActionResult> Insert([FromForm] StudentDto studentDto)
 	{
 		try
 		{
@@ -79,7 +79,7 @@ public class StudentController : ControllerBase
 
 	[HttpPut("{id}")]
 	[Authorize(Policy = "CRUDStudentPolicy")]
-	public async Task<IActionResult> Update(Guid id, [FromBody] StudentDto studentDto)
+	public async Task<IActionResult> Update(Guid id, [FromForm] StudentDto studentDto)
 	{
 		try
 		{
@@ -102,6 +102,34 @@ public class StudentController : ControllerBase
 			return BadRequest(new { status = false, message = ex.Message });
 		}
 	}
+
+
+	[HttpPut("{idStudent}/{idClassroom}")]
+	[Authorize(Policy = "CRUDStudentPolicy")]
+	public async Task<IActionResult> RegiterClassroom(Guid idStudent, int idClassroom)
+	{
+		try
+		{
+			if (!ModelState.IsValid)
+			{
+				return BadRequest(new { status = false, message = "Failure", error = ModelState });
+			}
+			var result = await studentService.RegisterClassroomAsync(idStudent, idClassroom);
+			if (result.status)
+			{
+				return Ok(result);
+			}
+			else
+			{
+				return BadRequest(result);
+			}
+		}
+		catch (Exception ex)
+		{
+			return BadRequest(new { status = false, message = ex.Message });
+		}
+	}
+
 
 
 	[HttpDelete("{id}")]

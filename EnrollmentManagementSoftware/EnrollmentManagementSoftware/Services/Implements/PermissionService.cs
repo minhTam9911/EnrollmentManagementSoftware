@@ -53,6 +53,7 @@ public class PermissionService : IPermissionService
 			{
 				id = x.Id,
 				name = x.Name,
+				description = x.Description,
 				createdDate = x.CreatedDate,
 				updatedDate = x.UpdatedDate
 			}).FirstOrDefaultAsync();
@@ -82,6 +83,7 @@ public class PermissionService : IPermissionService
 			{
 				id = x.Id,
 				name = x.Name,
+				description= x.Description,
 				createdDate = x.CreatedDate,
 				updatedDate = x.UpdatedDate
 			}).ToListAsync();
@@ -111,6 +113,7 @@ public class PermissionService : IPermissionService
 			{
 				id = x.Id,
 				name = x.Name,
+				description = x.Description,
 				createdDate = x.CreatedDate,
 				updatedDate = x.UpdatedDate
 			}).ToListAsync();

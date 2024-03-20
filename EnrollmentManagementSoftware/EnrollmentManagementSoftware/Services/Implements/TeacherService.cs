@@ -281,6 +281,7 @@ public class TeacherService : ITeacherService
 							FindAsync(Guid.Parse(httpContextAccessor.HttpContext.User.FindFirstValue(ClaimTypes.Name).ToString()));
 			teacher.CreatedDate = DateTime.Now;
 			teacher.UpdatedDate = DateTime.Now;
+			teacher.Code = GenerateHelper.GenerateTeacherCode();
 			dbContext.Teachers.Add(teacher);
 			var mailHelper = new MailHelper(configuration);
 			if (mailHelper.Send(configuration["Gmail:Username"], teacher.Email!, "Welcome " + teacher.FirstName+" "+teacher.LastName+ " courses at the Children's House", MailHelper.HtmlNewAccount(teacher.FirstName + " " + teacher.LastName, teacher.Email!, teacherDto.Password!)))
@@ -360,6 +361,7 @@ public class TeacherService : ITeacherService
 			{
 				return new { status = false, message = "Minor Subject Does Not Exist" };
 			}
+			teacher.MinorSubject = await dbContext.Subjects.FindAsync(teacherDto.MinorSubjectId);
 			if (await dbContext.Teachers.AsNoTracking().FirstOrDefaultAsync(x => x.Email == teacher.Email && x.Id != id) != null)
 			{
 				return new { status = false, message = "Email Already" };

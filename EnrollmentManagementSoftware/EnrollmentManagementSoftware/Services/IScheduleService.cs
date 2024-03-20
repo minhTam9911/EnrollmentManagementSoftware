@@ -1,4 +1,5 @@
 ﻿using EnrollmentManagementSoftware.DTOs;
+using EnrollmentManagementSoftware.Models;
 
 namespace EnrollmentManagementSoftware.Services;
 
@@ -11,4 +12,5 @@ public interface IScheduleService
 	Task<dynamic> UpdateAsync(int id, ScheduleDto scheduleDto);
 	Task<dynamic> InsertAsync(ScheduleDto scheduleDto);
 	Task<dynamic> DeleteAsync(int id);
+	
 }

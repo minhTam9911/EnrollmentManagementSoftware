@@ -137,23 +137,22 @@ public class ScheduleService : IScheduleService
 
 				for(int i = 0; i < schedulesClassroom!.Count; i++)
 				{
-					for(int j = i+1; j < schedulesClassroom.Count; j++)
+					
+					for (int j = i+1; j < schedulesClassroom.Count; j++)
 					{
 						if(schedulesClassroom.ElementAt(i).Subject.Name == schedulesClassroom.ElementAt(j).Subject.Name)
 						{
 							if (schedulesClassroom.ElementAt(i).StartTime != schedulesClassroom.ElementAt(j).StartTime)
 							{
-								if (schedulesClassroom.ElementAt(i).StartDate != schedulesClassroom.ElementAt(j).StartDate)
-								{
-									schedules.Add(schedulesClassroom.ElementAt(i));
-								}
+								
+									schedules.Add(schedulesClassroom.ElementAt(j));
 							}
 						}
-						else
-						{
-							schedules.Add(schedulesClassroom.ElementAt(i));
-						}
 					}
+					if(schedules.FirstOrDefault(x=>x.Id == schedulesClassroom.ElementAt(i).Id) == null)
+					{
+						schedules.Add(schedulesClassroom.ElementAt(i));
+					} 
 				}
 
 				var scheduleByStudent = schedules
@@ -390,7 +389,7 @@ public class ScheduleService : IScheduleService
 			schedule.CreatedDate = DateTime.Now;
 			schedule.UpdatedDate = DateTime.Now;
 			schedule.CreateBy = await dbContext.Users.
-							FindAsync(Guid.Parse(httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.Name).ToString()));
+							FindAsync(Guid.Parse(httpContextAccessor.HttpContext.User.FindFirstValue(ClaimTypes.Name).ToString()));
 			await dbContext.Schedules.AddAsync(schedule);
 			if (await dbContext.SaveChangesAsync() > 0)
 			{

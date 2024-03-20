@@ -9,6 +9,7 @@ public partial class Permission
 	[DatabaseGenerated(DatabaseGeneratedOption.Identity)]
 	public int Id { get; set; }
 	public string? Name {  get; set; }
+	public string? Description { get; set; }
 	public DateTime? CreatedDate { get; set; }
 	public DateTime? UpdatedDate { get; set; }
 	public virtual ICollection<Role>? Roles { get; set; } = new List<Role>();

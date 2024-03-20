@@ -115,7 +115,7 @@ public class TeachersController : ControllerBase
 
 	[HttpPut("{id}")]
 	[Authorize(Policy = "CRUDTeacherPolicy")]
-	public async Task<IActionResult> Update(Guid id, [FromBody] TeacherDto teacherDto)
+	public async Task<IActionResult> Update(Guid id, [FromForm] TeacherDto teacherDto)
 	{
 		try
 		{

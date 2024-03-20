@@ -172,6 +172,7 @@ public class SubjectService : ISubjectService
 				return new { status = false, message = "Id Does Not Exist" };
 			}
 			subjectModel.Name = subject.Name;
+			subjectModel.Code = subject.Code;
 			subjectModel.UpdatedDate = DateTime.Now;
 
 			if (await dbContext.Courses.FindAsync(subjectDto.CourseId) == null)
@@ -183,7 +184,7 @@ public class SubjectService : ISubjectService
 			{
 				return new { status = false, message = "Subject Group Does Not Exist" };
 			}
-			subject.SubjectGroup = await dbContext.SubjectGroups.FindAsync(subjectDto.SubjectGroupId);
+			subjectModel.SubjectGroup = await dbContext.SubjectGroups.FindAsync(subjectDto.SubjectGroupId);
 			dbContext.Entry(subjectModel).State = EntityState.Modified;
 			if (await dbContext.SaveChangesAsync() > 0)
 			{

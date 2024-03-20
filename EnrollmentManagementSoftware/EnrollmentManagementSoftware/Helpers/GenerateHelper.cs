@@ -10,5 +10,10 @@ public class GenerateHelper
 		string studentCode = yearMonth + "-" + randomCode;
 		return studentCode;
 	}
+	public static string GenerateTeacherCode()
+	{
+		string teacherCode = Guid.NewGuid().ToString().Substring(0, 6);
+		return teacherCode;
+	}
 
 }

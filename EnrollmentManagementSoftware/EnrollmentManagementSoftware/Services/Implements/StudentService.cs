@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 
 using System.Security.Claims;
+using static Microsoft.Extensions.Logging.EventSource.LoggingEventSource;
 
 namespace EnrollmentManagementSoftware.Services.Implements;
 
@@ -66,14 +67,14 @@ public class StudentService : IStudentService
 				var pageResults = 10f;
 				var pageCount = Math.Ceiling(await dbContext.Students.CountAsync() / pageResults);
 				var students = await dbContext.Students
-					.Where(x =>
+					/*.Where(x =>
 							x.Code!.ToLower().Contains(keyword) ||
 							x.LastName!.ToLower().Contains(keyword) ||
 							x.Email!.ToLower().Contains(keyword) ||
 							x.PhoneNumber!.Contains(keyword)
 							)
 					.Skip((page-1) * (int)pageResults)
-					.Take((int)pageResults)
+					.Take((int)pageResults)*/
 					.Select(x => new {
 							id = x.Id,
 							code = x.Code,
@@ -154,9 +155,46 @@ public class StudentService : IStudentService
 		throw new NotImplementedException();
 	}
 
-	public Task<dynamic> GetStudentDetailsAsync(Guid id)
+	public async Task<dynamic> GetStudentDetailsAsync(Guid id)
 	{
-		throw new NotImplementedException();
+		try
+		{
+			if (await dbContext.Students.FindAsync(id) == null)
+			{
+				return new { status = false, message = "Data Is Null" };
+			}
+			else
+			{
+				var pageResults = 10f;
+				var pageCount = Math.Ceiling(await dbContext.Students.CountAsync() / pageResults);
+				var student = await dbContext.Students
+					.Where(x => x.Id == id)
+					.Select(x => new {
+						id = x.Id,
+						code = x.Code,
+						firstName = x.FirstName,
+						lastName = x.LastName,
+						address = x.Address,
+						phoneNumber = x.PhoneNumber,
+						email = x.Email,
+						parentName = x.ParentName,
+						gender = x.Gender,
+						image = x.Image,
+						dateOfBirth = DateOnly.FromDateTime((DateTime)x.DayOfBirth!)
+					})
+					.FirstOrDefaultAsync();
+				return new
+				{
+					status = true,
+					message = "Ok",
+					data = student
+				};
+			}
+		}
+		catch (Exception ex)
+		{
+			return new { status = false, message = ex.Message };
+		}
 	}
 
 	public Task<dynamic> GetStudentScheduleAsync(Guid id)
@@ -207,6 +245,7 @@ public class StudentService : IStudentService
 							FindAsync(Guid.Parse(httpContextAccessor.HttpContext.User.FindFirstValue(ClaimTypes.Name).ToString()));
 			student.CreatedDate = DateTime.Now;
 			student.UpdatedDate = DateTime.Now;
+			student.Code = GenerateHelper.GenerateStudentCode();
 			dbContext.Students.Add(student);
 			var mailHelper = new MailHelper(configuration);
 			if (mailHelper.Send(configuration["Gmail:Username"], student.Email!, "Welcome "+student.FirstName+" "+student.LastName+ " courses at the Children's House", MailHelper.HtmlNewAccount(student.FirstName + " " + student.LastName, student.Email!, studentDto.Password!))){
@@ -242,6 +281,32 @@ public class StudentService : IStudentService
 	public Task<dynamic> ProcessNewStudentTuitionAsync(Guid id)
 	{
 		throw new NotImplementedException();
+	}
+
+	public async Task<dynamic> RegisterClassroomAsync(Guid idStudent, int idClassroom)
+	{
+		var student = await dbContext.Students.FindAsync(idStudent);
+		if(student == null)
+		{
+			return new { status = false, message = "Student Does Not Exist" };
+		}
+		else
+		{
+			if (await dbContext.Classrooms.AsNoTracking().FirstOrDefaultAsync(x => x.Id == idClassroom) == null)
+			{
+				return new { status = false, message = "Classroom Does Not Exist" };
+			}
+			else
+			{
+				student.Classroom = await dbContext.Classrooms.FirstOrDefaultAsync(x => x.Id == idClassroom);
+				dbContext.Entry(student).State = EntityState.Modified;
+				if (await dbContext.SaveChangesAsync() > 0)
+				{
+					return new { status = true, message = "Ok" };
+				}
+				else return new { status = false, message = "Failured" };
+			}
+		}
 	}
 
 	public async Task<dynamic> UpdateAsync(Guid id, StudentDto studentDto)
